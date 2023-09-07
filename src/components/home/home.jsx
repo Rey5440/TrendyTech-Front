@@ -1,9 +1,13 @@
+import Cards from "../cards/cards";
+import Nav from "../nav/nav";
 
-const Home = () => {
+
+const Home = ()=>{
 
     return (
         <div>
-            <h1>hola hola home hola</h1>
+            <Nav/>
+            <Cards/>
         </div>
     )
 }
