@@ -21,4 +21,4 @@ const ValidationForm = (form,image) => {
 
      return error
 }
-export default ValidationForm
+export default ValidationForm;
