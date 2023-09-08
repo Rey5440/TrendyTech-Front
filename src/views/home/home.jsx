@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import "./home.css";
 import { useSelector } from "react-redux";
-import Cards from '../cards/cards';
-import Paginate from '../paginate/Paginate';
+import Cards from '../../components/cards/cards';
+import Paginate from '../../components/paginate/paginate';
 
 const Home = () => {
   const allProducts = useSelector((state) => state.allProducts);
