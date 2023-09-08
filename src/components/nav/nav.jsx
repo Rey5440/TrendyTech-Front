@@ -1,5 +1,6 @@
-import SearchBar from "../searchbar/searchbar"
+import SearchBar from "../searchBar/searchBar";
 import { NavLink } from "react-router-dom";
+import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
 import "./nav.css";
 
 //Material Icons es una librería de la cual podemos importar iconos para usarlos en nuestros componentes
@@ -11,7 +12,7 @@ const Nav = ()=>{
     return (
         <div className="NavBar">
             <div className="Nav_LogoContainer">
-                <h3 className="Nav_Logo">LOGO</h3>
+                <img alt="Trendy Tech" src={Trendy_Tech_Logo} className="Nav_Logo"/>
             </div>
             <div className="Nav_SearchBarContainer">
                 <SearchBar/>
