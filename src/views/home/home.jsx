@@ -1,18 +1,18 @@
 import { useState, useEffect } from 'react';
 import "./home.css";
 import { useSelector } from "react-redux";
-import Cards from '../cards/cards';
-import Paginate from '../paginate/Paginate';
+import Cards from '../../components/cards/cards';
+import Paginate from '../../components/paginate/paginate';
 
 const Home = () => {
-  const allProducts = useSelector((state) => state.allProducts);
+  const allProducts1 = useSelector((state) => state.allProducts1);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [allProducts]);
+  }, [allProducts1]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -21,14 +21,14 @@ const Home = () => {
 
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProduct = allProducts.slice(
+  const currentProduct = allProducts1.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
 
-  const totalPages = Math.ceil(allProducts.length / productsPerPage);
+  const totalPages = Math.ceil(allProducts1.length / productsPerPage);
 
-  if (allProducts.length === 0) {
+  if (allProducts1.length === 0) {
     return <div>Loading...</div>;
   }
 
