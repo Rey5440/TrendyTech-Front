@@ -3,6 +3,7 @@ import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
 import Cards from '../../components/cards/cards';
 import Paginate from '../../components/paginate/paginate';
+import NavBar from '../../components/nav/nav';
 import { getAllProducts } from '../../redux/actions';
 
 const Home = () => {
@@ -35,11 +36,17 @@ const Home = () => {
   const totalPages = Math.ceil(allProducts1.length / productsPerPage);
 
   if (allProducts1.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <NavBar />
+        <div>Loading...</div>
+      </div>
+    )
   }
 
   return (
   <div>
+    <NavBar />
     <div>
       <Paginate currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}/>
       <Cards currentProduct={currentProduct} />
