@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
 import "./home.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cards from '../../components/cards/cards';
 import Paginate from '../../components/paginate/paginate';
+import { getAllProducts } from '../../redux/actions';
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getAllProducts())
+  }, [])
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
