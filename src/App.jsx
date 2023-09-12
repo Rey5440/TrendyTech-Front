@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "./components/home/home";
-import Detail from "./components/detail/detail";
-import Create from "./components/create/create";
+import Home from "./views/home/home";
+import Detail from "./views/detail/detail";
+import Create from "./views/create/create";
 
 function App() {
 
@@ -9,7 +9,7 @@ function App() {
     <div>
       <Routes>
         <Route path='/' element={<Home/>}/>
-        <Route path='/:id' element={<Detail/>}/>
+        <Route path='detail/:id' element={<Detail/>}/>
         <Route path='/create' element={<Create/>}/>
       </Routes>
     </div>
