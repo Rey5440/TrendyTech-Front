@@ -22,13 +22,15 @@ const Detail = () => {
     };
     fetchData();
   }, [id]);
-
+  console.log(product);
   return (
     <div>
       <Nav />
       <h1>{product.name}</h1>
       <h3>{product.description}</h3>
-      <img src={product.image[0]} alt={product.name} width={"300px"} />
+      {product.images && (
+        <img src={product.images[0]} alt={product.name} width={"300px"} />
+      )}
       <h2>$ {product.price}</h2>
       <button>añadir</button>
     </div>
