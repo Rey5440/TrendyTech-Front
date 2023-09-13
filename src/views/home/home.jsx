@@ -49,7 +49,7 @@ const Home = () => {
     <NavBar />
     <div>
       <Paginate currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}/>
-      <Cards currentProduct={currentProduct} />
+      <Cards currentProduct={currentProduct}/>
     </div>
     </div>
   );

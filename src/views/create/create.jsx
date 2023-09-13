@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import validationForm from './Valitation.js';
+import validationForm from './validation.js';
 const Create = () =>{
     const useDispatch = useDispatch();
     const [form, setForm] = useState({
