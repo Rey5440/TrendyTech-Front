@@ -1,6 +1,6 @@
 const regexUrl=/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
 const ValidationForm = (form/* ,image */) => {
-    const {name, price, description, /* image, */ stock}=form
+    const {name, price, description, image, stock}=form
     const error={};
     if(typeof name !== 'string') { error.name='El nombre debe ser una cadena de caracteres'}
     if(typeof price !== 'number'){ error.price='El precio debe ser un número'}
@@ -21,4 +21,4 @@ const ValidationForm = (form/* ,image */) => {
 
      return error
 }
-export default ValidationForm
+export default ValidationForm;
