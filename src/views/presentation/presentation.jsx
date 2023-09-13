@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import Nav from "../../components/nav/nav";
 import banner1 from "../../assets/banner-publicitario-1.png";
 import banner2 from "../../assets/banner-publicitario-2.png";
@@ -31,7 +32,9 @@ const Presentation = () => {
   return (
     <div>
       <Nav />
-      <button>Ingresar</button>
+      <NavLink to="/home">
+        <button>Ingresar</button>
+      </NavLink>
       <div>
         <img src={banners} alt="banner" />
       </div>
