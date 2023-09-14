@@ -2,7 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { searchByName } from '../../redux/actions';
-import './SearchBar.css';
+import './searchBar.css';
 
 const SearchBar = () =>{
     const [product, setProduct] = useState('');
