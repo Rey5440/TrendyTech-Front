@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
-import Cards from "../../components/cards/cards";
-import Paginate from "../../components/paginate/paginate";
-import NavBar from "../../components/nav/nav";
-import { getAllProducts } from "../../redux/actions";
+import Cards from '../../components/cards/cards';
+import Paginate from '../../components/paginate/paginate';
+import NavBar from '../../components/nav/nav';
+import { getAllProducts } from '../../redux/actions';
+import Filter from "../../components/filter/filter";
+import Grid from "@mui/material/Grid";
 import Cookies from "js-cookie";
 import showCookieBanner from "./cookie-banner";
 
@@ -55,17 +57,24 @@ const Home = () => {
   }
 
   return (
-    <div>
-      <NavBar />
       <div>
-        <span>{showCookieBanner()}</span>
+        <NavBar />
+          <span>{showCookieBanner()}</span>
         <button onClick={toggleTheme}>Toggle Theme</button>
         <Paginate
-          currentPage={currentPage}
-          totalPages={totalPages}
-          handlePageChange={handlePageChange}
-        />
-        <Cards currentProduct={currentProduct} />
+         
+        currentPage={currentPage}
+         
+        totalPages={totalPages}
+         
+        handlePageChange={handlePageChange}
+        
+      />
+      <div style={{ display: "flex", justifyContent: 'center', width: '100%'}}>
+        <Filter/>
+          <Grid sx={{width: '100%'}}>
+          <Cards currentProduct={currentProduct} />
+          </Grid>
       </div>
     </div>
   );

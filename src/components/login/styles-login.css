@@ -1,0 +1,84 @@
+.mainRegister{
+    background-color: rgb(242, 242, 242);
+    padding: 3rem;
+    color: rgb(221, 214, 204);
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.logoRegister{
+    width: 18rem;
+}
+
+.formLogin,
+.formRegister{
+    background-color: rgb(195, 52, 52);
+    padding: 1rem;
+   align-items: center;
+   text-align: center;
+   justify-content: center;
+   color: rgb(155, 156, 121);
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+}
+
+.divInput{
+    display: grid;
+    padding: 0.5rem;    
+}
+
+.input{
+    width: 80%;
+    margin: 0 auto;
+    height: 2rem;
+}
+
+.inputLogin{
+    height: 3rem;
+    width: 20rem;
+}
+
+.label{
+    font-weight: 200;
+    margin-bottom: 0.3rem;
+    background-color: rgb(223, 55, 33);
+    padding: 0.5rem;
+}
+.titleLogin{
+    background-color: rgba(206, 68, 68, 0.891);
+    padding: 3rem;
+    color: rgb(224, 202, 202);
+}
+.columnaLogin{
+    margin: 0 auto;
+}
+
+
+.navRegister{
+    background-color: rgba(206, 68, 68, 0.891);
+    padding: 3rem;
+    justify-content: space-between;
+    gap: 2rem;
+    color: rgb(224, 202, 202);
+}
+
+.linksRegister{
+   padding: 1rem;
+   color: rgb(70, 46, 118);
+}
+.btnLogin,
+.btnCreateAccount{
+    background-color: rgba(206, 68, 68, 0.891);
+    color: aliceblue;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    width: 50%;
+    margin: 0 auto;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transición suave para el efecto hover */
+}
+
+.btnCreateAccount:hover {
+    background-color: #c92121bf; /* Cambio de color en el hover */
+    transform: scale(1.1); /* Agrandamiento en el hover */
+  }
