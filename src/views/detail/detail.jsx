@@ -5,6 +5,7 @@ import { Button } from "@mui/material";
 import Nav from "../../components/nav/nav";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import "./detail.css";
+import AlertTech from "../../components/alert/alert";
 
 const Detail = () => {
   const { id } = useParams();
@@ -20,7 +21,7 @@ const Detail = () => {
         const { data } = response;
         setProduct(data);
       } catch (error) {
-        window.alert("Error al obtener los datos del personaje");
+        console.log(error)
       }
     };
     fetchData();
@@ -34,6 +35,7 @@ const Detail = () => {
   console.log(product);
   return (
     <div>
+      <AlertTech message='hola calenius' type='success'/>
       <Nav />
       <div className="div_container_detail">
         <div className="div_izquierda_detail">
