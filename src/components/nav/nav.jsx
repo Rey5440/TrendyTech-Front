@@ -1,5 +1,6 @@
 import SearchBar from "../searchBar/searchBar";
 import { NavLink } from "react-router-dom";
+import { Button } from "@mui/material";
 import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
 import "./nav.css";
 
@@ -19,6 +20,14 @@ const Nav = () => {
       <div className="Nav_ButtonsContainer">
         <NavLink to="/ruta-Carrito" className="Nav_IconoCarrito">
           <ShoppingCartIcon sx={{ fontSize: 40 }} />
+        </NavLink>
+        <NavLink to="/create">
+          <Button
+            variant="contained"
+            className="button_agregar"
+          >
+            Crear
+          </Button>
         </NavLink>
         <NavLink to="/login" className="Nav_IconoPerfil">
           <AccountCircleIcon sx={{ fontSize: 40 }} />
