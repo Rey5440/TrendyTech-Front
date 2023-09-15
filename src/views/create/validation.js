@@ -1,5 +1,5 @@
 const regexUrl=/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-const ValidationForm = (form) => {
+const validationForm = (form) => {
     const {name, price, description, stock, brand, color, type, images}=form
     const error={
         name:'',
@@ -69,4 +69,4 @@ const ValidationForm = (form) => {
     
     return error
 }
-export default ValidationForm;
+export default validationForm;
