@@ -21,8 +21,14 @@ const Nav = () => {
 
   return (
     <Box>
-      <AppBar  position="static">
-        <Toolbar sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+      <AppBar position="static">
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <div className="Nav_LogoContainer">
             <img
               alt="Trendy Tech"

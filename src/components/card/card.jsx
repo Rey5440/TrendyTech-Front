@@ -1,30 +1,38 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
+import * as React from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Typography from "@mui/material/Typography";
+import { CardActionArea } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import './card.css'
+
 
 export default function CardTech({ images, id, name, price, brand }) {
   return (
-   /*  <Card sx={{ maxWidth: 330 }}>
+    /*  <Card sx={{ maxWidth: 330 }}>
    <div> */
-   <CardActionArea>
+    <Card sx={{ maxWidth: 345 }}>
+      <CardActionArea>
         <NavLink to={`/detail/${id}`}>
-        <div className="CardTech">
-            <div className="ImgContainer">
-            <img className="Img" src={images[0]} alt={name} width={"300px"} />
-            </div>
-            <h4 >{name}</h4>
-            <h3 >{brand}</h3>
+          <CardMedia
+            sx={{width: '300px'}}
+            component="img"
+            image={images[0]}
+            alt={name}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h7" component="div">
+            <h4>{name}</h4>
+            </Typography>
+
+            <Typography variant="h8" color="text.secondary">
+            <h3>{brand}</h3>
             <h2>$ {price}</h2>
-        </div>
+            </Typography>
+          </CardContent>
         </NavLink>
-        </CardActionArea>
-      /*   </div>
-    </Card> */
+      </CardActionArea>
+    </Card>
   );
 }
 

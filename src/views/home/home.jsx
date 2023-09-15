@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
-import Cards from '../../components/cards/cards';
-import Paginate from '../../components/paginate/paginate';
-import NavBar from '../../components/nav/nav';
-import { getAllProducts } from '../../redux/actions';
-import Filter from '../../components/filter/filter';
+import Cards from "../../components/cards/cards";
+import Paginate from "../../components/paginate/paginate";
+import NavBar from "../../components/nav/nav";
+import { getAllProducts } from "../../redux/actions";
+import Filter from "../../components/filter/filter";
+import Container from "@mui/material/Container";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -46,13 +47,17 @@ const Home = () => {
   }
 
   return (
-  <div>
-    <NavBar />
-    <Paginate currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}/>
-    <div className='FilterCards'>
-      <Filter/>
-      <Cards currentProduct={currentProduct} />
-    </div>
+    <div>
+      <NavBar />
+      <div className="FilterCards">
+        <Filter />
+        <Cards currentProduct={currentProduct} />
+      </div>
+      <Paginate
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };
