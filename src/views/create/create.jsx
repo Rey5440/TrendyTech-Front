@@ -78,8 +78,11 @@ const Create = () =>{
     const handleSubmit=(event)=>{
         event.preventDefault();
         console.log(form)
-        if (Object.keys(error).length > 0){
-            setError({submit:"Hay errores en el formulario"});
+        if (error.name || error.price || error.description || error.stock || error.brand || error.color || error.type) {
+            return setError({
+                ...error,
+                submit: 'Hay errores en el formulario'
+            })
         }
         else{
             // posteo al backend
