@@ -63,7 +63,6 @@ const Detail = () => {
                     border: "none",
                     borderRadius: "5px",
                   }}
-                  // className="img_button_carousel"
                   key={index}
                   value={index}
                   onClick={carousel}
