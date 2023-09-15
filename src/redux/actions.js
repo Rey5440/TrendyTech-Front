@@ -18,8 +18,10 @@ export const getAllProducts = ()=>{
 
 export const searchByName = (product) => {
     return async function (dispatch) {
+        console.log(product)
         try{
-            const foundProduct = await axios(`http://localhost:3004/products/name?=${product}`);
+            const foundProduct = await axios(`http://localhost:3004/products/?name=${product}`);
+            console.log(foundProduct.data)
             return dispatch({
                 type:SEARCH_BY_NAME,
                 payload: foundProduct.data
