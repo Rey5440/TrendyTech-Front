@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Nav from "../../components/nav/nav.jsx";
-import ValidationForm from "./Valitation.js";
+import validationForm from "./validation.js";
 import axios from "axios";
 import "./create.css";
 
