@@ -1,25 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
-import Cards from '../../components/cards/cards';
-import Paginate from '../../components/paginate/paginate';
-import NavBar from '../../components/nav/nav';
-import { getAllProducts } from '../../redux/actions';
-import Box from "@mui/material/Box";
+import Cards from "../../components/cards/cards";
+import Paginate from "../../components/paginate/paginate";
+import NavBar from "../../components/nav/nav";
+import { getAllProducts } from "../../redux/actions";
+import CssBaseline from "@mui/material/CssBaseline";
+import { Box, Container } from "@mui/system";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllProducts())
-  }, [])
+    dispatch(getAllProducts());
+  }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
   useEffect(() => {
-    setCurrentPage(1)
+    setCurrentPage(1);
   }, [allProducts1]);
 
   const handlePageChange = (page) => {
@@ -42,16 +43,24 @@ const Home = () => {
         <NavBar />
         <div>Loading...</div>
       </div>
-    )
+    );
   }
 
   return (
-  <div>
-    <NavBar />
     <div>
-      <Cards currentProduct={currentProduct}/>
-      <Paginate currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}/>
-    </div>
+      <NavBar />
+      <CssBaseline>
+        <Container>
+          <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }}>
+            <Cards currentProduct={currentProduct} />
+            <Paginate
+              currentPage={currentPage}
+              totalPages={totalPages}
+              handlePageChange={handlePageChange}
+            />
+          </Box>
+        </Container>
+      </CssBaseline>
     </div>
   );
 };
