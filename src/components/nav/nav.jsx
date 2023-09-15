@@ -29,6 +29,7 @@ const Nav = () => {
             alignItems: "center",
           }}
         >
+               <NavLink to={'/home'}>
           <div className="Nav_LogoContainer">
             <img
               alt="Trendy Tech"
@@ -36,6 +37,7 @@ const Nav = () => {
               className="Nav_Logo"
             />
           </div>
+          </NavLink>
           <SearchBar />
           <Box>
             <Box>

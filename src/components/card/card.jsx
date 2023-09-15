@@ -5,33 +5,36 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { CardHeader } from '@mui/material';
+import { Box } from "@mui/system";
 
 export default function CardTech({ images, id, name, price, brand }) {
+  console.log(CardActionArea);
   return (
     /*  <Card sx={{ maxWidth: 330 }}>
    <div> */
-    <Card sx={{width: '170px', marginTop: '5px', marginBottom: '5px'}}> 
-      <CardActionArea sx={{width: '100%'}}>
-        <NavLink to={`/detail/${id}`}>
+    <Card sx={{ width: "90%", margin: "5px", display: "grid" }}>
+      <Box sx={{ width: "100%", alignSelf: "flex-end" }}>
+        <NavLink
+          to={`/detail/${id}`}
+          style={{ width: "100%", textDecoration: "none" }}
+        >
           <CardMedia
-            sx={{width: '100%'}}
+            sx={{ width: "100%" }}
             component="img"
             image={images[0]}
             alt={name}
-            />
+          />
           <CardContent>
-            <Typography gutterBottom variant="h7" component="div">
-            <h4>{name}</h4>
+            <Typography sx={{fontWeight: 'bold',}}>
+              <h4>{name}</h4>
             </Typography>
 
-            <Typography variant="h8" color="text.secondary">
-            <h3>{brand}</h3>
-            <h2>$ {price}</h2>
+            <Typography variant="subtitle2" color="text.secondary">
+            <h2>${price}</h2>
             </Typography>
           </CardContent>
         </NavLink>
-      </CardActionArea>
+      </Box>
     </Card>
   );
 }

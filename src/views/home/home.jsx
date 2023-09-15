@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
 import Cards from "../../components/cards/cards";
 import Paginate from "../../components/paginate/paginate";
@@ -49,17 +48,17 @@ const Home = () => {
   return (
     <div>
       <NavBar />
-      <div className="FilterCards">
-        <Filter />
-        <Grid container spacing={2}>
-          <Cards currentProduct={currentProduct} />
-        </Grid>
-      </div>
       <Paginate
         currentPage={currentPage}
         totalPages={totalPages}
         handlePageChange={handlePageChange}
       />
+      <div style={{ display: "flex", justifyContent: 'center', width: '100%'}}>
+        <Filter/>
+        <Grid sx={{width: '100%'}}>
+          <Cards currentProduct={currentProduct} />
+        </Grid>
+      </div>
     </div>
   );
 };
