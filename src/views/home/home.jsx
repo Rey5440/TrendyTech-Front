@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
-import "./home.css";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Cards from '../../components/cards/cards';
-import Paginate from '../../components/paginate/paginate';
-import NavBar from '../../components/nav/nav';
-import { getAllProducts } from '../../redux/actions';
-import Filter from '../../components/filter/filter';
+import Cards from "../../components/cards/cards";
+import Paginate from "../../components/paginate/paginate";
+import NavBar from "../../components/nav/nav";
+import { getAllProducts } from "../../redux/actions";
+import Filter from "../../components/filter/filter";
+import Grid from "@mui/material/Grid";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllProducts())
-  }, [])
+    dispatch(getAllProducts());
+  }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
   useEffect(() => {
-    setCurrentPage(1)
+    setCurrentPage(1);
   }, [allProducts1]);
 
   const handlePageChange = (page) => {
@@ -42,17 +42,23 @@ const Home = () => {
         <NavBar />
         <div>Loading...</div>
       </div>
-    )
+    );
   }
 
   return (
-  <div>
-    <NavBar />
-    <Paginate currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}/>
-    <div className='FilterCards'>
-      <Filter/>
-      <Cards currentProduct={currentProduct} />
-    </div>
+    <div>
+      <NavBar />
+      <Paginate
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange}
+      />
+      <div style={{ display: "flex", justifyContent: 'center', width: '100%'}}>
+        <Filter/>
+        <Grid sx={{width: '100%'}}>
+          <Cards currentProduct={currentProduct} />
+        </Grid>
+      </div>
     </div>
   );
 };
