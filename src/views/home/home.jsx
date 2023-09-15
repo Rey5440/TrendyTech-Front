@@ -5,6 +5,7 @@ import Cards from '../../components/cards/cards';
 import Paginate from '../../components/paginate/paginate';
 import NavBar from '../../components/nav/nav';
 import { getAllProducts } from '../../redux/actions';
+import Box from "@mui/material/Box";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -48,8 +49,8 @@ const Home = () => {
   <div>
     <NavBar />
     <div>
-      <Paginate currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}/>
       <Cards currentProduct={currentProduct}/>
+      <Paginate currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}/>
     </div>
     </div>
   );

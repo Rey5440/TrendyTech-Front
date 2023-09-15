@@ -8,7 +8,7 @@ const Card = ({ images, id, name, price, brand }) => {
             <img src={images[0]} alt={name} width={"300px"} />
             <h4 >{name}</h4>
             <h3 >{brand}</h3>
-            <h2 >$ {price}</h2>
+            <h2 >${price}</h2>
         </div>
         </NavLink>
     )
