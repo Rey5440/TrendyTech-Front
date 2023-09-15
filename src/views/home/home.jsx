@@ -6,7 +6,7 @@ import Paginate from "../../components/paginate/paginate";
 import NavBar from "../../components/nav/nav";
 import { getAllProducts } from "../../redux/actions";
 import Filter from "../../components/filter/filter";
-import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -51,7 +51,9 @@ const Home = () => {
       <NavBar />
       <div className="FilterCards">
         <Filter />
-        <Cards currentProduct={currentProduct} />
+        <Grid container spacing={2}>
+          <Cards currentProduct={currentProduct} />
+        </Grid>
       </div>
       <Paginate
         currentPage={currentPage}

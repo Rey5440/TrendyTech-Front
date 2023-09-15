@@ -3,7 +3,7 @@ import { Box, Container } from "@mui/system";
 
 const Cards = ({ currentProduct }) => {
   return (
-    <Container maxWidth="xl" sx={{alignItems: 'center', display: 'flex', flexWrap: 'wrap'}}>
+    <Container maxWidth="xl" sx={{alignItems: 'center', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
       {currentProduct?.map((product) => (
         <Card
           key={product.id}

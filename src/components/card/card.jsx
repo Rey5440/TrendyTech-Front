@@ -5,21 +5,21 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { NavLink } from "react-router-dom";
-
+import { CardHeader } from '@mui/material';
 
 export default function CardTech({ images, id, name, price, brand }) {
   return (
     /*  <Card sx={{ maxWidth: 330 }}>
    <div> */
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+    <Card sx={{width: '170px', marginTop: '5px', marginBottom: '5px'}}> 
+      <CardActionArea sx={{width: '100%'}}>
         <NavLink to={`/detail/${id}`}>
           <CardMedia
-            sx={{width: '300px'}}
+            sx={{width: '100%'}}
             component="img"
             image={images[0]}
             alt={name}
-          />
+            />
           <CardContent>
             <Typography gutterBottom variant="h7" component="div">
             <h4>{name}</h4>
