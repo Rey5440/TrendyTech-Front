@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import "./home.css";
 import { useDispatch, useSelector } from "react-redux";
-import Cards from "../../components/cards/cards";
-import Paginate from "../../components/paginate/paginate";
-import NavBar from "../../components/nav/nav";
-import { getAllProducts } from "../../redux/actions";
-import CssBaseline from "@mui/material/CssBaseline";
-import { Box, Container } from "@mui/system";
+import Cards from '../../components/cards/cards';
+import Paginate from '../../components/paginate/paginate';
+import NavBar from '../../components/nav/nav';
+import { getAllProducts } from '../../redux/actions';
+import Filter from '../../components/filter/filter';
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -47,20 +46,13 @@ const Home = () => {
   }
 
   return (
-    <div>
-      <NavBar />
-      <CssBaseline>
-        <Container>
-          <Box sx={{ bgcolor: "#cfe8fc", height: "100vh" }}>
-            <Cards currentProduct={currentProduct} />
-            <Paginate
-              currentPage={currentPage}
-              totalPages={totalPages}
-              handlePageChange={handlePageChange}
-            />
-          </Box>
-        </Container>
-      </CssBaseline>
+  <div>
+    <NavBar />
+    <Paginate currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}/>
+    <div className='FilterCards'>
+      <Filter/>
+      <Cards currentProduct={currentProduct} />
+    </div>
     </div>
   );
 };

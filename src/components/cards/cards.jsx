@@ -1,8 +1,9 @@
 import Card from "../card/card";
+import './cards.css';
 
 const Cards = ({currentProduct}) => {
     return (
-        <div>
+        <div className="CardsTech">
         {currentProduct?.map((product) => (
 
             <Card 
@@ -20,3 +21,4 @@ const Cards = ({currentProduct}) => {
 };
 
 export default Cards;
+

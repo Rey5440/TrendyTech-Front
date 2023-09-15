@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Nav from "../../components/nav/nav";
 import "./detail.css";
+import AlertTech from "../../components/alert/alert";
 
 const Detail = () => {
   const { id } = useParams();
@@ -17,7 +18,7 @@ const Detail = () => {
         const { data } = response;
         setProduct(data);
       } catch (error) {
-        window.alert("Error al obtener los datos del personaje");
+        console.log(error)
       }
     };
     fetchData();
@@ -25,6 +26,7 @@ const Detail = () => {
   console.log(product);
   return (
     <div>
+      <AlertTech message='hola calenius' type='success'/>
       <Nav />
       <h1>{product.name}</h1>
       <h3>{product.description}</h3>
