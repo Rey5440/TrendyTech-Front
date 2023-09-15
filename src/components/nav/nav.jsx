@@ -1,5 +1,5 @@
 import SearchBar from "../searchBar/searchBar";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
 import "./nav.css";
 //Material Icons es una librería de la cual podemos importar iconos para usarlos en nuestros componentes
