@@ -1,8 +1,4 @@
-.divall_create{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-}
+
 
 .divcontainer_form_formimage{
       margin-top: 50px;
@@ -10,6 +6,9 @@
       justify-content: space-evenly;
       width: 85%;
       height: 100%;
+}
+.divcontainer_form_formimage p {
+      color:  red;
 }
 
 .divcontainer_form{

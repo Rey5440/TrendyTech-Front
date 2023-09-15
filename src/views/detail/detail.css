@@ -1,70 +1,33 @@
 .div_container_detail{
-    background: #ededed;
-    width: 100%;
-    height: 100vh;
-    display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-around;
+    display: flex;
+    width: 100%;
 }
 
-.div_izquierda_detail{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 50%;
-      height: 70%;
-}
 .product_image_focus{
-      max-width: 700px;
-      width: 100%;
+      max-width: 60%;
       margin: 10px;
       width: 100%;
 }
 .div_derecha_detail{
       display: flex;
+      width: 100%;
       flex-direction: column;
-      background-color:#ededed;
       border-radius: 5px;
-      height: 70%;
-      width: 50%;
-}
-.subdiv_derecha_detail{
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      margin-bottom: 20%;
 }
+
 .button_agregar{
       align-self: center;
       width: 40%;
       height: 80%;
 }
-.image_detail{
-      object-fit: cover;
-}
-
-.hr_detail{
-      margin-bottom:10% ;
-      width: 90%;
-      border: 2px solid orangered;
-      border-radius: 2px;
-}
-.hr2_detail {
-      margin-top: 2%;
-      width: 90%;
-      border: 2px solid orangered;
-      border-radius: 2px;
-}
-.h1_detail{
-      font-size: 50px;
-}
 
 .h2_price_detail {
-      font-size: 60px;
-      margin-bottom: 30px;
-      margin-left: 15px;
-      color: #ededed;
+      font-size: 30px;
+      color: black;
 }
 .h2_stock_detail {
       font-size: 40px;
@@ -80,8 +43,9 @@
       background: #4093db;
       border-radius: 10px;
       width: 90%;
-      padding-right: 10px;
+      padding: 10px;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: space-around;
       align-items: center;
 }

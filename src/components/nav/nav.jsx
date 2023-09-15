@@ -11,6 +11,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import { useState } from "react";
+import { Button } from "@mui/material";
 const Nav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const menuId = "primary-search-account-menu";
@@ -29,16 +30,26 @@ const Nav = () => {
             alignItems: "center",
           }}
         >
-               <NavLink to={'/home'}>
-          <div className="Nav_LogoContainer">
-            <img
-              alt="Trendy Tech"
-              src={Trendy_Tech_Logo}
-              className="Nav_Logo"
-            />
-          </div>
+          <NavLink to={"/home"}>
+            <div className="Nav_LogoContainer">
+              <img
+                alt="Trendy Tech"
+                src={Trendy_Tech_Logo}
+                className="Nav_Logo"
+              />
+            </div>
           </NavLink>
           <SearchBar />
+
+          <NavLink to="/create">
+          <Button
+            variant="contained"
+            className="button_agregar"
+          >
+            Crear
+          </Button>
+        </NavLink>
+
           <Box>
             <Box>
               <NavLink to="/ruta-Carrito" className="Nav_IconoCarrito">

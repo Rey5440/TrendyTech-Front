@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Nav from "../../components/nav/nav.jsx";
-import validationForm from "./validation.js";
+import validation from "./validation.js";
 import axios from "axios";
 import "./create.css";
 
@@ -38,7 +38,7 @@ const Create = () => {
       });
     }
 
-    const errores = ValidationForm(form);
+    const errores = validation(form);
     setError(errores);
   };
 
@@ -69,7 +69,7 @@ const Create = () => {
         ...form,
         images: uploadImage,
       });
-      const errores = ValidationForm(form);
+      const errores = validation(form);
       setError(errores);
     } else {
       error.alert =
@@ -112,7 +112,7 @@ const Create = () => {
   console.log(imageCloudinary);
   console.log(form.images);
   return (
-    <div className="divall_create">
+    <div>
       <Nav />
       <div className="divcontainer_form_formimage">
         <form onSubmit={handleSubmit} className="divcontainer_form">
