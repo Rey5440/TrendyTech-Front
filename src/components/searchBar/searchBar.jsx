@@ -5,7 +5,7 @@ import './SearchBar.css';
 
 const SearchBar = () =>{
     const [searchTerm, setSearchTerm] = useState('');
-    /* const dispatch = useDispatch(); */
+    const dispatch = useDispatch();
 
     const handleInput = (e) => {
         setSearchTerm(e.target.value);
@@ -14,7 +14,7 @@ const SearchBar = () =>{
 
     const handleSearch = (e) =>{
         e.preventDefault();
-        /* dispatch(action(searchTerm)); */
+        dispatch(action(searchTerm));
         console.log("producto buscado: ", searchTerm)
         setSearchTerm('');
     }
