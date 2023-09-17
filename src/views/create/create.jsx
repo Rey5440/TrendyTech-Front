@@ -1,81 +1,226 @@
-import { useEffect, useState } from 'react';
-/* import {ValidationForm} from './Valitation.js'; */
-const Create = () =>{
-    const useDispatch = useDispatch();
-    const [form, setForm] = useState({
-        name: '',
-        price: '',
-        image: [],
-        description: '',
-        stock: '',
-    });
-    const[image, setImage] = useState([]);
-    const [error, setError] = useState({});
-    const handleChange=(event)=>{
+import { useEffect, useState } from "react";
+import  {useNavigate}  from "react-router-dom";
+import Nav from "../../components/nav/nav.jsx";
+import validation from "./validation.js";
+import axios from "axios";
+import "./create.css";
+const Create = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState({});
+  const [imageCloudinary, setImageCloudinary] = useState([]);
+  // const [loading, setLoading] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    price: 0,
+    images: [],
+    description: "",
+    stock: 0,
+    brand: "",
+    color: "",
+    type: "",
+  });
+
+  useEffect(() => {}, [form, error]);
+  useEffect(() => {}, [imageCloudinary]);
+  // HANDLERS
+  const handleChange = (event) => {
+    if (event.target.name == "price" || event.target.name == "stock") {
+      if (!isNaN(event.target.value)) {
         setForm({
-            ...form,
-            [event.target.name]: event.target.value
-        })
-        setError(ValidationForm(form))
-    }
-    const handleChangeImg=(event)=>{
-        setImage({
-            ...image,
-            [event.target.name]: event.target.value
-        })
-    }
-    const handleSubmit=(event)=>{
-        event.preventDefault();
-        if (Object.keys(error).length >0){
-            return alert('Hay errores');
-        }{
-            setForm({...form, image: image})
-        }
-        // posteo al backend
+          ...form,
+          [event.target.name]: Number(event.target.value),
+        });
+      }
+    } else {
+      setForm({
+        ...form,
+        [event.target.name]: event.target.value,
+      });
     }
 
-    return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Nombre</label>
-                    <input type="text" name="name" value={form.name} onChange={handleChange}/>
-                    {error.name && <p>{error.name}</p>}
-                </div>
-                <div>
-                    <label>Precio</label>
-                    <input type="text" name="price" value={form.price} onChange={handleChange}/>
-                    {error.price && <p>{error.price}</p>}
-                </div>
-                <div>
-                    <label>Descripcion</label>
-                    <textarea
-                        id="comentario"
-                        name="description"
-                        value={form.description}
-                        onChange={handleChange}
-                        ></textarea>
-                    {error.description && <p>{error.description}</p>}
-                </div>
-                <div>
-                    <label>stock</label>
-                    <input type="number" name="stock" value={form.stock} onChange={handleChange}/>
-                    {error.stock && <p>{error.stock}</p>}   
-                </div>
+    const errores = validation(form);
+    setError(errores);
+  };
 
-                <div>
-                    <label>Imagen</label>
-                    <input type="file" name="image" value={image[0]} onChange={handleChangeImg}/>
-                    <input type="file" name="image" value={image[1]} onChange={handleChangeImg}/>
-                    <input type="file" name="image" value={image[2]} onChange={handleChangeImg}/>
-                    {(error.image.length>0) && error.image.map((item, index)=>{
-                        return <p key={index}>{item}</p>
-                    })}   
-                </div>
-                <button type="submit">Enviar</button>
-            </form>
+  const handleChangeImg = async (event) => {
+    const files = event.target.files;
+    const imagesArray = Array.from(files);
+    const uploadImage = [];
+
+    const uploadPromises=imagesArray.map(async (img) => {
+      const data = new FormData();
+      data.append("file", img);
+      data.append("upload_preset", "trendyImg");
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/dntrwijx5/image/upload",
+          data
+        );
+        uploadImage.push(response.data.secure_url);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    await Promise.all(uploadPromises);
+    // Limitar a un máximo de 3 imágenes
+    if (uploadImage.length <= 3) {
+      setImageCloudinary(uploadImage);
+      setForm({
+        ...form,
+        images: uploadImage,
+      });
+      const errores = validation(form);
+      setError(errores);
+    } else {
+      error.alert =
+        "No puedes agregar más de 3 imágenes.Vuelve a cargar las imagenes";
+      setForm({ ...form, images: [] });
+    }
+  };
+ 
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (
+      error.name.length>0 ||
+      error.price.length>0 ||
+      error.description.length>0 ||
+      error.stock.length>0 ||
+      error.brand.length>0 ||
+      error.color.length>0 ||
+      error.type.length>0 ||
+      error.image.length>0
+    ) {
+      return setError({
+        ...error,
+        submit: "Hay errores en el formulario"
+      });
+    }else{
+    // posteo al backend
+      const response = await axios.post(
+        "http://localhost:3004/products/create",
+        form
+      );
+      const { data } = response;
+      navigate(`/detail/${data.id}`)
+    }
+  }
+  return (
+    <div>
+      <Nav />
+      <div className="divcontainer_form_formimage">
+        <form onSubmit={handleSubmit} className="divcontainer_form">
+          {error.submit && <p>{error.submit}</p>}
+          {/* NOMBRE  */}
+          <div className="divlabel_input_create">
+            <label>Nombre</label>
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              maxLength="100"
+            />
+            {error.name && <p>{error.name}</p>}
+          </div>
+
+          {/* PRECIO */}
+          <div className="divlabel_input_create">
+            <label>Precio</label>
+            <input
+              type="text"
+              name="price"
+              value={form.price}
+              onChange={handleChange}
+            />
+            {error.price && <p>{error.price}</p>}
+          </div>
+
+          {/* DESCRIPCION */}
+          <div className="divlabel_input_create">
+            <label>Descripcion</label>
+            <textarea
+              id="comentario"
+              name="description"
+              value={form.description}
+              onChange={handleChange}
+            ></textarea>
+            {error.description && <p>{error.description}</p>}
+          </div>
+
+          {/* STOCK */}
+          <div className="divlabel_input_create">
+            <label>stock</label>
+            <input
+              type="text"
+              name="stock"
+              value={form.stock}
+              onChange={handleChange}
+            />
+            {error.stock && <p>{error.stock}</p>}
+          </div>
+
+          {/* BRAND */}
+          <div className="divlabel_input_create">
+            <label>brand</label>
+            <input
+              type="text"
+              name="brand"
+              value={form.brand}
+              onChange={handleChange}
+            />
+            {error.brand && <p>{error.brand}</p>}
+          </div>
+          {/* TYPE */}
+          <div className="divlabel_input_create">
+            <label>type</label>
+            <input
+              type="text"
+              name="type"
+              value={form.type}
+              onChange={handleChange}
+            />
+            {error.type && <p>{error.type}</p>}
+          </div>
+          {/* COLOR */}
+          <div className="divlabel_input_create">
+            <label>color</label>
+            <input
+              type="text"
+              name="color"
+              value={form.color}
+              onChange={handleChange}
+            />
+            {error.color && <p>{error.color}</p>}
+          </div>
+          {/* IMAGENES */}
+          <div className="divlabel_input_create">
+            <label>Imagen</label>
+            <input
+              type="file"
+              name="image"
+              multiple
+              accept="image/*"
+              onChange={handleChangeImg}
+            />
+            {Array.isArray(error.image) &&
+              error.image.map((img, index) => <span key={index}>{img}</span>)}
+          </div>
+          <button type="submit" className="buttonsubmit_create">
+            Enviar
+          </button>
+        </form>
+        <div className="divcontainer_images_form">
+          {
+            imageCloudinary.map((img, index) => (
+              <div key={index}>
+                <img src={img} alt="" key={index} width={"200px"} />
+              </div>
+            ))}
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
 export default Create;
