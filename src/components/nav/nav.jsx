@@ -1,5 +1,6 @@
 import SearchBar from "../searchBar/searchBar";
 import { NavLink } from "react-router-dom";
+import { Button } from "@mui/material";
 import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
 import "./nav.css";
 //Material Icons es una librería de la cual podemos importar iconos para usarlos en nuestros componentes
@@ -11,7 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import { useState } from "react";
-import { Button } from "@mui/material";
+
 const Nav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const menuId = "primary-search-account-menu";
@@ -40,18 +41,13 @@ const Nav = () => {
             </div>
           </NavLink>
           <SearchBar />
-
-          <NavLink to="/create">
-          <Button
-            variant="contained"
-            className="button_agregar"
-          >
-            Crear
-          </Button>
-        </NavLink>
-
           <Box>
             <Box>
+              <NavLink to="/create">
+                <Button variant="contained" className="button_agregar">
+                  Crear
+                </Button>
+              </NavLink>
               <NavLink to="/ruta-Carrito" className="Nav_IconoCarrito">
                 <IconButton
                   size="large"
