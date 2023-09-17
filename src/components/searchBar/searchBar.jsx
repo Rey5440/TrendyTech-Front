@@ -5,6 +5,7 @@ import { searchByName } from '../../redux/actions';
 import './searchBar.css';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
+const navigate = useNavigate();
 
 const SearchBar = () =>{
     const [product, setProduct] = useState('');
@@ -19,7 +20,8 @@ const SearchBar = () =>{
         e.preventDefault();
         dispatch(searchByName(product));
         console.log("producto buscado: ", product);
-        setProduct('');
+      setProduct('');
+      navigate("/home");
     }
 
     const Search = styled('div')(({ theme }) => ({

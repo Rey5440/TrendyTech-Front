@@ -59,7 +59,7 @@ const Nav = () => {
                   </Badge>
                 </IconButton>
               </NavLink>
-              <NavLink to="/ruta_Perfil" className="Nav_IconoPerfil">
+              <NavLink to="/login" className="Nav_IconoPerfil">
                 <IconButton
                   size="large"
                   edge="end"

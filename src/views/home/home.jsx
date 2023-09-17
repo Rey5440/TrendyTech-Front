@@ -12,7 +12,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllProducts());
+  !allProducts1 && dispatch(getAllProducts());
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
