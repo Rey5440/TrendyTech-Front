@@ -4,94 +4,74 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Filter = () => {
-    const [brands, setBrands] = useState([]);
-    const [types, setTypes] = useState([]);
-    const [colors, setColors] = useState([]);
+  const allBrands = useSelector((state) => state.allBrands1);
+  const allTypes = useSelector((state) => state.allTypes1);
+  const [brands, setBrands] = useState([]);
+  const [types, setTypes] = useState([]);
 
-    useEffect(() => {
-        const fetchBrands = async () => {
-          try {
-            const response = await axios.get(
-              `http://localhost:3004/products/brands`
-            );
-            const { data } = response;
-            setBrands(data);
-          } catch (error) {
-            console.log(error)
-          }
-        };
-        fetchBrands();
-      }, []);
+  useEffect(() => {
+    const fetchBrands = async () => {
+      if (brands.length < 1) {
+        setBrands(allBrands)
+      }
+    };
+    fetchBrands();
+  }, []);
 
-      useEffect(() => {
-        const fetchTypes = async () => {
-          try {
-            const response = await axios.get(
-              `http://localhost:3004/products/types`
-            );
-            const { data } = response;
-            setTypes(data);
-          } catch (error) {
-            console.log(error)
-          }
-        };
-        fetchTypes();
-      }, []);
+  useEffect(() => {
+    const fetchTypes = async () => {
+      if (types.length < 1) {
+        setTypes(allTypes)
+      }
+    };
+    fetchTypes();
+  }, []);
 
-      useEffect(() => {
-        const fetchColors = async () => {
-          try {
-            const response = await axios.get(
-              `http://localhost:3004/products/colors`
-            );
-            const { data } = response;
-            setColors(data);
-          } catch (error) {
-            console.log(error)
-          }
-        };
-        fetchColors();
-      }, []);
+  const handleBrands = (event) => {
+    dispatch(filterByBrand(event.target.value));
+    onPageChange(1);
+  }
 
 
 
-    return (
-        <div className="FilterTech">
-            <div>
-                <select>
-                {types[0] && types.map((type, index) => (
-          <option 
-            key={index} 
-            value={type.id}
-          >
-            {type.name}
-          </option>
-        ))}
-                </select>
-            </div>
-            <div>
-                <label>min price $
-                    <input type='number'></input>
-                </label>
-            </div>
-            <div>
-                <label>max price $
-                    <input type='number'></input>
-                </label>
-            </div>
-            <div>
-                <select>
-                {brands[0] && brands.map((brand, index) => (
-          <option 
-            key={index} 
-            value={brand.id}
-          >
-            {brand.name}
-          </option>
-        ))}
-                </select>
-            </div>
-            <div>
+  return (
+    <div className="FilterTech">
+      <div>
+        <select onChange={handleBrands}>
+          {types[0] && types.map((type, index) => (
+            <option
+              key={index}
+              value={type.id}
+            >
+              {type.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <select>
+          {brands[0] && brands.map((brand, index) => (
+            <option
+              key={index}
+              value={brand.id}
+            >
+              {brand.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div>
+        <label>min price $
+          <input type='number'></input>
+        </label>
+      </div>
+      <div>
+        <label>max price $
+          <input type='number'></input>
+        </label>
+      </div>
+
+      {/*             <div>
                 <label>select color 
                     {colors[0] && colors.map((color, index) => (
                         <div key={index}>
@@ -101,9 +81,9 @@ const Filter = () => {
                         </div>
                     )) }
                 </label>
-            </div>
-        </div>
-    )
+            </div> */}
+    </div>
+  )
 }
 
 export default Filter;

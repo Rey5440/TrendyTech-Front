@@ -2,7 +2,11 @@ import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE } from 
 
 const initialState = {
     allProducts1 : [], /* Para filtrar y ordenar */
-    allProducts2 : []
+    allProducts2 : [],
+    allBrands1 : [],
+    allBrands2 : [],
+    allTypes1 : [],
+    allTypes2 : [],
 }
 
 const reducer = (state = initialState, {type, payload }) =>{
@@ -10,8 +14,13 @@ const reducer = (state = initialState, {type, payload }) =>{
         case GET_ALL_PRODUCTS:
             return {
                 ...state,
-                allProducts1: payload,
-                allProducts2: payload
+                allProducts1: payload.products,
+                allProducts2: payload.products,
+                allBrands1 : payload.brands,
+                allBrands2 : payload.brands,
+                allTypes1 : payload.types,
+                allTypes2 : payload.types,
+
             }
         case SEARCH_BY_NAME:
             return {
