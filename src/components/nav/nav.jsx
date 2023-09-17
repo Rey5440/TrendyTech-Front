@@ -12,7 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import { useState } from "react";
-import { Button } from "@mui/material";
+
 const Nav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const menuId = "primary-search-account-menu";
@@ -41,16 +41,6 @@ const Nav = () => {
             </div>
           </NavLink>
           <SearchBar />
-
-          <NavLink to="/create">
-          <Button
-            variant="contained"
-            className="button_agregar"
-          >
-            Crear
-          </Button>
-        </NavLink>
-
           <Box>
             <Box>
               <NavLink to="/create">
