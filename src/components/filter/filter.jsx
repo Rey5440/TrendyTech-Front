@@ -84,11 +84,7 @@ const Filter = () => {
                 {brands[0] && brands.map((brand, index) => (
           <option 
             key={index} 
-<<<<<<< HEAD
             value={brand.id}
-=======
-            value={brand.name}
->>>>>>> e83e564856e57828b12887297c58b6e7a26f11be
           >
             {brand.name}
           </option>
