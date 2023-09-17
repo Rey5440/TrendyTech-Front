@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import  {useNavigate}  from "react-router-dom";
 import Nav from "../../components/nav/nav.jsx";
 import validation from "./validation.js";
 import axios from "axios";
 import "./create.css";
-
 const Create = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState({});
   const [imageCloudinary, setImageCloudinary] = useState([]);
   // const [loading, setLoading] = useState(false);
@@ -21,7 +22,6 @@ const Create = () => {
 
   useEffect(() => {}, [form, error]);
   useEffect(() => {}, [imageCloudinary]);
-
   // HANDLERS
   const handleChange = (event) => {
     if (event.target.name == "price" || event.target.name == "stock") {
@@ -42,12 +42,12 @@ const Create = () => {
     setError(errores);
   };
 
-  const handleChangeImg = (event) => {
+  const handleChangeImg = async (event) => {
     const files = event.target.files;
     const imagesArray = Array.from(files);
     const uploadImage = [];
 
-    imagesArray.map(async (img) => {
+    const uploadPromises=imagesArray.map(async (img) => {
       const data = new FormData();
       data.append("file", img);
       data.append("upload_preset", "trendyImg");
@@ -57,14 +57,14 @@ const Create = () => {
           data
         );
         uploadImage.push(response.data.secure_url);
-        console.log(uploadImage);
       } catch (error) {
         console.log(error);
       }
     });
+    await Promise.all(uploadPromises);
     // Limitar a un máximo de 3 imágenes
     if (uploadImage.length <= 3) {
-      setImageCloudinary([...imageCloudinary, uploadImage]);
+      setImageCloudinary(uploadImage);
       setForm({
         ...form,
         images: uploadImage,
@@ -77,40 +77,34 @@ const Create = () => {
       setForm({ ...form, images: [] });
     }
   };
+ 
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(form);
     if (
-      error.name ||
-      error.price ||
-      error.description ||
-      error.stock ||
-      error.brand ||
-      error.color ||
-      error.type
+      error.name.length>0 ||
+      error.price.length>0 ||
+      error.description.length>0 ||
+      error.stock.length>0 ||
+      error.brand.length>0 ||
+      error.color.length>0 ||
+      error.type.length>0 ||
+      error.image.length>0
     ) {
       return setError({
         ...error,
-        submit: "Hay errores en el formulario",
+        submit: "Hay errores en el formulario"
       });
-    } else {
-      // posteo al backend
-      const post = async () => {
-        try {
-          const response = await axios.post(
-            "http://localhost:3004/products/create",
-            form
-          );
-          console.log(response);
-        } catch (error) {
-          console.log(error);
-        }
-      };
+    }else{
+    // posteo al backend
+      const response = await axios.post(
+        "http://localhost:3004/products/create",
+        form
+      );
+      const { data } = response;
+      navigate(`/detail/${data.id}`)
     }
-  };
-  console.log(imageCloudinary);
-  console.log(form.images);
+  }
   return (
     <div>
       <Nav />
@@ -217,9 +211,9 @@ const Create = () => {
           </button>
         </form>
         <div className="divcontainer_images_form">
-          {form.images[0] &&
-            form.images.map((img, index) => (
-              <div>
+          {
+            imageCloudinary.map((img, index) => (
+              <div key={index}>
                 <img src={img} alt="" key={index} width={"200px"} />
               </div>
             ))}
