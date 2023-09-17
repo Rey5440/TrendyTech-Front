@@ -30,18 +30,23 @@ const Nav = () => {
             alignItems: "center",
           }}
         >
-               <NavLink to={'/home'}>
-          <div className="Nav_LogoContainer">
-            <img
-              alt="Trendy Tech"
-              src={Trendy_Tech_Logo}
-              className="Nav_Logo"
-            />
-          </div>
+          <NavLink to={"/home"}>
+            <div className="Nav_LogoContainer">
+              <img
+                alt="Trendy Tech"
+                src={Trendy_Tech_Logo}
+                className="Nav_Logo"
+              />
+            </div>
           </NavLink>
           <SearchBar />
           <Box>
             <Box>
+              <NavLink to="/create">
+                <Button variant="contained" className="button_agregar">
+                  Crear
+                </Button>
+              </NavLink>
               <NavLink to="/ruta-Carrito" className="Nav_IconoCarrito">
                 <IconButton
                   size="large"

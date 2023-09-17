@@ -58,7 +58,7 @@ const Filter = () => {
     return (
         <div className="FilterTech">
             <div>
-                <select value={}>
+                <select >
                 {types[0] && types.map((type, index) => (
           <option 
             key={index} 
