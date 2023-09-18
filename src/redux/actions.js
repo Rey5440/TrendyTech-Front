@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE,FILTER_PRODUCTS } from './action-types';
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE,} from './action-types';
 
 export const getAllProducts = ()=>{
     return async function (dispatch) {
         try{
             const all = await axios(`http://localhost:3004/products`);
-            console.log(all)
             return dispatch({
                 type:GET_ALL_PRODUCTS,
                 payload: all.data
@@ -49,3 +48,6 @@ export const filterByColor = () => {
         type: FILTER_BY_COLOR
     }
 }
+
+//http://localhost:3004/products/filter?color=1&type=1&brand=3&minPrice=100&maxPrice=100000
+// ejemplo de ruta pata filtro combinado

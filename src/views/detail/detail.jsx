@@ -6,7 +6,7 @@ import Nav from "../../components/nav/nav";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import "./detail.css";
 import AlertTech from "../../components/alert/alert";
-
+import { Box, Container } from "@mui/system";
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -21,7 +21,7 @@ const Detail = () => {
         const { data } = response;
         setProduct(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
     fetchData();
@@ -35,11 +35,37 @@ const Detail = () => {
   console.log(product);
   return (
     <div>
-      <AlertTech message='hola calenius' type='success'/>
+      <AlertTech message="hola calenius" type="success" />
       <Nav />
-      <div className="div_container_detail">
-        <div className="div_izquierda_detail">
-          <div className="subdiv_img">
+      <Container sx={{marginTop: '30px'}}>
+        <div className="div_container_detail">
+          <div className="div_derecha_detail">
+            <Box sx={{ padding: "10px", width: '100%'}}>
+              <hr />
+              <h1>{product.name}</h1>
+              <br />
+              <hr />
+              <h2>{product.description}</h2>
+              <hr />
+              <br />
+              <h2>Stock:{product.stock} u.</h2>
+              <hr />
+            </Box>
+
+            <div className="div_price_button">
+              <h2 className="h2_price_detail">$ {product.price}.-</h2>
+
+              <Button
+                variant="contained"
+                className="button_agregar"
+                endIcon={<LocalMallIcon />}
+              >
+                Agregar
+              </Button>
+            </div>
+          </div>
+
+          <Container sx={{ display: "flex", width: "100%" }}>
             {product.images && (
               <img
                 className="product_image_focus"
@@ -47,48 +73,37 @@ const Detail = () => {
                 alt={product.name}
               />
             )}
-          </div>
-          <div className="divImage">
-            {product.images &&
-              product.images.map((imag, index) => (
-                <button
-                  style={{
-                    backgroundImage: `url(${imag})`,
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    width: "200px",
-                    height: "200px",
-                    margin: "6px",
-                    border: "none",
-                    borderRadius: "5px",
-                  }}
-                  key={index}
-                  value={index}
-                  onClick={carousel}
-                />
-              ))}
-          </div>
+            <Box
+              sx={{
+                width: "20%",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {product.images &&
+                product.images.map((imag, index) => (
+                  <Button
+                    style={{
+                      backgroundImage: `url(${imag})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
+                      backgroundSize: "100%",
+                      backgroundColor: "white",
+                      width: "90%",
+                      height: "100%",
+                      margin: "6px",
+                    }}
+                    key={index}
+                    value={index}
+                    onClick={carousel}
+                  />
+                ))}
+            </Box>
+          </Container>
         </div>
-        <div className="div_derecha_detail">
-          <h1 className="h1_detail">{product.name}</h1>
-          <hr className="hr_detail" />
-          <h3 className="h3_detail">{product.description}</h3>
-          <h2 className="h2_stock_detail">stock: {product.stock} u.</h2>
-          <div className="div_price_button">
-          <h2 className="h2_price_detail">$ {product.price}.-</h2>
-
-          <Button
-            variant="contained"
-            className="button_agregar"
-            endIcon={<LocalMallIcon />}
-          >
-            Agregar
-          </Button>
-          </div>
-          <hr className="hr2_detail" />
-        </div>
-      </div>
+      </Container>  
     </div>
   );
 };

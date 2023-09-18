@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/Trendy-Tech logo recortado.png'
 import axios from 'axios'
 import './styles-login.css'
+import Nav from '../nav/nav';
 
 
 const Register = () => {
@@ -35,6 +36,7 @@ const handleSubmit = async (e) => {
 
       return (
         <>
+          <Nav/>
           <div className="mainRegister">
             <h3 className="titleLogin">Crea una cuenta para hacer tu compra</h3>
     
