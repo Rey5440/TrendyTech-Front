@@ -6,7 +6,6 @@ import axios from 'axios';
 const Filter = () => {
     const [brands, setBrands] = useState([]);
     const [types, setTypes] = useState([]);
-    const [colors, setColors] = useState([]);
 
     useEffect(() => {
         const fetchBrands = async () => {
@@ -36,21 +35,6 @@ const Filter = () => {
           }
         };
         fetchTypes();
-      }, []);
-
-      useEffect(() => {
-        const fetchColors = async () => {
-          try {
-            const response = await axios.get(
-              `http://localhost:3004/products/colors`
-            );
-            const { data } = response;
-            setColors(data);
-          } catch (error) {
-            console.log(error)
-          }
-        };
-        fetchColors();
       }, []);
 
 
@@ -90,17 +74,6 @@ const Filter = () => {
           </option>
         ))}
                 </select>
-            </div>
-            <div>
-                <label>select color 
-                    {colors[0] && colors.map((color, index) => (
-                        <div key={index}>
-                            <label>{color.name}
-                        <input type='checkbox'></input>
-                        </label>
-                        </div>
-                    )) }
-                </label>
             </div>
         </div>
     )
