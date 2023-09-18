@@ -105,6 +105,25 @@ const Create = () => {
       navigate(`/detail/${data.id}`)
     }
   }
+
+
+  function hasPropertiesFull(obj) {
+    for (const key in obj) {
+      if (
+        obj.hasOwnProperty(key) &&
+        obj[key] !== null &&
+        obj[key] !== undefined &&
+        obj[key] !== ""
+      ) {
+        return true; // Al menos una propiedad no está vacía
+      }
+    }
+    return false; // Todas las propiedades están vacías
+  }
+
+  console.log(form.images);
+  console.log(error);
+
   return (
     <div>
       <Nav />
@@ -203,20 +222,29 @@ const Create = () => {
               accept="image/*"
               onChange={handleChangeImg}
             />
-            {Array.isArray(error.image) &&
-              error.image.map((img, index) => <span key={index}>{img}</span>)}
+            {Array.isArray(error.images) &&
+              error.images.map((img, index) => <span key={index}>{img}</span>)}
           </div>
-          <button type="submit" className="buttonsubmit_create">
-            Enviar
-          </button>
+          {!hasPropertiesFull(error) ? (
+            <button type="submit" className="buttonsubmit_create">
+              Enviar
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="buttonsubmit_create_disabled"
+              disabled
+            >
+              Enviar
+            </button>
+          )}
         </form>
         <div className="divcontainer_images_form">
-          {
-            imageCloudinary.map((img, index) => (
-              <div key={index}>
-                <img src={img} alt="" key={index} width={"200px"} />
-              </div>
-            ))}
+          {imageCloudinary.map((img, index) => (
+            <div key={index}>
+              <img src={img} alt="" key={index} width={"200px"} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

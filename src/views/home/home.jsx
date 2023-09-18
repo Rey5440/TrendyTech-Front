@@ -12,7 +12,9 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-  !allProducts1 && dispatch(getAllProducts());
+    if (allProducts1<1) {
+      dispatch(getAllProducts());
+    }
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,9 +55,9 @@ const Home = () => {
         totalPages={totalPages}
         handlePageChange={handlePageChange}
       />
-      <div style={{ display: "flex", justifyContent: 'center', width: '100%'}}>
-        <Filter/>
-        <Grid sx={{width: '100%'}}>
+      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        <Filter />
+        <Grid sx={{ width: "100%" }}>
           <Cards currentProduct={currentProduct} />
         </Grid>
       </div>
