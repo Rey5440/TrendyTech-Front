@@ -32,23 +32,6 @@ export const searchByName = (product) => {
     }
 }
 
-export const filterProducts = ( colorId,typeId, brandId, minPrice, maxPrice) => {
-    return async function (dispatch) {
-      try {
-        const filtered = await axios.get(
-          `/products/filter?brand=${brandId}&minPrice=${minPrice}&maxPrice=${maxPrice}`
-        );
-        return dispatch({
-          type: FILTER_PRODUCTS,
-          payload: filtered.data,
-        });
-      } catch (error) {
-        console.log(error);
-        alert(error.response.data.error);
-      }
-    };
-  };
-
 export const orderByPrice = () => {
     return {
         type: ORDER_BY_PRICE
