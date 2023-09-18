@@ -6,13 +6,18 @@ import NavBar from "../../components/nav/nav";
 import { getAllProducts } from "../../redux/actions";
 import Filter from "../../components/filter/filter";
 import Grid from "@mui/material/Grid";
+import Loader from "../../components/loader/loader";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getAllProducts());
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +29,6 @@ const Home = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    /* window.scrollTo(0, 400); */ // Scroll hacia arriba
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -36,29 +40,26 @@ const Home = () => {
 
   const totalPages = Math.ceil(allProducts1.length / productsPerPage);
 
-  if (allProducts1.length === 0) {
-    return (
-      <div>
-        <NavBar />
-        <div>Loading...</div>
-      </div>
-    );
-  }
-
   return (
     <div>
       <NavBar />
-      <Paginate
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-      />
-      <div style={{ display: "flex", justifyContent: 'center', width: '100%'}}>
-        <Filter/>
-        <Grid sx={{width: '100%'}}>
-          <Cards currentProduct={currentProduct} />
-        </Grid>
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div>
+          <Paginate
+            currentPage={currentPage}
+            totalPages={totalPages}
+            handlePageChange={handlePageChange}
+          />
+          <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+            <Filter />
+            <Grid sx={{ width: "100%" }}>
+              <Cards currentProduct={currentProduct} />
+            </Grid>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
