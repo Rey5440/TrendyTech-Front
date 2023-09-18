@@ -1,4 +1,4 @@
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_BY_TYPES } from "./action-types";
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL } from "./action-types";
 
 const initialState = {
     allProducts1 : [], /* Para filtrar y ordenar */
@@ -43,7 +43,8 @@ const reducer = (state = initialState, {type, payload }) =>{
                 ...state,
                 allProducts1: products
             }
-        case FILTER_BY_TYPES:
+        case FILTER_ALL:
+            console.log(payload)
             return {
                 ...state,
                 allProducts1: payload

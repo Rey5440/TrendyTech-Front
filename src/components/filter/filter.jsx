@@ -1,14 +1,20 @@
 import './filter.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { filterTypes } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { filterAll } from '../../redux/actions';
 
 const Filter = () => {
-  const allProducts1 = useSelector((state) => state.allProducts1);
+  const dispatch = useDispatch();
+  const allProducts1 = useSelector(state => state.allProducts1);
   const [types, setTypes] = useState([]);
   const [brands, setBrands] = useState([]);
-console.log(allProducts1)
+  const [filtro, setFiltro] = useState({
+    type:'',
+    brand:'',
+    minPrice:'',
+    maxPrice:''
+  })
   useEffect(() => {
     const fetchTypes = async () => {
       try {
@@ -39,15 +45,26 @@ console.log(allProducts1)
     fetchBrands();
   }, []);
 
-
-  const handleTypes = async (event) => {
-    const response = await axios(`http://localhost:3004/products/filter?color=&type=${event.target.value}&brand=&minPrice=&maxPrice=`)
-    console.log(response.data)
-    dispatch(filterTypes(response.data));
+  const handleTypes = (event) => {
+    setFiltro({...filtro, type: event.target.value})
+    dispatch(filterAll(filtro))
+    /*  const array = []
+    allProducts1.forEach((prod) => {
+      brands.forEach((brand) => {
+        if(brand.id === prod.brandId){
+          array.push(brand.name)
+        }
+      })
+    })
+    console.log(array)
+    setBrands(result) */
   }
-
-  console.log(brands)
-  console.log(allProducts1)
+  const handleBrands = (event) => {
+    setFiltro({...filtro, brand: event.target.value})
+  }
+  const submit = ()=>{
+    dispatch(filterAll(filtro));
+  }
 
   return (
     <div className="FilterTech">
@@ -64,7 +81,7 @@ console.log(allProducts1)
         </select>
       </div>
       <div>
-        <select>
+        <select onChange={handleBrands}>
           {brands[0] && brands.map((brand, index) => (
             <option
               key={index}
@@ -84,6 +101,9 @@ console.log(allProducts1)
         <label>max price $
           <input type='number'></input>
         </label>
+      </div>
+      <div>
+        <button onClick={submit}>submit</button>
       </div>
     </div>
   )

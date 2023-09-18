@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_BY_TYPES } from './action-types';
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL } from './action-types';
 
 export const getAllProducts = ()=>{
     return async function (dispatch) {
@@ -43,16 +43,23 @@ export const orderByName = () => {
     }
 }
 
-export const filterByColor = () => {
+/* export const filterByColor = () => {
     return {
         type: FILTER_BY_COLOR
     }
-}
+} */
 
-export const filterTypes = (payload) => {
-    return {
-        type: FILTER_BY_TYPES,
-        payload
+export const filterAll = (payload) => {
+    return async function (dispatch) {
+        try{
+            const response = await axios(`http://localhost:3004/products/filter?color=&type=${payload.type}&brand=${payload.brand}&minPrice=${payload.minPrice}&maxPrice=${payload.maxPrice}`);
+            return dispatch({
+                type:FILTER_ALL,
+                payload: response.data
+            })
+        }catch (error) {
+            console.log("Type Error: ", error.message);
+        }
     }
 }
 
