@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { filterAll } from '../../redux/actions';
+import AlertTech from "../../components/alert/alert"; 
+
 
 const Filter = () => {
   const dispatch = useDispatch();
-  const allProducts1 = useSelector(state => state.allProducts1);
   const [types, setTypes] = useState([]);
   const [brands, setBrands] = useState([]);
   const [filtro, setFiltro] = useState({
@@ -47,7 +48,7 @@ const Filter = () => {
 
   const handleTypes = (event) => {
     setFiltro({...filtro, type: event.target.value})
-    dispatch(filterAll(filtro))
+    // dispatch(filterAll(filtro))
     /*  const array = []
     allProducts1.forEach((prod) => {
       brands.forEach((brand) => {
@@ -64,49 +65,54 @@ const Filter = () => {
   }
   const submit = ()=>{
     dispatch(filterAll(filtro));
+
+  }
+  let error = "";
+  const catchError = (status) => {
+    console.log("llegue")
+    let error = status;
+    return error;
   }
 
   return (
     <div className="FilterTech">
+      {/* {error === 404 && <AlertTech message="No hay combinaciones disponibles" type="error" />} */}
+
       <div>
         <select onChange={handleTypes}>
-          {types[0] && types.map((type, index) => (
-            <option
-              key={index}
-              value={type.id}
-            >
-              {type.name}
-            </option>
-          ))}
+          {types[0] &&
+            types.map((type, index) => (
+              <option key={index} value={type.id}>
+                {type.name}
+              </option>
+            ))}
         </select>
       </div>
       <div>
         <select onChange={handleBrands}>
-          {brands[0] && brands.map((brand, index) => (
-            <option
-              key={index}
-              value={brand.id}
-            >
-              {brand.name}
-            </option>
-          ))}
+          {brands[0] &&
+            brands.map((brand, index) => (
+              <option key={index} value={brand.id}>
+                {brand.name}
+              </option>
+            ))}
         </select>
       </div>
       <div>
-        <label>min price $
-          <input type='number'></input>
+        <label>
+          min price $<input type="number"></input>
         </label>
       </div>
       <div>
-        <label>max price $
-          <input type='number'></input>
+        <label>
+          max price $<input type="number"></input>
         </label>
       </div>
       <div>
         <button onClick={submit}>submit</button>
       </div>
     </div>
-  )
+  );
 }
 
 export default Filter;
