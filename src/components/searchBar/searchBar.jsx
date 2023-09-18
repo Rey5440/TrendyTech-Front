@@ -65,7 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     return (
 
         <div className='SearchBar_Container'>
-            <input placeholder='Search...' className='SearchBar_Input' onChange={handleInput} value={product}/>
+            <input placeholder='Buscar un producto' className='SearchBar_Input' onChange={handleInput} value={product}/>
             <button type='search' className='SearchBar_Button' onClick={handleSearch}><SearchIcon sx={{fontSize: 30}} className='SearchBar_ButtonIcon'/></button>
         </div>
     )

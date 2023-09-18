@@ -34,14 +34,14 @@ const validationForm = (form,imageFil) => {
     else{error.description=''}
     
     // Validacion de stock
-    if(typeof stock != 'number'){ error.stock='El stock debe ser un número'}
-    else if (stock<0) {error.stock='El stock no puede ser negativo'}
-    else if (stock==0) {error.stock='El stock no puede estar vacio'}
+    if(typeof stock != 'number'){ error.stock='La cantidad debe ser un número'}
+    else if (stock<0) {error.stock='La cantidad no puede ser negativo'}
+    else if (stock==0) {error.stock='La cantidad no puede estar vacía'}
     else {error.stock=''}
     // Validacion de brand
-    if(typeof brand !== 'string') { error.brand='El brand debe ser una cadena de caracteres'}
-    else if(brand.length>100) {error.brand='El brand no puede tener más de 100 caracteres'}
-    else if(brand.length==0) {error.brand='El brand no puede estar vacío'}
+    if(typeof brand !== 'string') { error.brand='La marca debe ser una cadena de caracteres'}
+    else if(brand.length>100) {error.brand='La marca no puede tener más de 100 caracteres'}
+    else if(brand.length==0) {error.brand='La marca no puede estar vacía'}
     else{error.brand=''}
     // Validacion de color
     if(typeof color !== 'string') { error.color='El color debe ser una cadena de caracteres'}
@@ -50,9 +50,9 @@ const validationForm = (form,imageFil) => {
     else{error.color=''}
     
     // Validacion de type
-    if(typeof type !== 'string') { error.type='El type debe ser una cadena de caracteres'}
-    else if(type.length>50) {error.type='El type no puede tener más de 50 caracteres'}
-    else if(type.length==0) {error.type='El type no puede estar vacío'}
+    if(typeof type !== 'string') { error.type='La categoría debe ser una cadena de caracteres'}
+    else if(type.length>50) {error.type='La categoría no puede tener más de 50 caracteres'}
+    else if(type.length==0) {error.type='La categoría no puede estar vacía'}
     else{error.type=''}
     
     // Validación de imágenes Para url
@@ -66,7 +66,7 @@ const validationForm = (form,imageFil) => {
         }
       });
     }
-    else if(images.length===0) {error.images=["No hay imágenes"]}
+    else if(images.length===0) {error.images=["No hay imágenes seleccionadas"]}
     else {error.images=''}
 
     // ?? Validación de imágenes para tipo de archivos
