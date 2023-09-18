@@ -17,8 +17,8 @@ const Home = () => {
     dispatch(getAllProducts());
     setTimeout(() => {
       setLoading(false);
-    }, 2000);
-  }, []);
+    }, 3000);
+  }, [dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
@@ -60,17 +60,6 @@ const Home = () => {
           </div>
         </div>
       )}
-      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-        <Filter />
-        <Grid sx={{ width: "100%" }}>
-          <Cards currentProduct={currentProduct} />
-        </Grid>
-      </div>
-      <Paginate
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-      />
     </div>
   );
 };

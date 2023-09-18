@@ -40,6 +40,7 @@ const Detail = () => {
   const carousel = (event) => {
     setImagePP(product.images[event.target.value]);
   };
+
   return (
     <div>
       <Nav />
@@ -74,45 +75,46 @@ const Detail = () => {
               </div>
             </div>
 
-          <Container sx={{ display: "flex", width: "100%" }}>
-            {product.images && (
-              <img
-                className="product_image_focus"
-                src={imagePP || product.images[0]}
-                alt={product.name}
-              />
-            )}
-            <Box
-              sx={{
-                width: "20%",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {product.images &&
-                product.images.map((imag, index) => (
-                  <Button
-                    style={{
-                      backgroundImage: `url(${imag})`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "center",
-                      backgroundSize: "100%",
-                      backgroundColor: "white",
-                      width: "90%",
-                      height: "100%",
-                      margin: "6px",
-                    }}
-                    key={index}
-                    value={index}
-                    onClick={carousel}
-                  />
-                ))}
-            </Box>
-          </Container>
-        </div>
-      </Container>  
+            <Container sx={{ display: "flex", width: "100%" }}>
+              {product.images && (
+                <img
+                  className="product_image_focus"
+                  src={imagePP || product.images[0]}
+                  alt={product.name}
+                />
+              )}
+              <Box
+                sx={{
+                  width: "20%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {product.images &&
+                  product.images.map((imag, index) => (
+                    <Button
+                      style={{
+                        backgroundImage: `url(${imag})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center",
+                        backgroundSize: "100%",
+                        backgroundColor: "white",
+                        width: "90%",
+                        height: "100%",
+                        margin: "6px",
+                      }}
+                      key={index}
+                      value={index}
+                      onClick={carousel}
+                    />
+                  ))}
+              </Box>
+            </Container>
+          </div>
+        </Container>
+      )}
     </div>
   );
 };
