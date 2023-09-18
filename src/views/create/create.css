@@ -71,6 +71,20 @@
 .buttonsubmit_create:active {
       transform: scale(.95);
 }
+.buttonsubmit_create_disabled{
+      display: flex;
+            align-self: flex-end;
+            align-items: center;
+            justify-content: center;
+            width: 20%;
+            height: 30px;
+            margin-right: 10%;
+            margin-bottom: 4%;
+            border-radius: 5px;
+            border: none;
+            color: rgb(177, 177, 177);
+                  background-color: rgb(89, 89, 89);
+}
 
 .title_container {
       display: flex;
@@ -184,4 +198,4 @@
       width: 80%;
       display: flex;
       justify-content: space-evenly;
-}
+

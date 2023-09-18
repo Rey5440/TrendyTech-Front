@@ -4,10 +4,19 @@ import Nav from "../../components/nav/nav.jsx";
 import validation from "./validation.js";
 import axios from "axios";
 import "./create.css";
-import validationForm from "./validation.js";
 const Create = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState({});
+  const [error, setError] = useState({
+    name: "",
+    price: "",
+    images: "",
+    imageFiles: "",
+    description: "",
+    stock: "",
+    brand: "",
+    color: "",
+    type: "",
+  });
   const [imageCloudinary, setImageCloudinary] = useState([]);
   const [imageError, setImageError] = useState({});
   // const [loading, setLoading] = useState(false);
@@ -73,14 +82,12 @@ const Create = () => {
       });
       const errores = validation(form, imagesArray);
       setError(errores);
-      console.log("hola estoy EN EL LIMITE : ", errores)
     } else {
       error.alert =
         "No puedes agregar más de 3 imágenes.Vuelve a cargar las imagenes";
       setForm({ ...form, images: [] });
     }
   };
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -93,11 +100,11 @@ const Create = () => {
       error.color.length > 0 ||
       error.type.length > 0 ||
       error.image.length > 0 ||
-      error.imageFiles > 0
+      error.imageFiles.length > 0
     ) {
       return setError({
         ...error,
-        submit: "Hay errores en el formulario"
+        submit: "Hay errores en el formulario",
       });
     } else {
       // posteo al backend
@@ -106,9 +113,10 @@ const Create = () => {
         form
       );
       const { data } = response;
-      navigate(`/detail/${data.id}`)
+      navigate(`/detail/${data.id}`);
     }
-  }
+  };
+
   return (
     <div className="divcontainer">
       <Nav />
@@ -165,6 +173,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>Descripción</label>
             <textarea
+              maxLength="500"
               id="comentario"
               name="description"
               value={form.description}
@@ -179,6 +188,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>Marca</label>
             <input
+              maxLength="20"
               type="text"
               name="brand"
               value={form.brand}
@@ -191,6 +201,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>Categoría</label>
             <input
+              maxLength="20"
               type="text"
               name="type"
               value={form.type}
@@ -203,6 +214,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>Color</label>
             <input
+              maxLength="20"
               type="text"
               name="color"
               value={form.color}
@@ -231,11 +243,20 @@ const Create = () => {
               </div>
             </div>
 
+            {!error.imageFiles.length > 0 ? (
             <button type="submit" className="buttonsubmit_create">
-              Crear producto
+              Enviar
             </button>
+          ) : (
+            <button
+              type="submit"
+              className="buttonsubmit_create_disabled"
+              disabled
+            >
+              Enviar
+            </button>
+          )}
           </div>
-          
         </form>
         <div className="divcontainer_images_form">
           <h2 className="title_images">Imagenes seleccionadas</h2>
@@ -248,6 +269,7 @@ const Create = () => {
           <div className="images_container">
             {imageCloudinary[2] ? <img src={imageCloudinary[2]} alt="" loading="lazy" className="image" /> : <span className="imagen_ph">Imagen 3</span>}
           </div>
+
         </div>
       </div>
     </div>

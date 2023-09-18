@@ -13,7 +13,9 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllProducts());
+    if (allProducts1<1) {
+      dispatch(getAllProducts());
+    }
   }, []);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,10 +51,14 @@ const Home = () => {
   return (
     <div>
       <NavBar />
-      <div style={{ display: "flex", justifyContent: 'center', width: '100%'}}>
-        <Container style={{display: 'flex', padding: '20px'}}>
-        <Filter/>
-        <Grid sx={{width: '80%'}}>
+      <Paginate
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange}
+      />
+      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        <Filter />
+        <Grid sx={{ width: "100%" }}>
           <Cards currentProduct={currentProduct} />
         </Grid>
         </Container>
