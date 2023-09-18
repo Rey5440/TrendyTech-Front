@@ -1,5 +1,6 @@
 const regexUrl=/^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-const validationForm = (form) => {
+const regexImg=/.(jpg|jpeg|png|gif|bmp|svg)$/i;
+const validationForm = (form,imageFil) => {
     const {name, price, description, stock, brand, color, type, images}=form
     const error={
         name:'',
@@ -10,6 +11,7 @@ const validationForm = (form) => {
         color:'',
         type:'',
         images:'',
+        imageFiles:'',
     };
     
     // Validación de nombre
@@ -53,7 +55,7 @@ const validationForm = (form) => {
     else if(type.length==0) {error.type='El type no puede estar vacío'}
     else{error.type=''}
     
-    // Validación de imágenes
+    // Validación de imágenes Para url
     if (Array.isArray(images)) {
         error.image = [];
         images.forEach((item, index) => {
@@ -66,6 +68,20 @@ const validationForm = (form) => {
     }
     else if(images.length===0) {error.images=["No hay imágenes"]}
     else {error.images=''}
+
+    // ?? Validación de imágenes para tipo de archivos
+    if (Array.isArray(imageFil)) {
+        error.imageFiles = [];
+        console.log(error.imageFiles)
+        imageFil.forEach((item, index) => {
+        if (typeof item === 'string' || !regexImg.test(item)) {
+            error.imageFiles[index] = `La imagen nro ${index + 1} no es un archivo de imagen válido`;
+        } else if (typeof item !== 'string') {
+            error.imageFiles[index] = `Tipo de dato incorrecto: La imagen nro ${index + 1} debe ser una cadena de caracteres y tenes un archivo de imagen`;
+        }
+        console.log(error.imageFiles)
+      });
+    }
     
     return error
 }

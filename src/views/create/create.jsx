@@ -4,10 +4,12 @@ import Nav from "../../components/nav/nav.jsx";
 import validation from "./validation.js";
 import axios from "axios";
 import "./create.css";
+import validationForm from "./validation.js";
 const Create = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({});
   const [imageCloudinary, setImageCloudinary] = useState([]);
+  const [imageError, setImageError] = useState({});
   // const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -46,7 +48,6 @@ const Create = () => {
     const files = event.target.files;
     const imagesArray = Array.from(files);
     const uploadImage = [];
-
     const uploadPromises=imagesArray.map(async (img) => {
       const data = new FormData();
       data.append("file", img);
@@ -61,16 +62,18 @@ const Create = () => {
         console.log(error);
       }
     });
-    await Promise.all(uploadPromises);
+      await Promise.all(uploadPromises);
+    
     // Limitar a un máximo de 3 imágenes
-    if (uploadImage.length <= 3) {
+    if (uploadImage.length <= 3 || imagesArray.length <= 3) {
       setImageCloudinary(uploadImage);
       setForm({
         ...form,
         images: uploadImage,
       });
-      const errores = validation(form);
+      const errores = validation(form,imagesArray);
       setError(errores);
+      console.log("hola estoy EN EL LIMITE : ",errores)
     } else {
       error.alert =
         "No puedes agregar más de 3 imágenes.Vuelve a cargar las imagenes";
@@ -89,7 +92,8 @@ const Create = () => {
       error.brand.length>0 ||
       error.color.length>0 ||
       error.type.length>0 ||
-      error.image.length>0
+      error.image.length>0 ||
+      error.imageFiles>0
     ) {
       return setError({
         ...error,
@@ -205,6 +209,8 @@ const Create = () => {
             />
             {Array.isArray(error.image) &&
               error.image.map((img, index) => <span key={index}>{img}</span>)}
+            {Array.isArray(error.imageFiles) &&
+              error.imageFiles.map((img, index) => <span key={index}>{img}</span>)}
           </div>
           <button type="submit" className="buttonsubmit_create">
             Enviar
