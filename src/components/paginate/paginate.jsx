@@ -7,6 +7,7 @@ const Paginate = ({ handlePageChange, currentPage, totalPages }) => {
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
         variant="contained"
+        color="warning"
       >
         &larr; Anterior
       </Button>
@@ -17,6 +18,7 @@ const Paginate = ({ handlePageChange, currentPage, totalPages }) => {
           key={index + 1}
           onClick={() => handlePageChange(index + 1)}
           variant={currentPage !== index + 1 ? "outlined" : "disabled"}
+          color="warning"
         >
           {index + 1}
         </Button>
@@ -26,6 +28,7 @@ const Paginate = ({ handlePageChange, currentPage, totalPages }) => {
         onClick={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         variant="contained"
+        color="warning"
       >
         Siguiente &rarr;
       </Button>

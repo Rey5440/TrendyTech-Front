@@ -5,11 +5,11 @@ const Cards = ({ currentProduct }) => {
   return (
     <Box sx={{
       display: 'grid',
-      columnGap: 0,
-      width: '75%',
+      columnGap: 3,
+      width: '100%',
       margin: '1%',
       marginLeft: '6%',
-      rowGap: 1,
+      rowGap: 3,
       gridTemplateColumns: 'repeat(5, 1fr)',
     }}>
       {currentProduct?.map((product) => (
