@@ -60,6 +60,17 @@ const Home = () => {
           </div>
         </div>
       )}
+      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        <Filter />
+        <Grid sx={{ width: "100%" }}>
+          <Cards currentProduct={currentProduct} />
+        </Grid>
+      </div>
+      <Paginate
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };
