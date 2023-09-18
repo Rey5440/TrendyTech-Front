@@ -89,7 +89,7 @@ const Detail = () => {
                       backgroundImage: `url(${imag})`,
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
-                      backgroundSize: "40%",
+                      backgroundSize: "100%",
                       backgroundColor: "white",
                       width: "90%",
                       height: "100%",
