@@ -107,19 +107,6 @@ const Presentation = () => {
     <>
       <Nav />
       <div className="div_container_presentation">
-        <div className="button_presentation">
-          <NavLink to="/home">
-            <Button
-              variant="contained"
-              color="secondary"
-              style={{ borderRadius: "50px" }}
-              // className="button_ingresar"
-              endIcon={<RocketLaunchIcon />}
-            >
-              Ingresar
-            </Button>
-          </NavLink>
-        </div>
         <div className="div_image_carrusel">
           <img
             src={selectedImage}

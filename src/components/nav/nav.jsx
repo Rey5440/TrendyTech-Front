@@ -1,5 +1,5 @@
 import SearchBar from "../searchBar/searchBar";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Button } from "@mui/material";
 import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
 import "./nav.css";
@@ -12,18 +12,22 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import { useState } from "react";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 
 const Nav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const menuId = "primary-search-account-menu";
+  const location = useLocation();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const showButtonLogin = location.pathname === "/";
+
   return (
     <Box>
-      <AppBar position="static">
+      <AppBar position="static" color="warning">
         <Toolbar
           sx={{
             display: "flex",
@@ -74,6 +78,32 @@ const Nav = () => {
               </NavLink>
             </Box>
           </Box>
+        </Toolbar>
+      </AppBar>
+
+      <AppBar position="static" color="text">
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {showButtonLogin && (
+            <div className="button_presentation">
+              <NavLink to="/home">
+                <Button
+                  variant="contained"
+                  color="warning"
+                  style={{ borderRadius: "50px" }}
+                  // className="button_ingresar"
+                  endIcon={<RocketLaunchIcon />}
+                >
+                  Ingresar
+                </Button>
+              </NavLink>
+            </div>
+          )}
         </Toolbar>
       </AppBar>
     </Box>
