@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "@mui/material";
 import Nav from "../../components/nav/nav";
-// import Card from "../../components/card/card";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,8 +11,8 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import banner1 from "../../assets/banner-publicitario-1.png";
 import banner2 from "../../assets/banner-publicitario-2.png";
 import banner3 from "../../assets/banner-publicitario-3.png";
-
 import "./presentation.css";
+import ShowCookieBanner from "../cookies/cookie-banner";
 
 const images = [banner1, banner2, banner3];
 const images2 = [
@@ -103,6 +102,7 @@ const Presentation = () => {
   const next = () => {
     selectNewImage(selectedIndex, images);
   };
+
   return (
     <>
       <Nav />
@@ -113,9 +113,7 @@ const Presentation = () => {
               variant="contained"
               color="secondary"
               style={{ borderRadius: "50px" }}
-              // className="button_ingresar"
-              endIcon={<RocketLaunchIcon />}
-            >
+              endIcon={<RocketLaunchIcon />}>
               Ingresar
             </Button>
           </NavLink>
@@ -131,14 +129,14 @@ const Presentation = () => {
             <div className="carousel_button_prev">
               <Button
                 startIcon={<ArrowBackIosNewIcon />}
-                onClick={previous}
-              ></Button>
+                onClick={previous}></Button>
             </div>
             <div className="carousel_button_next">
               <Button endIcon={<ArrowForwardIosIcon />} onClick={next}></Button>
             </div>
           </div>
         </div>
+        <ShowCookieBanner />
         <div className="div_container_carrousel2">
           <h2>Productos de novedad</h2>
           <hr className="hr_presentation" />
