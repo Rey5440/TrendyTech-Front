@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllProducts } from "../../redux/actions";
 import { Button } from "@mui/material";
 import Nav from "../../components/nav/nav";
-// import Card from "../../components/card/card";
+import Card from "../../components/card/card";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -16,24 +18,20 @@ import banner3 from "../../assets/banner-publicitario-3.png";
 import "./presentation.css";
 
 const images = [banner1, banner2, banner3];
-const images2 = [
-  banner1,
-  banner2,
-  banner3,
-  banner1,
-  banner2,
-  banner1,
-  banner2,
-  banner3,
-  banner1,
-  banner2,
-];
 
 const Presentation = () => {
+  const dispatch = useDispatch();
+  const allProducts1 = useSelector((state) => state.allProducts1);
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [loaded, setLoaded] = useState(false);
 
+//modificamos allPrducts1 para tener los ultimos 10 abjetos que esten en la vase de datos//
+  const lastProducts = [...allProducts1].reverse();
+  const first10Products = lastProducts.slice(0, 10);
+
+  //settings del carrousel//
   var settings = {
     dots: true,
     infinite: false,
@@ -70,6 +68,7 @@ const Presentation = () => {
   };
 
   useEffect(() => {
+    dispatch(getAllProducts());
     const timer = setTimeout(() => {
       selectNewImage(selectedIndex, images);
     }, 2500);
@@ -144,12 +143,15 @@ const Presentation = () => {
           <hr className="hr_presentation" />
           <div className="div_carrousel_latest">
             <Slider {...settings}>
-              {images2.map((image, index) => (
-                <div key={index}>
-                  <img
-                    src={image}
-                    alt={`Imagen ${index}`}
-                    className="carousel-item"
+              {first10Products?.map((product, index) => (
+                <div key={index} >
+                  <Card
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    images={product.images} //ver si image es un array con imagenes
+                    price={product.price}
+                    // brand={product.brand}
                   />
                 </div>
               ))}
