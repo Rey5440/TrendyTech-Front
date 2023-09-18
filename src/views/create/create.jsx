@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
-import  {useNavigate}  from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Nav from "../../components/nav/nav.jsx";
 import validation from "./validation.js";
 import axios from "axios";
 import "./create.css";
 const Create = () => {
   const navigate = useNavigate();
-  const [error, setError] = useState({});
+  const [error, setError] = useState({
+    name: "",
+    price: "",
+    images: "",
+    imageFiles: "",
+    description: "",
+    stock: "",
+    brand: "",
+    color: "",
+    type: "",
+  });
   const [imageCloudinary, setImageCloudinary] = useState([]);
+  const [imageError, setImageError] = useState({});
   // const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
@@ -46,8 +57,7 @@ const Create = () => {
     const files = event.target.files;
     const imagesArray = Array.from(files);
     const uploadImage = [];
-
-    const uploadPromises=imagesArray.map(async (img) => {
+    const uploadPromises = imagesArray.map(async (img) => {
       const data = new FormData();
       data.append("file", img);
       data.append("upload_preset", "trendyImg");
@@ -62,14 +72,15 @@ const Create = () => {
       }
     });
     await Promise.all(uploadPromises);
+
     // Limitar a un máximo de 3 imágenes
-    if (uploadImage.length <= 3) {
+    if (uploadImage.length <= 3 || imagesArray.length <= 3) {
       setImageCloudinary(uploadImage);
       setForm({
         ...form,
         images: uploadImage,
       });
-      const errores = validation(form);
+      const errores = validation(form, imagesArray);
       setError(errores);
     } else {
       error.alert =
@@ -77,34 +88,35 @@ const Create = () => {
       setForm({ ...form, images: [] });
     }
   };
- 
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (
-      error.name.length>0 ||
-      error.price.length>0 ||
-      error.description.length>0 ||
-      error.stock.length>0 ||
-      error.brand.length>0 ||
-      error.color.length>0 ||
-      error.type.length>0 ||
-      error.image.length>0
+      error.name.length > 0 ||
+      error.price.length > 0 ||
+      error.description.length > 0 ||
+      error.stock.length > 0 ||
+      error.brand.length > 0 ||
+      error.color.length > 0 ||
+      error.type.length > 0 ||
+      error.image.length > 0 ||
+      error.imageFiles.lenght > 0
     ) {
       return setError({
         ...error,
-        submit: "Hay errores en el formulario"
+        submit: "Hay errores en el formulario",
       });
-    }else{
-    // posteo al backend
+    } else {
+      // posteo al backend
       const response = await axios.post(
         "http://localhost:3004/products/create",
         form
       );
       const { data } = response;
-      navigate(`/detail/${data.id}`)
+      navigate(`/detail/${data.id}`);
     }
-  }
+  };
+
   return (
     <div>
       <Nav />
@@ -119,7 +131,7 @@ const Create = () => {
               name="name"
               value={form.name}
               onChange={handleChange}
-              maxLength="100"
+              maxLength="70"
             />
             {error.name && <p>{error.name}</p>}
           </div>
@@ -128,6 +140,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>Precio</label>
             <input
+              maxLength="7"
               type="text"
               name="price"
               value={form.price}
@@ -140,6 +153,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>Descripcion</label>
             <textarea
+              maxLength="500"
               id="comentario"
               name="description"
               value={form.description}
@@ -152,6 +166,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>stock</label>
             <input
+              maxLength="3"
               type="text"
               name="stock"
               value={form.stock}
@@ -164,6 +179,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>brand</label>
             <input
+              maxLength="20"
               type="text"
               name="brand"
               value={form.brand}
@@ -175,6 +191,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>type</label>
             <input
+              maxLength="20"
               type="text"
               name="type"
               value={form.type}
@@ -186,6 +203,7 @@ const Create = () => {
           <div className="divlabel_input_create">
             <label>color</label>
             <input
+              maxLength="20"
               type="text"
               name="color"
               value={form.color}
@@ -205,18 +223,31 @@ const Create = () => {
             />
             {Array.isArray(error.image) &&
               error.image.map((img, index) => <span key={index}>{img}</span>)}
+            {Array.isArray(error.imageFiles) &&
+              error.imageFiles.map((img, index) => (
+                <span key={index}>{img}</span>
+              ))}
           </div>
-          <button type="submit" className="buttonsubmit_create">
-            Enviar
-          </button>
+          {!error.imageFiles.length > 0 ? (
+            <button type="submit" className="buttonsubmit_create">
+              Enviar
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="buttonsubmit_create_disabled"
+              disabled
+            >
+              Enviar
+            </button>
+          )}
         </form>
         <div className="divcontainer_images_form">
-          {
-            imageCloudinary.map((img, index) => (
-              <div key={index}>
-                <img src={img} alt="" key={index} width={"200px"} />
-              </div>
-            ))}
+          {imageCloudinary.map((img, index) => (
+            <div key={index}>
+              <img src={img} alt="" key={index} width={"200px"} />
+            </div>
+          ))}
         </div>
       </div>
     </div>
