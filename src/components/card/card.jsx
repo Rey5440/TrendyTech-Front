@@ -11,7 +11,7 @@ export default function CardTech({ images, id, name, price, brand }) {
   return (
     /*  <Card sx={{ maxWidth: 330 }}>
    <div> */
-    <Card sx={{ width: "90%", margin: "5px", display: "grid" }}>
+    <Card sx={{ width: "100%", display: "grid" }}>
       <Box sx={{ width: "100%", alignSelf: "flex-end" }}>
         <NavLink
           to={`/detail/${id}`}

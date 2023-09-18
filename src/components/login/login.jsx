@@ -4,6 +4,7 @@ import axios from 'axios'
 import useAuth from '../../context-client/hooks/useAuth'
 import logo from '../../assets/Trendy-Tech logo recortado.png'
 import './styles-login.css'
+import Nav from '../nav/nav'
 
 const Login = () => {
     const[email, setEmail] = useState('')
@@ -30,6 +31,7 @@ const Login = () => {
 
       return (
         <>
+          <Nav/>
         <div className='mainRegister'>
             <h3 className="titleLogin">
               Inicia Sesión Y haz tus  compras

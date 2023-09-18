@@ -16,3 +16,9 @@
 .Nav_IconoPerfil {
     color: white;
 }
+
+.button_presentation{
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
