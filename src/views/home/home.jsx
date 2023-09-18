@@ -13,7 +13,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (allProducts1<1) {
+    if (allProducts1 < 1) {
       dispatch(getAllProducts());
     }
   }, []);
@@ -51,17 +51,12 @@ const Home = () => {
   return (
     <div>
       <NavBar />
-      <Paginate
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-      />
       <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
         <Filter />
         <Grid sx={{ width: "100%" }}>
           <Cards currentProduct={currentProduct} />
         </Grid>
-        </Container>
+        {/* </Container> */}
       </div>
 
 
@@ -70,7 +65,7 @@ const Home = () => {
         totalPages={totalPages}
         handlePageChange={handlePageChange}
       />
-    </div>
+    </div >
   );
 };
 
