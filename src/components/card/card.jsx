@@ -8,7 +8,6 @@ import { NavLink } from "react-router-dom";
 import { Box } from "@mui/system";
 
 export default function CardTech({ images, id, name, price, brand }) {
-  console.log(CardActionArea);
   return (
     /*  <Card sx={{ maxWidth: 330 }}>
    <div> */
