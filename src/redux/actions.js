@@ -1,27 +1,16 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE } from './action-types';
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_BY_TYPES } from './action-types';
 
-export const getAllProducts = () => {
+export const getAllProducts = ()=>{
     return async function (dispatch) {
-        try {
-            const allProducts = await axios(`http://localhost:3004/products`);
-            const allBrands = await axios(`http://localhost:3004/products/brands`);
-            const allTypes = await axios(`http://localhost:3004/products/types`);
-
-            const prodData = allProducts.data;
-            const brandsData = allBrands.data;
-            const typesData = allTypes.data;
-
+        try{
+            const all = await axios(`http://localhost:3004/products`);
             return dispatch({
-                type: GET_ALL_PRODUCTS,
-                payload: {
-                    products: prodData,
-                    brands: brandsData,
-                    types: typesData
-                }
-            });
-        } catch (error) {
-            console.log(error);
+                type:GET_ALL_PRODUCTS,
+                payload: all.data
+            })
+        }catch (error) {
+            console.log(error)
         }
     }
 }
@@ -39,6 +28,31 @@ export const searchByName = (product) => {
         }catch (error) {
             console.log("searchByName error: ", error.message);
         }
+    }
+}
+
+export const orderByPrice = () => {
+    return {
+        type: ORDER_BY_PRICE
+    }
+}
+
+export const orderByName = () => {
+    return {
+        type: ORDER_BY_NAME
+    }
+}
+
+export const filterByColor = () => {
+    return {
+        type: FILTER_BY_COLOR
+    }
+}
+
+export const filterTypes = (payload) => {
+    return {
+        type: FILTER_BY_TYPES,
+        payload
     }
 }
 

@@ -1,12 +1,8 @@
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE } from "./action-types";
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_BY_TYPES } from "./action-types";
 
 const initialState = {
     allProducts1 : [], /* Para filtrar y ordenar */
-    allProducts2 : [],
-    allBrands1 : [],
-    allBrands2 : [],
-    allTypes1 : [],
-    allTypes2 : [],
+    allProducts2 : []
 }
 
 const reducer = (state = initialState, {type, payload }) =>{
@@ -14,13 +10,8 @@ const reducer = (state = initialState, {type, payload }) =>{
         case GET_ALL_PRODUCTS:
             return {
                 ...state,
-                allProducts1: payload.products,
-                allProducts2: payload.products,
-                allBrands1 : payload.brands,
-                allBrands2 : payload.brands,
-                allTypes1 : payload.types,
-                allTypes2 : payload.types,
-
+                allProducts1: payload,
+                allProducts2: payload
             }
         case SEARCH_BY_NAME:
             return {
@@ -51,6 +42,11 @@ const reducer = (state = initialState, {type, payload }) =>{
             return {
                 ...state,
                 allProducts1: products
+            }
+        case FILTER_BY_TYPES:
+            return {
+                ...state,
+                allProducts1: payload
             }
         default:
             return {...state};
