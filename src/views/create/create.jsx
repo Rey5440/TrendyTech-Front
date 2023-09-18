@@ -31,8 +31,8 @@ const Create = () => {
     type: "",
   });
 
-  useEffect(() => {}, [form, error]);
-  useEffect(() => {}, [imageCloudinary]);
+  useEffect(() => { }, [form, error]);
+  useEffect(() => { }, [imageCloudinary]);
   // HANDLERS
   const handleChange = (event) => {
     if (event.target.name == "price" || event.target.name == "stock") {
@@ -100,7 +100,7 @@ const Create = () => {
       error.color.length > 0 ||
       error.type.length > 0 ||
       error.image.length > 0 ||
-      error.imageFiles.lenght > 0
+      error.imageFiles.length > 0
     ) {
       return setError({
         ...error,
@@ -118,11 +118,15 @@ const Create = () => {
   };
 
   return (
-    <div>
+    <div className="divcontainer">
       <Nav />
+      <div className="title_container">
+        <h1>Crear un producto</h1>
+      </div>
+
       <div className="divcontainer_form_formimage">
         <form onSubmit={handleSubmit} className="divcontainer_form">
-          {error.submit && <p>{error.submit}</p>}
+          {error.submit && <p className="error">{error.submit}</p>}
           {/* NOMBRE  */}
           <div className="divlabel_input_create">
             <label>Nombre</label>
@@ -131,104 +135,115 @@ const Create = () => {
               name="name"
               value={form.name}
               onChange={handleChange}
-              maxLength="70"
+              maxLength="100"
+              className="input_create"
             />
-            {error.name && <p>{error.name}</p>}
+            {error.name && <p className="error">{error.name}</p>}
           </div>
 
-          {/* PRECIO */}
-          <div className="divlabel_input_create">
-            <label>Precio</label>
-            <input
-              maxLength="7"
-              type="text"
-              name="price"
-              value={form.price}
-              onChange={handleChange}
-            />
-            {error.price && <p>{error.price}</p>}
+          <div className="div_precio_stock">
+            {/* PRECIO */}
+            <div className="divlabel_input_create">
+              <label>Precio</label>
+              <input
+                type="text"
+                name="price"
+                value={form.price}
+                onChange={handleChange}
+                className="input_create_num"
+              />
+              {error.price && <p className="error">{error.price}</p>}
+            </div>
+
+            {/* STOCK */}
+            <div className="divlabel_input_create">
+              <label>Cantidad</label>
+              <input
+                type="text"
+                name="stock"
+                value={form.stock}
+                onChange={handleChange}
+                className="input_create_num"
+              />
+              {error.stock && <p className="error">{error.stock}</p>}
+            </div>
           </div>
 
           {/* DESCRIPCION */}
           <div className="divlabel_input_create">
-            <label>Descripcion</label>
+            <label>Descripción</label>
             <textarea
               maxLength="500"
               id="comentario"
               name="description"
               value={form.description}
               onChange={handleChange}
+              className="textarea_create"
+              placeholder="Describe tu producto."
             ></textarea>
-            {error.description && <p>{error.description}</p>}
-          </div>
-
-          {/* STOCK */}
-          <div className="divlabel_input_create">
-            <label>stock</label>
-            <input
-              maxLength="3"
-              type="text"
-              name="stock"
-              value={form.stock}
-              onChange={handleChange}
-            />
-            {error.stock && <p>{error.stock}</p>}
+            {error.description && <p className="error">{error.description}</p>}
           </div>
 
           {/* BRAND */}
           <div className="divlabel_input_create">
-            <label>brand</label>
+            <label>Marca</label>
             <input
               maxLength="20"
               type="text"
               name="brand"
               value={form.brand}
               onChange={handleChange}
+              className="input_create"
             />
-            {error.brand && <p>{error.brand}</p>}
+            {error.brand && <p className="error">{error.brand}</p>}
           </div>
           {/* TYPE */}
           <div className="divlabel_input_create">
-            <label>type</label>
+            <label>Categoría</label>
             <input
               maxLength="20"
               type="text"
               name="type"
               value={form.type}
               onChange={handleChange}
+              className="input_create"
             />
-            {error.type && <p>{error.type}</p>}
+            {error.type && <p className="error">{error.type}</p>}
           </div>
           {/* COLOR */}
           <div className="divlabel_input_create">
-            <label>color</label>
+            <label>Color</label>
             <input
               maxLength="20"
               type="text"
               name="color"
               value={form.color}
               onChange={handleChange}
+              className="input_create"
             />
-            {error.color && <p>{error.color}</p>}
+            {error.color && <p className="error">{error.color}</p>}
           </div>
           {/* IMAGENES */}
-          <div className="divlabel_input_create">
-            <label>Imagen</label>
-            <input
-              type="file"
-              name="image"
-              multiple
-              accept="image/*"
-              onChange={handleChangeImg}
-            />
-            {Array.isArray(error.image) &&
-              error.image.map((img, index) => <span key={index}>{img}</span>)}
-            {Array.isArray(error.imageFiles) &&
-              error.imageFiles.map((img, index) => (
-                <span key={index}>{img}</span>
-              ))}
-          </div>
-          {!error.imageFiles.length > 0 ? (
+          <div className="divlabel_input_create_img_btn">
+            <div className="divlabel_input_create">
+              <label>Imagen</label>
+              <input
+                type="file"
+                name="image"
+                multiple
+                accept="image/*"
+                onChange={handleChangeImg}
+                className="input_create_files"
+              />
+              <div className="error_images_container">
+                {Array.isArray(error.image) &&
+                  error.image.map((img, index) => <span className="error" key={index}>{img}</span>)}
+                {Array.isArray(error.imageFiles) &&
+                  error.imageFiles.map((img, index) => <span className="error" key={index}>{img}</span>)}
+              </div>
+            </div>
+
+            {!error.imageFiles.length > 0 ? (
             <button type="submit" className="buttonsubmit_create">
               Enviar
             </button>
@@ -241,13 +256,20 @@ const Create = () => {
               Enviar
             </button>
           )}
+          </div>
         </form>
         <div className="divcontainer_images_form">
-          {imageCloudinary.map((img, index) => (
-            <div key={index}>
-              <img src={img} alt="" key={index} width={"200px"} />
-            </div>
-          ))}
+          <h2 className="title_images">Imagenes seleccionadas</h2>
+          <div className="images_container">
+            {imageCloudinary[0] ? <img src={imageCloudinary[0]} alt="" loading="lazy" className="image" /> : <span className="imagen_ph">Imagen 1</span>}
+          </div>
+          <div className="images_container">
+            {imageCloudinary[1] ? <img src={imageCloudinary[1]} alt="" loading="lazy" className="image" /> : <span className="imagen_ph">Imagen 2</span>}
+          </div>
+          <div className="images_container">
+            {imageCloudinary[2] ? <img src={imageCloudinary[2]} alt="" loading="lazy" className="image" /> : <span className="imagen_ph">Imagen 3</span>}
+          </div>
+
         </div>
       </div>
     </div>

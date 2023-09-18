@@ -6,13 +6,14 @@ import NavBar from "../../components/nav/nav";
 import { getAllProducts } from "../../redux/actions";
 import Filter from "../../components/filter/filter";
 import Grid from "@mui/material/Grid";
+import { Container } from "@mui/material";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (allProducts1<1) {
+    if (allProducts1 < 1) {
       dispatch(getAllProducts());
     }
   }, []);
@@ -50,18 +51,21 @@ const Home = () => {
   return (
     <div>
       <NavBar />
-      <Paginate
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-      />
       <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
         <Filter />
         <Grid sx={{ width: "100%" }}>
           <Cards currentProduct={currentProduct} />
         </Grid>
+        {/* </Container> */}
       </div>
-    </div>
+
+
+      <Paginate
+        currentPage={currentPage}
+        totalPages={totalPages}
+        handlePageChange={handlePageChange}
+      />
+    </div >
   );
 };
 
