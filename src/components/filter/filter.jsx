@@ -1,21 +1,21 @@
-import './filter.css';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { filterAll } from '../../redux/actions';
-import AlertTech from "../../components/alert/alert"; 
-
+import "./filter.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { filterAll } from "../../redux/actions";
+import AlertTech from "../../components/alert/alert";
 
 const Filter = () => {
   const dispatch = useDispatch();
   const [types, setTypes] = useState([]);
   const [brands, setBrands] = useState([]);
   const [filtro, setFiltro] = useState({
-    type:'',
-    brand:'',
-    minPrice:'',
-    maxPrice:''
-  })
+    type: "",
+    brand: "",
+    minPrice: "",
+    maxPrice: "",
+  });
+  const [showAlert, setShowAlert] = useState(false);
   useEffect(() => {
     const fetchTypes = async () => {
       try {
@@ -25,7 +25,7 @@ const Filter = () => {
         const { data } = response;
         setTypes(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
     fetchTypes();
@@ -40,14 +40,14 @@ const Filter = () => {
         const { data } = response;
         setBrands(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
     fetchBrands();
   }, []);
 
   const handleTypes = (event) => {
-    setFiltro({...filtro, type: event.target.value})
+    setFiltro({ ...filtro, type: event.target.value });
     // dispatch(filterAll(filtro))
     /*  const array = []
     allProducts1.forEach((prod) => {
@@ -59,61 +59,97 @@ const Filter = () => {
     })
     console.log(array)
     setBrands(result) */
-  }
+  };
   const handleBrands = (event) => {
-    setFiltro({...filtro, brand: event.target.value})
-  }
-  const submit = ()=>{
-    dispatch(filterAll(filtro));
+    setFiltro({ ...filtro, brand: event.target.value });
+  };
+  const submit = async () => {
+    try {
+      const response = await axios(
+        `http://localhost:3004/products/filter?color=&type=${filtro.type}&brand=${filtro.brand}&minPrice=${filtro.minPrice}&maxPrice=${filtro.maxPrice}`
+      );
+      console.log(response.data);
+      if (response) {
+        dispatch(filterAll(response.data));
+      }
+    } catch (error) {
+      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 2000);
+    }
+  };
 
-  }
-  let error = "";
-  const catchError = (status) => {
-    console.log("llegue")
-    let error = status;
-    return error;
-  }
+
+  const handleMinPrice = (event) => {
+    setFiltro({ ...filtro, minPrice: event.target.value });
+  };
+  const handleMaxPrice = (event) => {
+    setFiltro({ ...filtro, maxPrice: event.target.value });
+  };
 
   return (
     <div className="FilterTech">
-      {/* {error === 404 && <AlertTech message="No hay combinaciones disponibles" type="error" />} */}
-
-      <div>
-        <select onChange={handleTypes}>
-          {types[0] &&
-            types.map((type, index) => (
-              <option key={index} value={type.id}>
-                {type.name}
-              </option>
-            ))}
-        </select>
-      </div>
-      <div>
-        <select onChange={handleBrands}>
-          {brands[0] &&
-            brands.map((brand, index) => (
-              <option key={index} value={brand.id}>
-                {brand.name}
-              </option>
-            ))}
-        </select>
-      </div>
-      <div>
+      {showAlert && (
+        <AlertTech
+          message="No hay coincidencias con los filtros asignados"
+          type="error"
+        />
+      )}
+      <div className="subdiv_filter">
         <label>
-          min price $<input type="number"></input>
+          Categorias
+          <select onChange={handleTypes}>
+            {types[0] &&
+              types.map((type, index) => (
+                <option key={index} value={type.id}>
+                  {type.name}
+                </option>
+              ))}
+          </select>
         </label>
       </div>
-      <div>
+      <div className="subdiv_filter">
         <label>
-          max price $<input type="number"></input>
+          Marcas
+          <select onChange={handleBrands}>
+            {brands[0] &&
+              brands.map((brand, index) => (
+                <option key={index} value={brand.id}>
+                  {brand.name}
+                </option>
+              ))}
+          </select>
         </label>
       </div>
-      <div>
-        <button onClick={submit}>submit</button>
+      <div className="subdiv_filter">
+        <label>
+          min price $
+          <input
+            type="number"
+            value={filtro.minPrice}
+            onChange={handleMinPrice}
+          ></input>
+        </label>
+      </div>
+      <div className="subdiv_filter">
+        <label>
+          max price $
+          <input
+            type="number"
+            value={filtro.maxPrice}
+            onChange={handleMaxPrice}
+          ></input>
+        </label>
+      </div>
+      <div className="div_button_filter">
+        <button onClick={submit} className="button_submit_filter">
+          submit
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default Filter;
 

@@ -50,18 +50,13 @@ export const orderByName = () => {
 } */
 
 export const filterAll = (payload) => {
-    return async function (dispatch) {
-        try{
-            const response = await axios(`http://localhost:3004/products/filter?color=&type=${payload.type}&brand=${payload.brand}&minPrice=${payload.minPrice}&maxPrice=${payload.maxPrice}`);
-            return dispatch({
-                type:FILTER_ALL,
-                payload: response.data
-            })
-        }catch (error) {
-            console.log("Type Error: ", error.message);
-        }
-    }
-}
+  return function (dispatch) {
+    return dispatch({
+      type: FILTER_ALL,
+      payload: payload,
+    });
+  };
+};
 
 //http://localhost:3004/products/filter?color=1&type=1&brand=3&minPrice=100&maxPrice=100000
 // ejemplo de ruta pata filtro combinado
