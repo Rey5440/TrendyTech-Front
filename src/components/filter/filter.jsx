@@ -35,7 +35,7 @@ const Filter = () => {
         <button >Clear filters</button>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Filter;
