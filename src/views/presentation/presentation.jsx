@@ -14,6 +14,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import banner1 from "../../assets/banner-publicitario-1.png";
 import banner2 from "../../assets/banner-publicitario-2.png";
 import banner3 from "../../assets/banner-publicitario-3.png";
+import Footer from "../footer/footer"
 
 import "./presentation.css";
 
@@ -155,6 +156,8 @@ const Presentation = () => {
           </div>
           <hr className="hr_presentation" />
         </div>
+        <hr />
+          <Footer />
       </div>
     </>
   );
