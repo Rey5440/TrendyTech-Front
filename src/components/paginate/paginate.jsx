@@ -1,8 +1,16 @@
 import Button from "@mui/material/Button";
-import './paginate.css';
+import "./paginate.css";
 const Paginate = ({ handlePageChange, currentPage, totalPages }) => {
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', marginTop: '10px'}}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "20px",
+        paddingBottom: "20px",
+      }}
+    >
       <Button
         onClick={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -14,7 +22,7 @@ const Paginate = ({ handlePageChange, currentPage, totalPages }) => {
       {Array.from({ length: totalPages }, (_, index) => (
         <Button
           // variant="text"
-          sx={{margin: '2px', marginLeft: '5px', marginRight: '5px'}}
+          sx={{ margin: "2px", marginLeft: "5px", marginRight: "5px" }}
           key={index + 1}
           onClick={() => handlePageChange(index + 1)}
           variant={currentPage !== index + 1 ? "outlined" : "disabled"}

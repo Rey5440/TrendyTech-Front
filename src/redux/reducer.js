@@ -54,7 +54,6 @@ const reducer = (state = initialState, {type, payload }) =>{
                 allProducts1: products
             }
         case FILTER_ALL:
-            console.log(payload)
             return {
                 ...state,
                 allProducts1: payload
