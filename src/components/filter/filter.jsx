@@ -1,94 +1,93 @@
-<<<<<<< HEAD
 
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { filterProducts } from "../../redux/actions";
-import "./filter.css";
+// import { useState } from "react";
+// import { useDispatch } from "react-redux";
+// // import { filterProducts } from "../../redux/actions";
+// import "./filter.css";
 
-const Filter = () => {
-  const dispatch = useDispatch();
+// const Filter = () => {
+//   const dispatch = useDispatch();
 
-  const [filterOptions, setFilterOptions] = useState({
-    brand: "",
-    minPrice: "",
-    maxPrice: "",
-    colorId: "", // Agrega colorId
-    typeId: "",  // Agrega typeId
-  });
+//   const [filterOptions, setFilterOptions] = useState({
+//     brand: "",
+//     minPrice: "",
+//     maxPrice: "",
+//     colorId: "", // Agrega colorId
+//     typeId: "",  // Agrega typeId
+//   });
 
-  const handleBrandSelect = (event) => {
-    const brand = event.target.value;
-    setFilterOptions((prevOptions) => ({ ...prevOptions, brand }));
-    dispatch(
-      filterProducts(
-        filterOptions.colorId, // Pasa colorId
-        filterOptions.typeId,  // Pasa typeId
-        brand,
-        filterOptions.minPrice,
-        filterOptions.maxPrice
-      )
-    );
-  };
+//   const handleBrandSelect = (event) => {
+//     const brand = event.target.value;
+//     setFilterOptions((prevOptions) => ({ ...prevOptions, brand }));
+//     dispatch(
+//       filterProducts(
+//         filterOptions.colorId, // Pasa colorId
+//         filterOptions.typeId,  // Pasa typeId
+//         brand,
+//         filterOptions.minPrice,
+//         filterOptions.maxPrice
+//       )
+//     );
+//   };
 
-  const handlePriceFilter = () => {
-    const { brand, minPrice, maxPrice, colorId, typeId } = filterOptions;
-    dispatch(filterProducts(colorId, typeId, brand, minPrice, maxPrice));
-  };
+//   const handlePriceFilter = () => {
+//     const { brand, minPrice, maxPrice, colorId, typeId } = filterOptions;
+//     dispatch(filterProducts(colorId, typeId, brand, minPrice, maxPrice));
+//   };
 
-  return (
-    <div className="navbar navbar-expand-lg bg-body-tertiary containerFilter">
-      <h4>Brand</h4>
-      <select
-        className="form-select"
-        name="selectedBrand"
-        onChange={handleBrandSelect}
-        value={filterOptions.brand}
-      >
-        <option disabled>Select brand</option>
-        {/* Tu código para mapear las opciones de marca aquí */}
-      </select>
+//   return (
+//     <div className="navbar navbar-expand-lg bg-body-tertiary containerFilter">
+//       <h4>Brand</h4>
+//       <select
+//         className="form-select"
+//         name="selectedBrand"
+//         onChange={handleBrandSelect}
+//         value={filterOptions.brand}
+//       >
+//         <option disabled>Select brand</option>
+//         {/* Tu código para mapear las opciones de marca aquí */}
+//       </select>
 
-      <h4>Price</h4>
-      <div className="containerPrice">
-        <label>
-          <input
-            className="inputPrice"
-            type="number"
-            min="0"
-            name="minPrice"
-            value={filterOptions.minPrice}
-            onChange={(e) =>
-              setFilterOptions((prevOptions) => ({
-                ...prevOptions,
-                minPrice: e.target.value,
-              }))
-            }
-            placeholder="Price Min"
-          />
-          <input
-            className="inputPrice"
-            type="number"
-            min="0"
-            name="maxPrice"
-            value={filterOptions.maxPrice}
-            onChange={(e) =>
-              setFilterOptions((prevOptions) => ({
-                ...prevOptions,
-                maxPrice: e.target.value,
-              }))
-            }
-            placeholder="Price Max"
-          />
-        </label>
-      </div>
-      <button className="btnPrice" onClick={handlePriceFilter}>
-        Search
-      </button>
-    </div>
-  );
-};
+//       <h4>Price</h4>
+//       <div className="containerPrice">
+//         <label>
+//           <input
+//             className="inputPrice"
+//             type="number"
+//             min="0"
+//             name="minPrice"
+//             value={filterOptions.minPrice}
+//             onChange={(e) =>
+//               setFilterOptions((prevOptions) => ({
+//                 ...prevOptions,
+//                 minPrice: e.target.value,
+//               }))
+//             }
+//             placeholder="Price Min"
+//           />
+//           <input
+//             className="inputPrice"
+//             type="number"
+//             min="0"
+//             name="maxPrice"
+//             value={filterOptions.maxPrice}
+//             onChange={(e) =>
+//               setFilterOptions((prevOptions) => ({
+//                 ...prevOptions,
+//                 maxPrice: e.target.value,
+//               }))
+//             }
+//             placeholder="Price Max"
+//           />
+//         </label>
+//       </div>
+//       <button className="btnPrice" onClick={handlePriceFilter}>
+//         Search
+//       </button>
+//     </div>
+//   );
+// };
 
-export default Filter;
+// export default Filter;
 
 // import { useState } from "react";
 // import {  useDispatch } from "react-redux";
@@ -281,7 +280,7 @@ export default Filter;
 //     )
 // }
 
-=======
+
 import './filter.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -434,4 +433,4 @@ length
 [[Prototype]]
 : 
 Array(0) */
->>>>>>> Dev
+
