@@ -8,6 +8,7 @@ import "./detail.css";
 import { Box, Container } from "@mui/system";
 
 import Loader from "../../components/loader/loader";
+import Footer from "../footer/footer"
 
 const Detail = () => {
   const { id } = useParams();
@@ -115,6 +116,8 @@ const Detail = () => {
           </div>
         </Container>
       )}
+      <hr />
+      <Footer/>
     </div>
   );
 };
