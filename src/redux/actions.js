@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL } from './action-types';
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, ADD_TO_CART, REMOVE_FROM_CART } from './action-types';
 
 export const getAllProducts = ()=>{
     return async function (dispatch) {
@@ -60,3 +60,17 @@ export const filterAll = (payload) => {
 
 //http://localhost:3004/products/filter?color=1&type=1&brand=3&minPrice=100&maxPrice=100000
 // ejemplo de ruta pata filtro combinado
+
+export const addToCart = (payload) => {
+    return {
+        type: ADD_TO_CART,
+        payload: payload
+    }
+}
+
+export const removeFromCart = (payload) => {
+    return {
+        type: REMOVE_FROM_CART,
+        payload: payload
+    }
+}
