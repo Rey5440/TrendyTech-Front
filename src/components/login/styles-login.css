@@ -1,8 +1,20 @@
-.mainRegister{
+/* .mainRegister{
     height: 100%;
     display: flex;
     flex-direction: column;
 justify-content: end;
+    margin: 3rem;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+} */
+
+.mainRegister{
+    /* background-color: rgb(245, 247, 255);
+    padding: 3rem;
+    color: rgb(221, 214, 204); */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
     margin: 3rem;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }

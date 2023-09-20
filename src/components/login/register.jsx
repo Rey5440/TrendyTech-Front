@@ -4,6 +4,7 @@ import logo from '../../assets/Trendy-Tech logo recortado.png'
 import axios from 'axios'
 import './styles-login.css'
 import Nav from '../nav/nav';
+import AlertTech from '../alert/alert';
 
 
 const Register = () => {
@@ -11,6 +12,7 @@ const Register = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repetirPassword, setRepetirPassword] = useState('');
+    const [showConfirmationAlert, setShowConfirmationAlert] = useState(false);
 
 const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,6 +24,8 @@ const handleSubmit = async (e) => {
         setEmail('');
         setPassword('');
         setRepetirPassword('');
+
+        setShowConfirmationAlert(true);
     } catch (error) {
         console.log(error)
         }
@@ -39,6 +43,10 @@ const handleSubmit = async (e) => {
           <Nav/>
           <div className="mainRegister">
             <h3 className="titleLogin">Crea una cuenta para hacer tu compra</h3>
+
+            {showConfirmationAlert && ( // Mostrar la alerta de confirmación si showConfirmationAlert es true
+                    <AlertTech message="Se ha enviado un email a tu casilla de correo para que confirmes tu cuenta" type="success" />
+            )}
     
             {/* {msg && <Alerta alerta={alerta} />} */}
     
