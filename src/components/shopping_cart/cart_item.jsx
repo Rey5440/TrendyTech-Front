@@ -1,24 +1,31 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../../redux/actions';
 
-const CartItem = ({ product }) => {
+const CartItem = ({ product, onQuantityChange }) => {
     const { id, name, price, images, stock } = product;
     const [quantity, setQuantity] = useState(1);
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        onQuantityChange(quantity)
+    }, [])
+
     let handleAddQuantity = () => {
         quantity != stock ? setQuantity(quantity + 1) : setQuantity(stock);
+        onQuantityChange(quantity);
     }
 
     let handleRemoveQuantity = () => {
         quantity != 1 ? setQuantity(quantity - 1) : setQuantity(1);
+        onQuantityChange(quantity);
     }
 
     let handleRemoveFromCart = () => {
         dispatch(removeFromCart(id));
     }
+
     return (
         <div>
             <div>
