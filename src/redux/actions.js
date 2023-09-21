@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT } from './action-types';
 
+
 export const getAllProducts = ()=>{
     return async function (dispatch) {
         try{

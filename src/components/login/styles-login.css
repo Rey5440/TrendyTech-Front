@@ -1,8 +1,22 @@
+.mainConfirm{
+    height: 100%;
+    display: block;
+    justify-content: end;
+    margin: 4rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #fc6933;
+    padding: 3rem;
+    text-align: center;
+    margin-top: 14rem;
+}
 .mainRegister{
+    /* background-color: rgb(245, 247, 255);
+    padding: 3rem;
+    color: rgb(221, 214, 204); */
     height: 100%;
     display: flex;
     flex-direction: column;
-justify-content: end;
+    justify-content: end;
     margin: 3rem;
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
@@ -37,6 +51,8 @@ justify-content: end;
 .inputLogin{
     height: 3rem;
     width: 20rem;
+    background-color: #a0340d;
+    color: wheat;
 }
 
 .label{
@@ -84,3 +100,4 @@ justify-content: end;
     background-color: #c92121bf; /* Cambio de color en el hover */
     transform: scale(1.1); /* Agrandamiento en el hover */
   }
+

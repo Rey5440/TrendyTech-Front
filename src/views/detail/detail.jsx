@@ -11,6 +11,7 @@ import Loader from "../../components/loader/loader";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlert } from "../../redux/actions";//---------> para el setAlert
 import AlertTech from '../../components/alert/alert'
+import Footer from "../footer/footer"
 
 const Detail = () => {
   const { id } = useParams();
@@ -131,6 +132,8 @@ const Detail = () => {
         </Container>
       )}
       <buton onClick={handleAlert}>presione para ver el alerta</buton>
+      <hr />
+      <Footer/>
     </div>
   );
 };
