@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from './action-types';
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from './action-types';
+
 
 export const getAllProducts = ()=>{
     return async function (dispatch) {
@@ -55,6 +56,25 @@ export const filterAll = (payload) => {
                 type:FILTER_ALL,
                 payload: payload
             })
+    }
+}
+
+export const setAlert = (message, type) => {
+    return dispatch => {
+        dispatch({
+            type: SHOW_ALERT,
+            payload: {
+                message,
+                type
+            }
+        });
+
+        // Limpia el alerta después de 3 segundos
+        setTimeout(() => {
+            dispatch({
+                type: HIDE_ALERT
+            });
+        }, 3000);
     }
 }
 
