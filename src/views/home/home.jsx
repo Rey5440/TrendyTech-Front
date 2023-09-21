@@ -33,10 +33,8 @@ const Home = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      setUserData(user);
       postUser();
     } else {
-      setUserData(null);
     }
   }, [isAuthenticated, user]);
 
