@@ -1,5 +1,9 @@
 import axios from 'axios';
+
+// import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE,} from './action-types';
+
 import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL } from './action-types';
+
 
 export const getAllProducts = ()=>{
     return async function (dispatch) {

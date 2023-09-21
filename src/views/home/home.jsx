@@ -15,6 +15,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     dispatch(getAllProducts());
     setTimeout(() => {
