@@ -50,10 +50,20 @@ const reducer = (state = initialState, {type, payload }) =>{
                 allProducts1: payload
             }
         case ADD_TO_CART:
-            return {
-                ...state,
-                shoppingCart: [...state.shoppingCart, payload]
+            let found = state.shoppingCart.find(product => product.id === payload.id);
+            if(found){
+                console.log("ya esta en el carrito");
+                return {
+                    ...state,
+                    shoppingCart: state.shoppingCart
+                }
+            } else{
+                return {
+                    ...state,
+                    shoppingCart: [...state.shoppingCart, payload]
+                }
             }
+
         case REMOVE_FROM_CART:
             return {
                 ...state,

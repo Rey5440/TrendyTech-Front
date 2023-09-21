@@ -61,16 +61,17 @@ export const filterAll = (payload) => {
 //http://localhost:3004/products/filter?color=1&type=1&brand=3&minPrice=100&maxPrice=100000
 // ejemplo de ruta pata filtro combinado
 
-export const addToCart = (payload) => {
+export const addToCart = (product) => {
+    console.log("producto añadido al carrito: ", product)
     return {
         type: ADD_TO_CART,
-        payload: payload
+        payload: product
     }
 }
 
-export const removeFromCart = (payload) => {
+export const removeFromCart = (id) => {
     return {
         type: REMOVE_FROM_CART,
-        payload: payload
+        payload: id
     }
 }

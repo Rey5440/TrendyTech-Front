@@ -5,6 +5,7 @@ import Create from "./views/create/create";
 import Presentation from "./views/presentation/presentation";
 import Login from "./components/login/login";
 import Register from "./components/login/register";
+import ShoppingCart from "./components/shopping_cart/shopping_cart";
 
 import { AuthProvider } from "./context-client/context/authProvider";
 
@@ -20,6 +21,7 @@ function App() {
             <Route path="/create" element={<Create />} />
             <Route path="/login" element={<Login />} />
             <Route path="/login/register" element={<Register />} />
+            <Route path="/shopping-cart" element={<ShoppingCart />} />
           </Routes>
       </AuthProvider>
 

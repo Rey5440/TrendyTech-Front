@@ -43,7 +43,7 @@ const Nav = () => {
     "/home",
     "/detail",
     "/create",
-    "/ruta-Carrito",
+    "/shopping-cart",
   ];
 
   const shouldShowNav = !pathsWithNavSecondary.some((path) =>
@@ -77,7 +77,7 @@ const Nav = () => {
                   Crear
                 </Button>
               </NavLink>
-              <NavLink to="/ruta-Carrito" className="Nav_IconoCarrito">
+              <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"
