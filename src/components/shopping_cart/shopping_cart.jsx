@@ -7,7 +7,7 @@ import './shopping_cart.css';
 const ShoppingCart = () => {
     let cart = useSelector(state => state.shoppingCart);
     console.log("productos en carrito: ", cart);
-    
+    //FALTA CALCULAR EL TOTAL DE LOS PRODUCTOS EN EL CARRITO SEGÚN SU CANTIDAD SETEADA EN EL COMPONENTE CART_ITEM  
 
     return (
         <div>
@@ -27,7 +27,12 @@ const ShoppingCart = () => {
                             {cart.length === 1 ? (
                                 <div>
                                     <h3>Producto</h3>
-                                    <p>{}</p>
+                                    <p>total</p>
+                                </div>
+                            ) : (
+                                <div>
+                                    <h3>Productos</h3>
+                                    <p>total</p>
                                 </div>
                             )}
                         </div>
