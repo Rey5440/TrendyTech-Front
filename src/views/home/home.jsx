@@ -8,6 +8,7 @@ import Filter from "../../components/filter/filter";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
+import Footer from "../footer/footer";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -58,14 +59,15 @@ const Home = () => {
               <Cards currentProduct={currentProduct} />
             </Grid>
           </Container>
+          
         </div>
       )}
-
       <Paginate
         currentPage={currentPage}
         totalPages={totalPages}
         handlePageChange={handlePageChange}
       />
+      <Footer />
     </div>
   );
 };
