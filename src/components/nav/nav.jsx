@@ -77,7 +77,7 @@ const Nav = () => {
                   Crear
                 </Button>
               </NavLink>
-              <NavLink to="/ruta-Carrito" className="Nav_IconoCarrito">
+              <NavLink to="/cart" className="Nav_IconoCarrito">
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"
