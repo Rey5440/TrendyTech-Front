@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../../redux/actions';
+import './cart_item.css';
 
 const CartItem = ({ product, onQuantityChange }) => {
     const { id, name, price, images, stock } = product;
@@ -10,7 +11,7 @@ const CartItem = ({ product, onQuantityChange }) => {
 
     useEffect(() => {
         onQuantityChange(quantity)
-    }, [])
+    }, [quantity]);
 
     let handleAddQuantity = () => {
         quantity != stock ? setQuantity(quantity + 1) : setQuantity(stock);
@@ -27,20 +28,21 @@ const CartItem = ({ product, onQuantityChange }) => {
     }
 
     return (
-        <div>
-            <div>
-                <img src={images[0]} />
+        <div className='cart-item-container'>
+            <div className='cart-item-info'>
+                <div className='cart-item-image-container'>
+                  <img src={images[0]} className='cart-item-img'/>  
+                </div>
                 <h2>{name}</h2>
                 <p>{price}</p>
                 <p>{id}</p>
-               
             </div>
-            <div>
+            <div className='cart-item-quantity'>
                 <button onClick={handleRemoveQuantity}>-</button>
                 <p>{quantity}</p>
                 <button onClick={handleAddQuantity}>+</button>
             </div>
-            <div>
+            <div className='cart-item-remove'>
                 <button onClick={handleRemoveFromCart}>Eliminar del carrito</button>
             </div>
         </div>

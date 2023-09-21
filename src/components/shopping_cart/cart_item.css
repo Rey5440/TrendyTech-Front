@@ -1,0 +1,24 @@
+.cart-item-container {
+    display: flex;
+    align-items: center;
+    background-color: red;
+    width: 55%;
+    height: 10rem;
+}
+
+.cart-item-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: white;
+}
+
+.cart-item-image-container {
+    width: 20%;
+    background-color: white;
+}
+
+.cart-item-img {
+    width: 100%;
+    object-fit: contain;
+}

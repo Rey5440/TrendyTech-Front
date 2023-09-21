@@ -18,8 +18,8 @@ const ShoppingCart = () => {
         <div>
             <Nav />
             {cart.length === 0 ? (<h2>No hay productos en el carrito</h2>) : (
-                <div>
-                    <div>
+                <div className='cart'>
+                    <div className='cart-items'>
                         {cart.map(product => (
                             <div>
                                 <CartItem key={product.id} product={product} onQuantityChange={onQuantityChange}/>    
