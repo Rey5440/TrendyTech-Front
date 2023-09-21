@@ -11,7 +11,7 @@ const CartItem = ({ product, onQuantityChange }) => {
 
     useEffect(() => {
         onQuantityChange(quantity)
-    }, [quantity]);
+    }, [quantity])
 
     let handleAddQuantity = () => {
         quantity != stock ? setQuantity(quantity + 1) : setQuantity(stock);
@@ -25,6 +25,7 @@ const CartItem = ({ product, onQuantityChange }) => {
 
     let handleRemoveFromCart = () => {
         dispatch(removeFromCart(id));
+        onQuantityChange(0);
     }
 
     return (
