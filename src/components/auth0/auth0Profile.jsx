@@ -1,17 +1,35 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 const UserProfile = () => {
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [userData, setUserData] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [userResponse, setUserResponse] = useState({});
+
+  console.log(userData);
+  console.log(userResponse);
+
+  const postUser = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3004/users/auth",
+        user
+      );
+      const { data } = response;
+      setUserResponse(data);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
-      setUserData(user); 
+      setUserData(user);
       obtenerToken();
-      
+      postUser();
     } else {
       setUserData(null);
       setAccessToken(null);
@@ -21,14 +39,11 @@ const UserProfile = () => {
   const obtenerToken = async () => {
     try {
       const token = await getAccessTokenSilently();
-      setAccessToken(token); 
+      setAccessToken(token);
     } catch (error) {
       console.error("Error al obtener el token de acceso:", error);
     }
   };
-
-  console.log(userData);
-  console.log(accessToken);
 
   return (
     <div>
@@ -37,7 +52,9 @@ const UserProfile = () => {
           <h2>Datos del Usuario</h2>
           <p>Nombre: {userData?.name}</p>
           <p>Email: {userData?.email}</p>
-          <p>Imagen de Perfil: <img src={userData?.picture} alt="Perfil" /></p>
+          <p>
+            Imagen de Perfil: <img src={userData?.picture} alt="Perfil" />
+          </p>
           <p>Token de Acceso: {accessToken}</p>
         </div>
       ) : (

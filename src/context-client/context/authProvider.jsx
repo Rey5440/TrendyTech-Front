@@ -14,8 +14,7 @@ const AuthProvider = ({children}) => {
       });
     const [cargando, setCargando] = useState(true)
 
-    console.log(auth)
-    console.log(cargando)
+   
 
     const navigate = useNavigate()
 
