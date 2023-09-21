@@ -7,14 +7,10 @@ import Login from "./components/login/login";
 import Register from "./components/login/register";
 import ConfirmAccount from "./components/login/confirmAccount";
 import ForgetPassword from "./components/login/forgetPassword";
-
-
 import { AuthProvider } from "./context-client/context/authProvider";
 import UserForUser from "./views/userForUser/userForUser";
 
 function App() {
-
-
   return (
     <div>
       <AuthProvider>
@@ -31,9 +27,8 @@ function App() {
             <Route path="/user" element={<UserForUser />} />
           </Routes>
       </AuthProvider>
-
     </div>
   );
 }
 
-export default App
+export default App;
