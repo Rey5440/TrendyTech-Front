@@ -8,14 +8,24 @@ import "./detail.css";
 import { Box, Container } from "@mui/system";
 
 import Loader from "../../components/loader/loader";
+import { useDispatch, useSelector } from "react-redux";
+import { setAlert } from "../../redux/actions";//---------> para el setAlert
+import AlertTech from '../../components/alert/alert'
 
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [imagePP, setImagePP] = useState();
-
   const [loading, setLoading] = useState(true);
 
+  /* ---------para usar el alert------------- */
+  const alertState = useSelector(state => state.alert)
+  const dispatch = useDispatch();
+  /* ------------------------------------------ */
+  const handleAlert = () => {
+    dispatch(setAlert("  HOLA CALENEEENIUSS   ", "success"));
+
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -23,11 +33,13 @@ const Detail = () => {
           `http://localhost:3004/products/${id}`
         );
         const { data } = response;
+        dispatch(setAlert("  este es tu producto  ", "success"));
         setProduct(data);
         setTimeout(() => {
           setLoading(false);
         }, 2000);
       } catch (error) {
+        dispatch(setAlert("  el id del producto no existe  ", "error"));
         console.log(error);
         setLoading(false);
       }
@@ -44,6 +56,9 @@ const Detail = () => {
   return (
     <div>
       <Nav />
+      {alertState.visible && 
+        <AlertTech message={alertState.message} type={alertState.type} />
+      }
       {loading ? (
         <Loader />
       ) : (
@@ -115,6 +130,7 @@ const Detail = () => {
           </div>
         </Container>
       )}
+      <buton onClick={handleAlert}>presione para ver el alerta</buton>
     </div>
   );
 };
