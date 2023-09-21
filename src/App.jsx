@@ -24,7 +24,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/login/register" element={<Register />} />
             <Route path="/confirm/:id" element={<ConfirmAccount />} />
-            <Route path="/login/reset-password" element={<ForgetPassword />} />
+            <Route path="/reset-password" element={<ForgetPassword />} />
           </Routes>
       </AuthProvider>
 

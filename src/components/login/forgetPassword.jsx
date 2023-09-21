@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import AlertTech from '../alert/alert';
 import axios from 'axios'
+import imageLogo from '../../assets/Trendy-Tech logo recortado.png'
 
 const ForgetPassword = () => {
     const [email, setEmail] = useState("");
-    // const [alert, setAlert] = useState({});
+    const [confirmationAlert, setConfirmationAlert] = useState(null);
   
     const handleInputChange = (e, setState) => {
       // Eliminar espacios en blanco al principio y al final del valor
@@ -18,28 +20,30 @@ const ForgetPassword = () => {
       e.preventDefault();
   
       if ([email].includes("")) {
-        // setAlert({
-        //   msg: "Debes introducir el email de registro para poder acceder a la recuperación de tu password",
-        //   error: true,
-        // });
+        showAlert('error', 'El campo email no puede ir vacío.');
         return;
       }
   
       try {
         const { data } = await axios.post( "http://localhost:3004/users/reset-password",{ email });
-  
-        // setAlert({
-        //   msg: data.msg,
-        //   error: false,
-        // });
-  
-        // setEmail('');
+
+        showAlert('success', 'Se ha enviado un email a tu casilla de correo con los pasos a seguir para recuperar tu cuenta');
+        setEmail('');
       } catch (error) {
-        // setAlert({
-        //   msg: error.response.data.msg,
-        //   error: true,
-        // });
+
+        console.log(error.response.data.msg)
+          showAlert('error', error.response.data.msg);
       }
+    };
+
+    const showAlert = (type, message) => {
+      // Mostrar la alerta
+      setConfirmationAlert({ type, message });
+  
+      // Limpiar la alerta después de 3 segundos (3000 ms)
+      setTimeout(() => {
+        setConfirmationAlert(null);
+      }, 3000);
     };
   
     // const { msg } = alert;
@@ -50,8 +54,9 @@ const ForgetPassword = () => {
           <h3 className="titleLogin">
             Recupera el acceso a tu cuenta de Trendy-Spot
           </h3>
-    
-          {/* {msg && <Alert alerta={alert} />} */}
+          {confirmationAlert && (
+              <AlertTech message={confirmationAlert.message} type={confirmationAlert.type} />
+            )}
   
           <form action="" className="formRegister" onSubmit={handleSubmit}>
             <div className="columna">
@@ -78,7 +83,7 @@ const ForgetPassword = () => {
             
         
                     <NavLink to="/">
-                        {/* <img src={imageLogo} alt="logo-home" className='logoRegister' />   */}
+                        <img src={imageLogo} alt="logo-home" className='logoRegister' />  
                     </NavLink>
              
   

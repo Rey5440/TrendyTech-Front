@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import AlertTech from '../alert/alert';
 import axios from 'axios'
 
 const NewPassword = () => {
@@ -8,6 +9,9 @@ const NewPassword = () => {
     const [validToken, setValidToken] = useState(false);
     // const [alert, setAlert] = useState({});
     const [passwordModified, setPasswordModified] = useState(false);
+    const [showAlertError, setShowAlertError] = useState(false);
+    const [showErrorPassword, setShowErrorPassword] = useState(false);
+    
   
     const params = useParams();
     const { token } = params;
@@ -18,6 +22,7 @@ const NewPassword = () => {
           await axios(`http://localhost:3004/users/reset-password/${token}`);
           setValidToken(true);
         } catch (error) {
+            setShowAlertError(true);
         //   setAlert({
         //     msg: error.response.data.msg,
         //     error: true,

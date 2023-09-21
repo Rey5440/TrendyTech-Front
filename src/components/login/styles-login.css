@@ -1,12 +1,14 @@
-/* .mainRegister{
+.mainConfirm{
     height: 100%;
-    display: flex;
-    flex-direction: column;
-justify-content: end;
-    margin: 3rem;
-    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-} */
-
+    display: block;
+    justify-content: end;
+    margin: 4rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: #fc6933;
+    padding: 3rem;
+    text-align: center;
+    margin-top: 14rem;
+}
 .mainRegister{
     /* background-color: rgb(245, 247, 255);
     padding: 3rem;
@@ -49,6 +51,8 @@ justify-content: end;
 .inputLogin{
     height: 3rem;
     width: 20rem;
+    background-color: #a0340d;
+    color: wheat;
 }
 
 .label{
@@ -96,3 +100,171 @@ justify-content: end;
     background-color: #c92121bf; /* Cambio de color en el hover */
     transform: scale(1.1); /* Agrandamiento en el hover */
   }
+
+
+  .div-cards{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content:center ;
+    margin-top: 6rem;
+}
+
+.card{
+    background-image: linear-gradient(-223deg,rgb(244, 244, 244) 0%, rgb(255, 255, 255)47%, rgb(199, 178, 178) 100% ) ;
+    background-color: rgb(32, 63, 63);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.descripcionCard{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.botonSitio{
+    width: 100%;
+    font-size: 1rem;
+    background-color: rgb(237, 237, 237);
+    border: 4%; 
+    cursor: pointer;
+    color: rgb(205, 77, 77);
+    text-align: center;
+}
+
+.botonSitio p{
+    margin-top: 0.5rem;
+}
+
+.imgProject{
+    width: 20rem;
+    height: 25rem;
+}
+
+
+.enlaces{
+    text-decoration: none;
+    text-align: center;
+    border-radius: 3%;
+    margin-top: 1rem;
+    padding: 0.8rem;
+    background-color: rgb(245, 254, 254);
+    gap: 1rem;
+}
+
+#enlacesAPV{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+}
+
+.iconGitHub{
+    margin-left: 7rem;
+}
+
+/* ----------------------------------- STYLES------------- MODAL ---------------------*/
+
+.dialog-project{
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    /* right: 0; */
+    bottom: 0;
+    left: 0;
+    /* overflow-y: auto; */
+    margin-top: 2rem;
+    height: 100%;
+    width: 70%;
+}
+
+.modal-container{
+    display: block;
+    /* align-items: flex-end; */
+    margin: 0 auto;
+    margin-top: 3rem;
+    justify-content: center;
+    min-height: 100vh;
+    /* padding-top: 4rem; */
+    padding-right: 4rem;
+    /* padding-bottom: 20rem; */
+    padding-left: 4rem;
+    text-align: center;
+}
+
+.dialog-content-project{
+    display: inline-block;
+    vertical-align: bottom;
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 0.5rem; /* Bordes redondeados */
+    padding: 1rem; /* Relleno */
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    transform: all 0.2s ease; /* Transición de todos los atributos */
+}
+
+.wall-app{
+    width: 20rem;
+}
+
+.title-project{
+    text-align: center;
+    border-style:double;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.content-resume-project{
+    margin-top: 0.75rem; /* Margen superior personalizado (ajusta según tus necesidades) */
+    text-align: center;
+    width: 100%;
+    border-style:ridge;
+    padding: 0.3rem;
+}
+
+@media screen and (min-width: 640px) {
+    .content-resume-project {
+      margin-top: 0; /* Elimina el margen en dispositivos con una anchura mínima de pantalla de 640px */
+      margin-left: 1rem; /* Margen izquierdo personalizado para dispositivos más grandes (ajusta según tus necesidades) */
+      text-align: left;
+    }
+  }
+  
+.info-project{
+    margin-top: 4rem;
+    display: flex;
+
+}
+
+.div-img-project{
+    border-style:double;
+    padding: 0.5rem;
+}
+
+.div-technologies{
+    border-style:double;
+}
+
+.technologies{
+    display: flex;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    gap: 2rem;
+    
+    justify-content: center;
+}
+
+.title-technologies{
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.info-app-column{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.icon-skill{
+    width: 3rem;
+}
