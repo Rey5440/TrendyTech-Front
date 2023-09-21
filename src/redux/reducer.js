@@ -1,9 +1,9 @@
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, ADD_TO_CART } from "./action-types";
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, ADD_TO_CART, REMOVE_FROM_CART } from "./action-types";
 
 const initialState = {
     allProducts1 : [], /* Para filtrar y ordenar */
-    allProducts2 : [], /* Estado original */
-    shoppingCart: [], /* Carrito de compras */
+    allProducts2 : [],
+    shoppingCart : [],
 }
 
 const reducer = (state = initialState, {type, payload }) =>{
@@ -50,14 +50,24 @@ const reducer = (state = initialState, {type, payload }) =>{
                 allProducts1: payload
             }
         case ADD_TO_CART:
-            return {
-                ...state,
-                shoppingCart: [...state.shoppingCart, payload]
+            let found = state.shoppingCart.find(product => product.id === payload.id);
+            if(found){
+                console.log("ya esta en el carrito");
+                return {
+                    ...state,
+                    shoppingCart: state.shoppingCart
+                }
+            } else{
+                return {
+                    ...state,
+                    shoppingCart: [...state.shoppingCart, payload]
+                }
             }
+
         case REMOVE_FROM_CART:
             return {
                 ...state,
-                shoppingCart: state.shoppingCart.filter((product) => product.id !== payload)
+                shoppingCart: state.shoppingCart.filter(product => product.id !== payload)
             }
         default:
             return {...state};

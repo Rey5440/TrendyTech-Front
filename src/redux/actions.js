@@ -50,27 +50,28 @@ export const orderByName = () => {
 } */
 
 export const filterAll = (payload) => {
-  return function (dispatch) {
-    return dispatch({
-      type: FILTER_ALL,
-      payload: payload,
-    });
-  };
-};
+    return function (dispatch) {
+            return dispatch({
+                type:FILTER_ALL,
+                payload: payload
+            })
+    }
+}
 
 //http://localhost:3004/products/filter?color=1&type=1&brand=3&minPrice=100&maxPrice=100000
 // ejemplo de ruta pata filtro combinado
 
-export const addToCart = (payload) => {
+export const addToCart = (product) => {
+    console.log("producto añadido al carrito: ", product)
     return {
-      type: ADD_TO_CART,
-      payload: payload,
-    };
+        type: ADD_TO_CART,
+        payload: product
+    }
 }
 
-export const removeFromCart = (payload) => {
+export const removeFromCart = (id) => {
     return {
-      type: REMOVE_FROM_CART,
-      payload: payload,
-    };
+        type: REMOVE_FROM_CART,
+        payload: id
+    }
 }
