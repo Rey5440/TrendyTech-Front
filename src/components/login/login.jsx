@@ -2,42 +2,61 @@ import { useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../context-client/hooks/useAuth";
+import AlertTech from "../alert/alert";
 import logo from "../../assets/Trendy-Tech logo recortado.png";
 import "./styles-login.css";
 import Nav from "../nav/nav";
-import LoginButton from "../auth0/auth0Login";
-import UserProfile from "../auth0/auth0Profile";
 
 const Login = () => {
-  const[email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmationAlert, setConfirmationAlert] = useState(null);
 
-  const {setAuth} = useAuth()
-  const navigate = useNavigate()
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
 
-  const handleSubmit = async e => {
-      e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-      try {
-        //Informacion requerida: email y password
-        const {data} = await axios.post('http://localhost:3004/users/login', {email, password})
-        localStorage.setItem('token', data.token)
-        setAuth(data)
-        // navigate('/')
-        navigate('/home')
-
-      } catch (error) {
-          console.log(error)
-      }
+    try {
+      //Informacion requerida: email y password
+      const { data } = await axios.post("http://localhost:3004/users/login", {
+        email,
+        password,
+      });
+      localStorage.setItem("token", data.token);
+      setAuth(data);
+      // navigate('/')
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.msg);
+      showAlert("error", error.response.data.msg);
     }
+  };
+
+  const showAlert = (type, message) => {
+    // Mostrar la alerta
+    setConfirmationAlert({ type, message });
+
+    // Limpiar la alerta después de 3 segundos (3000 ms)
+    setTimeout(() => {
+      setConfirmationAlert(null);
+    }, 3000);
+  };
 
   return (
     <>
       <Nav />
-      <LoginButton />
-      <UserProfile />
       <div className="mainRegister">
         <h3 className="titleLogin">Inicia Sesión Y haz tus compras</h3>
+
+        {confirmationAlert && (
+          <AlertTech
+            message={confirmationAlert.message}
+            type={confirmationAlert.type}
+          />
+        )}
 
         <form className="formLogin" onSubmit={handleSubmit}>
           <div className="columnaLogin">
@@ -85,10 +104,7 @@ const Login = () => {
           <Link className="linksRegister" to="register">
             ¿No tienes una cuenta? Registrate
           </Link>
-          <Link
-            className="linksRegister"
-            // to="/reset-password"
-          >
+          <Link className="linksRegister" to="/reset-password">
             Olvide mi Password
           </Link>
         </nav>
