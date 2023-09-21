@@ -9,8 +9,7 @@ const UserProfile = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [userResponse, setUserResponse] = useState({});
 
-  console.log(userData);
-  console.log(userResponse);
+  
 
   const postUser = async () => {
     try {
@@ -49,13 +48,13 @@ const UserProfile = () => {
     <div>
       {isAuthenticated ? (
         <div>
-          <h2>Datos del Usuario</h2>
-          <p>Nombre: {userData?.name}</p>
-          <p>Email: {userData?.email}</p>
           <p>
             Imagen de Perfil: <img src={userData?.picture} alt="Perfil" />
           </p>
-          <p>Token de Acceso: {accessToken}</p>
+          <p>Nombre: {userData?.name}</p>
+          <p>Email: {userData?.email}</p>
+          {/* <h2>Datos del Usuario</h2> */}
+          {/* <p>Token de Acceso: {accessToken}</p> */}
         </div>
       ) : (
         <p>No has iniciado sesión.</p>
