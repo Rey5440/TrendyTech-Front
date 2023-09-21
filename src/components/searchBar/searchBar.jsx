@@ -25,6 +25,12 @@ const SearchBar = () => {
     navigate("/home");
   };
 
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleSearch(e);
+    }
+  }
+
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -72,6 +78,7 @@ const SearchBar = () => {
         className="SearchBar_Input"
         onChange={handleInput}
         value={product}
+        onKeyDown={handleKeyDown}
       />
       <button type="search" className="SearchBar_Button" onClick={handleSearch}>
         <SearchIcon sx={{ fontSize: 30 }} className="SearchBar_ButtonIcon" />

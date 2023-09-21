@@ -2,30 +2,28 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeFromCart } from '../../redux/actions';
+import { increaseQuantity, decreaseQuantity } from '../../redux/actions';
 import './cart_item.css';
 
-const CartItem = ({ product, onQuantityChange }) => {
-    const { id, name, price, images, stock } = product;
-    const [quantity, setQuantity] = useState(1);
+const CartItem = ({ product }) => {
+    const { id, name, price, images, quantity } = product;
+    const [showQuantity, setShowQuantity] = useState(quantity);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        onQuantityChange(quantity)
-    }, [quantity])
+        setShowQuantity(quantity);
+    }, [quantity]);
 
-    let handleAddQuantity = () => {
-        quantity != stock ? setQuantity(quantity + 1) : setQuantity(stock);
-        onQuantityChange(quantity);
+    let handleIncreaseQuantity = () => {
+        dispatch(increaseQuantity(id));
     }
 
-    let handleRemoveQuantity = () => {
-        quantity != 1 ? setQuantity(quantity - 1) : setQuantity(1);
-        onQuantityChange(quantity);
+    let handleDecreaseQuantity = () => {
+        dispatch(decreaseQuantity(id));
     }
 
     let handleRemoveFromCart = () => {
         dispatch(removeFromCart(id));
-        onQuantityChange(0);
     }
 
     return (
@@ -39,9 +37,9 @@ const CartItem = ({ product, onQuantityChange }) => {
                 <p>{id}</p>
             </div>
             <div className='cart-item-quantity'>
-                <button onClick={handleRemoveQuantity}>-</button>
-                <p>{quantity}</p>
-                <button onClick={handleAddQuantity}>+</button>
+                <button onClick={handleDecreaseQuantity}>-</button>
+                <p>{showQuantity}</p>
+                <button onClick={handleIncreaseQuantity}>+</button>
             </div>
             <div className='cart-item-remove'>
                 <button onClick={handleRemoveFromCart}>Eliminar del carrito</button>

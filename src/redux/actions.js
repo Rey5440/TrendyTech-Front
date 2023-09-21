@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, ADD_TO_CART, REMOVE_FROM_CART } from './action-types';
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from './action-types';
 
 export const getAllProducts = ()=>{
     return async function (dispatch) {
@@ -72,6 +72,20 @@ export const addToCart = (product) => {
 export const removeFromCart = (id) => {
     return {
         type: REMOVE_FROM_CART,
+        payload: id
+    }
+}
+
+export const increaseQuantity = (id) => {
+    return {
+        type: INCREASE_QUANTITY,
+        payload: id
+    }
+}
+
+export const decreaseQuantity = (id) => {
+    return {
+        type: DECREASE_QUANTITY,
         payload: id
     }
 }
