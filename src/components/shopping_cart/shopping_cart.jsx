@@ -7,9 +7,6 @@ import './shopping_cart.css';
 const ShoppingCart = () => {
     let cart = useSelector(state => state.shoppingCart);
     let [total, setTotal] = useState(0);
-    console.log("productos en carrito: ", cart);
-    //FALTA CALCULAR EL TOTAL DE LOS PRODUCTOS EN EL CARRITO SEGÚN SU CANTIDAD SETEADA EN EL COMPONENTE CART_ITEM  
-
     const onQuantityChange = (quantity) => {
         setTotal(cart.reduce((acc, product) => acc + product.price * quantity, 0));
     }
