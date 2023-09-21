@@ -449,9 +449,6 @@ const Filter = () => {
   );
 };
 
-<<<<<<< HEAD
-export default Filter;
-=======
 
 export default Filter;
 
@@ -495,4 +492,3 @@ length
 : 
 Array(0) */
 
->>>>>>> Dev
