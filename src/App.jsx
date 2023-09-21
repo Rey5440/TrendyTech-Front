@@ -13,6 +13,7 @@ function App() {
   return (
     <div>
       <AuthProvider>
+
           <Routes>
             <Route path="/" element={<Presentation />} />
             <Route path="/home" element={<Home />} />
