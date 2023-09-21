@@ -10,6 +10,7 @@ import ForgetPassword from "./components/login/forgetPassword";
 
 
 import { AuthProvider } from "./context-client/context/authProvider";
+import UserForUser from "./views/userForUser/userForUser";
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/login/register" element={<Register />} />
             <Route path="/confirm/:id" element={<ConfirmAccount />} />
             <Route path="/reset-password" element={<ForgetPassword />} />
+            <Route path="/user" element={<UserForUser />} />
           </Routes>
       </AuthProvider>
 
