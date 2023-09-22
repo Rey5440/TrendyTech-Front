@@ -6,6 +6,7 @@ import Nav from "../../components/nav/nav";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import "./detail.css";
 import { Box, Container } from "@mui/system";
+import { addToCart } from "../../redux/actions";
 
 import Loader from "../../components/loader/loader";
 import { useDispatch, useSelector } from "react-redux";
@@ -54,6 +55,10 @@ const Detail = () => {
     setImagePP(product.images[event.target.value]);
   };
 
+  const handleAddToCart = () => {
+    dispatch(addToCart(product));
+  }
+
   return (
     <div>
       <Nav />
@@ -85,6 +90,7 @@ const Detail = () => {
                   variant="contained"
                   className="button_agregar"
                   endIcon={<LocalMallIcon />}
+                  onClick={handleAddToCart}
                 >
                   Agregar
                 </Button>
