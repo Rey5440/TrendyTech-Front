@@ -14,15 +14,13 @@ const SearchBar = () => {
 
   const handleInput = (e) => {
     setProduct(e.target.value);
-    console.log(product);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    dispatch(searchByName(product));
-    console.log("producto buscado: ", product);
     setProduct("");
     navigate("/home");
+    dispatch(searchByName(product));
   };
 
   const handleKeyDown = (e) => {
