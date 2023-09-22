@@ -9,10 +9,8 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
-import Cookies from "js-cookie";
-import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import autenticateAllUsers from "../../helpers/autenticateAllUsers";
+import axios from "axios";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -20,30 +18,25 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   //-------------------------------//
-  const { user, isAuthenticated /* getAccessTokenSilently  */ } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
 
-  // console.log(getAccessTokenSilently());
-  // const [accessToken, setAccessToken] = useState(null);
-  // accessToken && console.log(accessToken);
-  // const obtenerToken = async () => {
-  //   try {
-  //     const token = await getAccessTokenSilently();
-  //     setAccessToken(token);
-  //   } catch (error) {
-  //     console.error("Error al obtener el token de acceso:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   obtenerToken();
-  // }, []);
-
-  console.log(user);
+  const postUser = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3004/users/auth",
+        user
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    user && autenticateAllUsers(user, isAuthenticated);
-    console.log("paseporaca");
-  }, []);
+    if (isAuthenticated) {
+      postUser();
+    } else {
+    }
+  }, [isAuthenticated, user]);
 
   //-----------------------------//
 
