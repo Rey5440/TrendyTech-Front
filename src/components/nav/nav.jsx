@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../redux/actions";
 import { Button } from "@mui/material";
 import SearchBar from "../searchBar/searchBar";
@@ -15,6 +15,7 @@ import Badge from "@mui/material/Badge";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import LoginModal from "../loginModal/loginModal";
 import "./nav.css";
 
 const Nav = () => {
@@ -23,6 +24,8 @@ const Nav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const menuId = "primary-search-account-menu";
   const location = useLocation();
+  const cart = useSelector((state) => state.shoppingCart);
+  let totalProductsInCart = cart.reduce((acc, product) => acc + product.quantity, 0);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -31,8 +34,8 @@ const Nav = () => {
   const handleProductsButton = (event) => {
     dispatch(getAllProducts())
     navigate("/home")
-}
-
+  }
+  
   //para hacer el rrenderizado condicional de la nav secundaria//
   const pathsWithNavSecondary = [
     "/login",
@@ -43,7 +46,7 @@ const Nav = () => {
     "/home",
     "/detail",
     "/create",
-    "/ruta-Carrito",
+    "/shopping-cart",
   ];
 
   const shouldShowNav = !pathsWithNavSecondary.some((path) =>
@@ -72,19 +75,20 @@ const Nav = () => {
           <SearchBar />
           <Box>
             <Box>
+              <LoginModal />
               <NavLink to="/create">
                 <Button variant="contained" className="button_agregar">
                   Crear
                 </Button>
               </NavLink>
-              <NavLink to="/cart" className="Nav_IconoCarrito">
+              <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
                 <IconButton
                   size="large"
                   aria-label="show 17 new notifications"
                   color="inherit"
                   className="Nav_IconoCarrito"
                 >
-                  <Badge badgeContent={17} color="error">
+                  <Badge badgeContent={totalProductsInCart} color="error">
                     <ShoppingCartIcon sx={{ fontSize: 30 }} />
                   </Badge>
                 </IconButton>

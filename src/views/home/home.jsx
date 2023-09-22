@@ -9,12 +9,36 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
+  //-------------------------------//
+  const { user, isAuthenticated } = useAuth0();
+
+  const postUser = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3004/users/auth",
+        user
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      postUser();
+    } else {
+    }
+  }, [isAuthenticated, user]);
+
+  //-----------------------------//
 
   useEffect(() => {
     dispatch(getAllProducts());
@@ -59,7 +83,6 @@ const Home = () => {
               <Cards currentProduct={currentProduct} />
             </Grid>
           </Container>
-          
         </div>
       )}
       <Paginate

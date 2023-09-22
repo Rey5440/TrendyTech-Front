@@ -1,8 +1,5 @@
 import axios from 'axios';
-
-// import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE,} from './action-types';
-
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL } from './action-types';
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from './action-types';
 
 
 export const getAllProducts = ()=>{
@@ -62,5 +59,53 @@ export const filterAll = (payload) => {
     }
 }
 
+export const setAlert = (message, type) => {
+    return dispatch => {
+        dispatch({
+            type: SHOW_ALERT,
+            payload: {
+                message,
+                type
+            }
+        });
+
+        // Limpia el alerta después de 3 segundos
+        setTimeout(() => {
+            dispatch({
+                type: HIDE_ALERT
+            });
+        }, 3000);
+    }
+}
+
 //http://localhost:3004/products/filter?color=1&type=1&brand=3&minPrice=100&maxPrice=100000
 // ejemplo de ruta pata filtro combinado
+
+export const addToCart = (product) => {
+    console.log("producto añadido al carrito: ", product)
+    return {
+        type: ADD_TO_CART,
+        payload: product
+    }
+}
+
+export const removeFromCart = (id) => {
+    return {
+        type: REMOVE_FROM_CART,
+        payload: id
+    }
+}
+
+export const increaseQuantity = (id) => {
+    return {
+        type: INCREASE_QUANTITY,
+        payload: id
+    }
+}
+
+export const decreaseQuantity = (id) => {
+    return {
+        type: DECREASE_QUANTITY,
+        payload: id
+    }
+}

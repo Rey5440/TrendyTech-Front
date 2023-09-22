@@ -14,16 +14,20 @@ const SearchBar = () => {
 
   const handleInput = (e) => {
     setProduct(e.target.value);
-    console.log(product);
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    dispatch(searchByName(product));
-    console.log("producto buscado: ", product);
     setProduct("");
     navigate("/home");
+    dispatch(searchByName(product));
   };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleSearch(e);
+    }
+  }
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
@@ -72,6 +76,7 @@ const SearchBar = () => {
         className="SearchBar_Input"
         onChange={handleInput}
         value={product}
+        onKeyDown={handleKeyDown}
       />
       <button type="search" className="SearchBar_Button" onClick={handleSearch}>
         <SearchIcon sx={{ fontSize: 30 }} className="SearchBar_ButtonIcon" />
