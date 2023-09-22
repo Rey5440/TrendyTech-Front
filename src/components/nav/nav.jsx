@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../redux/actions";
 import { Button } from "@mui/material";
 import SearchBar from "../searchBar/searchBar";
@@ -24,6 +24,8 @@ const Nav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const menuId = "primary-search-account-menu";
   const location = useLocation();
+  const cart = useSelector((state) => state.shoppingCart);
+  let totalProductsInCart = cart.reduce((acc, product) => acc + product.quantity, 0);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -86,7 +88,7 @@ const Nav = () => {
                   color="inherit"
                   className="Nav_IconoCarrito"
                 >
-                  <Badge badgeContent={17} color="error">
+                  <Badge badgeContent={totalProductsInCart} color="error">
                     <ShoppingCartIcon sx={{ fontSize: 30 }} />
                   </Badge>
                 </IconButton>

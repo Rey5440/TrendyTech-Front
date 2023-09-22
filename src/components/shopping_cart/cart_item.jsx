@@ -28,22 +28,27 @@ const CartItem = ({ product }) => {
 
     return (
         <div className='cart-item-container'>
-            <div className='cart-item-info'>
-                <div className='cart-item-image-container'>
-                  <img src={images[0]} className='cart-item-img'/>  
+            <div className='cart-item-image-container'>
+                <img src={images[0]} className='cart-item-img' />
+            </div>
+            <div className='cart-item-details'>
+                <div className='cart-item-name'>
+                    <h2>{name}</h2>
                 </div>
-                <h2>{name}</h2>
-                <p>{price}</p>
-                <p>{id}</p>
+                <div className='cart-item-remove'>
+                    <button onClick={handleRemoveFromCart} className='buttonR'>Eliminar del carrito</button>
+                </div>
             </div>
-            <div className='cart-item-quantity'>
-                <button onClick={handleDecreaseQuantity}>-</button>
-                <p>{showQuantity}</p>
-                <button onClick={handleIncreaseQuantity}>+</button>
+            <div className='cart-item-quantity-buttons'>
+                <button onClick={handleDecreaseQuantity} className='buttonQ'>-</button>
+                <p className='cart-item-quantity'>{showQuantity}</p>
+                <button onClick={handleIncreaseQuantity} className='buttonQ'>+</button>
             </div>
-            <div className='cart-item-remove'>
-                <button onClick={handleRemoveFromCart}>Eliminar del carrito</button>
+            <div className='cart-item-price'>
+                <p>${price}</p>    
             </div>
+            
+
         </div>
     )
 }

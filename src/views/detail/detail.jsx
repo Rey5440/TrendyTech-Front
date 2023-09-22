@@ -6,7 +6,6 @@ import Nav from "../../components/nav/nav";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import "./detail.css";
 import { Box, Container } from "@mui/system";
-import { useDispatch } from 'react-redux';
 import { addToCart } from "../../redux/actions";
 
 import Loader from "../../components/loader/loader";
@@ -17,7 +16,6 @@ import Footer from "../footer/footer"
 
 const Detail = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const [product, setProduct] = useState({});
   const [imagePP, setImagePP] = useState();
   const [loading, setLoading] = useState(true);
