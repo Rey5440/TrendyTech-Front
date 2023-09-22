@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Nav from "../../components/nav/nav.jsx";
 import validation from "./validation.js";
+import Footer from "../footer/footer.jsx";
 import axios from "axios";
 import styles from "./create.module.css";
 const Create = () => {
@@ -271,6 +272,7 @@ const Create = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
