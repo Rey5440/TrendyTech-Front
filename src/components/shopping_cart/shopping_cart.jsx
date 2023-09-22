@@ -4,13 +4,43 @@ import CartItem from './cart_item';
 import Nav from '../../components/nav/nav'
 import Footer from '../../views/footer/footer'
 import iconoCarrito from '../../assets/online-shopping (1).png';
-import './shopping_cart.css';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
+import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
+import './shopping_cart.css';
 
+initMercadoPago('TEST-185b7434-044a-4830-995d-95780e762ec5');
 const ShoppingCart = () => {
     let cart = useSelector(state => state.shoppingCart);
     let [total, setTotal] = useState(0);
+    let [preferenceId, setPreferenceId] = useState(null);
+    let [button, setButton] = useState(false);
     let totalProductsInCart = cart.reduce((acc, product) => acc + product.quantity, 0);
+
+    // Inicio de compra mp
+    const handleBuy = async () => {
+        const id = await createPreference(cart);
+        if (id) { setPreferenceId(id) }
+        setButton(true);
+    }
+    const createPreference = async (cart) => {
+        let productos = cart.map((product) => {
+            return {
+                title: product.name,
+                unit_price: Number(product.price),
+                picture_url: product.images[0],
+                quantity: Number(product.quantity),
+            }
+        })
+        try {
+            const response = await axios.post('http://localhost:3004/checkout/create_preference', { productos });
+            const id = response.data
+            return id;//id de compra solo eso
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    // ! fin de compra mp
 
     let handleTotal = () => {
         let total = 0;
@@ -29,7 +59,7 @@ const ShoppingCart = () => {
             <Nav />
             {cart.length === 0 ? (<div className='empty-cart-container'>
                 <div className='empty-cart'>
-                    <img src={iconoCarrito} alt='carrito vacio' className='empty-cart-icon'/>
+                    <img src={iconoCarrito} alt='carrito vacio' className='empty-cart-icon' />
                     <h2>¡Tu carrito está vacío!</h2>
                     <NavLink to='/home' className='home-button'>Ver productos</NavLink>
                 </div>
@@ -64,6 +94,10 @@ const ShoppingCart = () => {
                                                 <h2>Total</h2>
                                                 <h2>${total}</h2>
                                             </div>
+                                            <div className='cart-summary-total-button'>
+                                                <button onClick={handleBuy} disabled={button} className='confirm-button'>{button ? 'Confirmado' : 'Confirmar compra'}</button>
+                                                {preferenceId && <Wallet initialization={{ preferenceId }} visible={button} />}
+                                            </div>
                                         </div>
                                     ) : (
                                         <div className='cart-summary-total-container'>
@@ -78,6 +112,10 @@ const ShoppingCart = () => {
                                             <div className='cart-summary-total-detail'>
                                                 <h2>Total</h2>
                                                 <h2>${total}</h2>
+                                            </div>
+                                            <div className='cart-summary-total-button'>
+                                                <button onClick={handleBuy} disabled={button} className='confirm-button'>{button ? 'Confirmado' : 'Confirmar compra'}</button>
+                                                {preferenceId && <Wallet initialization={{ preferenceId }} visible={button} />}
                                             </div>
                                         </div>
                                     )}
