@@ -11,9 +11,9 @@
 .SearchBar_Input {
     background-color: white;
     border: none;
-    font-size: 1.3rem;
+    font-size: 1rem;
     outline: none;
-    width: 20rem;
+    width: 30rem;
 }
 
 .SearchBar_Button {
