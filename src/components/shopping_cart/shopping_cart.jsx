@@ -25,8 +25,8 @@ const ShoppingCart = () => {
     return (
         <div className='shopping-cart-container'>
             <Nav />
-            {cart.length === 0 ? (<h2>No hay productos en el carrito</h2>) : (
-                  <div className='cart-container'>
+            {cart.length === 0 ? (<div className='cart-container'><h2>No hay productos en el carrito</h2></div>) : (
+                <div className='cart-container'>
                     <div className='cart'>
                         <div className='cart-items'>
                             <div className='cart-title'><h2>Productos</h2></div>
@@ -44,21 +44,31 @@ const ShoppingCart = () => {
                                 <div className='cart-summary-details'>
                                     {cart.length === 1 ? (
                                         <div>
-                                            <h3>Producto</h3>
+                                            <p>Producto</p>
                                             <p>${total}</p>
                                         </div>
                                     ) : (
-                                        <div>
-                                            <h3>Productos ({totalProductsInCart})</h3>
-                                            <p>${total}</p>
+                                        <div className='cart-summary-total-container'>
+                                            <div className='cart-summary-total-detail'>
+                                                <p>Productos ({totalProductsInCart})</p>
+                                                <p>${total}</p>
+                                            </div>
+                                            <div className='cart-summary-total-detail'>
+                                                <p>Envío</p>
+                                                <p>Gratis</p>
+                                            </div>
+                                            <div className='cart-summary-total-detail'>
+                                                <h2>Total</h2>
+                                                <h2>${total}</h2>
+                                            </div>
                                         </div>
                                     )}
                                 </div>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
-                
+
 
             )}
             <Footer className='footer' />

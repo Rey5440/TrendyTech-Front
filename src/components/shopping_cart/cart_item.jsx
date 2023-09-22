@@ -6,7 +6,7 @@ import { increaseQuantity, decreaseQuantity } from '../../redux/actions';
 import './cart_item.css';
 
 const CartItem = ({ product }) => {
-    const { id, name, price, images, quantity } = product;
+    const { id, name, price, images, stock, quantity } = product;
     const [showQuantity, setShowQuantity] = useState(quantity);
     const dispatch = useDispatch();
 
@@ -40,9 +40,9 @@ const CartItem = ({ product }) => {
                 </div>
             </div>
             <div className='cart-item-quantity-buttons'>
-                <button onClick={handleDecreaseQuantity} className='buttonQ'>-</button>
+                <button onClick={handleDecreaseQuantity} disabled={showQuantity === 1} className='buttonQ'>-</button>
                 <p className='cart-item-quantity'>{showQuantity}</p>
-                <button onClick={handleIncreaseQuantity} className='buttonQ'>+</button>
+                <button onClick={handleIncreaseQuantity} disabled={showQuantity === stock} className='buttonQ'>+</button>
             </div>
             <div className='cart-item-price'>
                 <p>${price}</p>    

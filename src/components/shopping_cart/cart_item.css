@@ -4,7 +4,6 @@
     background-color: white;
     width: 100%;
     height: 8rem;
-    border: solid #fff 1px;
 }
 
 .cart-item-name {
@@ -12,7 +11,7 @@
     align-items: center;
     gap: 1rem;
     color: black;
-    font-size: 15px;
+    font-size: 14px;
     width: 100%;
 }
 
@@ -38,6 +37,8 @@
     justify-content: center;
     align-items: center;
     border: solid #ebebeb 1px;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .buttonQ {
@@ -46,6 +47,7 @@
     background-color: transparent;
     cursor: pointer;
     border: none;
+    font-size: 1.5rem;
 }
 
 .buttonR {
@@ -60,11 +62,13 @@
 
 .cart-item-remove {
     width: 80%;
+    cursor: pointer;
 }
 
 .cart-item-price {
     display: flex;
     justify-content: center;
     width: 15%;
-    
+    padding: 1rem;
+    font-size: 1rem;
 }
