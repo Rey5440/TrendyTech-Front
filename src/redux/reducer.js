@@ -1,8 +1,13 @@
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE } from "./action-types";
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT } from "./action-types";
 
 const initialState = {
-    allProducts1 : [], /* Para filtrar y ordenar */
-    allProducts2 : []
+    allProducts1: [],
+    allProducts2: [],
+    alert: {
+        visible: false,
+        message: '',
+        type: ''
+    }
 }
 
 const reducer = (state = initialState, {type, payload }) =>{
@@ -30,6 +35,12 @@ const reducer = (state = initialState, {type, payload }) =>{
                 ...state,
                 allProducts1: productsByPrice
             }
+
+/*             case FILTER_PRODUCTS :
+                return {
+                    ...state,
+                    allProducts1: payload
+                } */
         case ORDER_BY_NAME:
             let productsByName = state.allProducts1;
             if(payload === 'a-z'){
@@ -42,6 +53,28 @@ const reducer = (state = initialState, {type, payload }) =>{
             return {
                 ...state,
                 allProducts1: products
+            }
+        case FILTER_ALL:
+            return {
+                ...state,
+                allProducts1: payload
+            }
+        case SHOW_ALERT:
+            return {
+                ...state,
+                alert: {
+                    visible: true,
+                    message: payload.message,
+                    type: payload.type
+                }
+            }
+        case HIDE_ALERT:
+            return {
+                ...state,
+                alert: {
+                    ...state.alert,
+                    visible: false
+                }
             }
         default:
             return {...state};

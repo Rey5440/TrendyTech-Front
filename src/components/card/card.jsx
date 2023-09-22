@@ -3,16 +3,14 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { Box } from "@mui/system";
 
 export default function CardTech({ images, id, name, price, brand }) {
-  console.log(CardActionArea);
   return (
     /*  <Card sx={{ maxWidth: 330 }}>
    <div> */
-    <Card sx={{ width: "90%", margin: "5px", display: "grid" }}>
+    <Card sx={{ width: "100%", display: "grid" }}>
       <Box sx={{ width: "100%", alignSelf: "flex-end" }}>
         <NavLink
           to={`/detail/${id}`}

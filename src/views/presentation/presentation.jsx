@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllProducts } from "../../redux/actions";
 import { Button } from "@mui/material";
 import Nav from "../../components/nav/nav";
 import Slider from "react-slick";
@@ -15,24 +17,20 @@ import "./presentation.css";
 import ShowCookieBanner from "../cookies/cookie-banner";
 
 const images = [banner1, banner2, banner3];
-const images2 = [
-  banner1,
-  banner2,
-  banner3,
-  banner1,
-  banner2,
-  banner1,
-  banner2,
-  banner3,
-  banner1,
-  banner2,
-];
 
 const Presentation = () => {
+  const dispatch = useDispatch();
+  const allProducts1 = useSelector((state) => state.allProducts1);
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [loaded, setLoaded] = useState(false);
 
+  //modificamos allPrducts1 para tener los ultimos 10 abjetos que esten en la vase de datos//
+  const lastProducts = [...allProducts1].reverse();
+  const first10Products = lastProducts.slice(0, 10);
+
+  //settings del carrousel//
   var settings = {
     dots: true,
     infinite: false,
@@ -41,6 +39,15 @@ const Presentation = () => {
     slidesToScroll: 2,
     initialSlide: 0,
     responsive: [
+      {
+        breakpoint: 1920,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true,
+        },
+      },
       {
         breakpoint: 1024,
         settings: {
@@ -69,6 +76,7 @@ const Presentation = () => {
   };
 
   useEffect(() => {
+    dispatch(getAllProducts());
     const timer = setTimeout(() => {
       selectNewImage(selectedIndex, images);
     }, 2500);
@@ -142,12 +150,15 @@ const Presentation = () => {
           <hr className="hr_presentation" />
           <div className="div_carrousel_latest">
             <Slider {...settings}>
-              {images2.map((image, index) => (
+              {first10Products?.map((product, index) => (
                 <div key={index}>
-                  <img
-                    src={image}
-                    alt={`Imagen ${index}`}
-                    className="carousel-item"
+                  <Card
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    images={product.images} //ver si image es un array con imagenes
+                    price={product.price}
+                    // brand={product.brand}
                   />
                 </div>
               ))}
@@ -155,6 +166,8 @@ const Presentation = () => {
           </div>
           <hr className="hr_presentation" />
         </div>
+        <hr />
+        <Footer />
       </div>
     </>
   );
