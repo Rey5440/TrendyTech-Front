@@ -20,7 +20,7 @@
       flex-direction: column;
       justify-content: start;
       align-items:center;
-      background: #ececec;
+      background: white;
       border-radius: 10px 0px 0px 10px;
       width: 60%;
       max-width: 600px;
@@ -43,6 +43,7 @@
       align-items: center;
       gap: 1rem;
       box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
+      height: 700px;
 }
 
 .divlabel_input_create{
@@ -50,6 +51,7 @@
       flex-direction: column;
       width: 80%;
 }
+
 .buttonsubmit_create{
       display: flex;
       align-self: flex-end;
@@ -64,26 +66,29 @@
       transition: .2s;
       font-size: 15px;
 }
+
 .buttonsubmit_create:hover{
       cursor: pointer;
       background-color: aqua;
 }
+
 .buttonsubmit_create:active {
       transform: scale(.95);
 }
+
 .buttonsubmit_create_disabled{
       display: flex;
-            align-self: flex-end;
-            align-items: center;
-            justify-content: center;
-            width: 20%;
-            height: 30px;
-            margin-right: 10%;
-            margin-bottom: 4%;
-            border-radius: 5px;
-            border: none;
-            color: rgb(177, 177, 177);
-                  background-color: rgb(89, 89, 89);
+      align-self: flex-end;
+      align-items: center;
+      justify-content: center;
+      width: 20%;
+      height: 30px;
+      margin-right: 10%;
+      margin-bottom: 4%;
+      border-radius: 5px;
+      border: none;
+      color: rgb(177, 177, 177);
+      background-color: rgb(89, 89, 89);
 }
 
 .title_container {
@@ -198,5 +203,4 @@
       width: 80%;
       display: flex;
       justify-content: space-evenly;
-
 }
