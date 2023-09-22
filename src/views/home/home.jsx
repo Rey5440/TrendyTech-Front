@@ -22,7 +22,7 @@ const Home = () => {
 
   useEffect(() => {
     user && autenticateAllUsers(user, isAuthenticated);
-  }, []);
+  }, [user]);
 
   //-----------------------------//
 

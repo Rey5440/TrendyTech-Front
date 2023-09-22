@@ -1,35 +1,31 @@
 import * as React from "react";
-
 import Button from "@mui/material/Button";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import LoginButton from "../auth0/auth0Login";
 import UserProfile from "../auth0/auth0Profile";
 
 //----import del login del facha------//
 import { useState, useEffect } from "react";
-import { NavLink, Link, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import useAuth from "../../context-client/hooks/useAuth";
 
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 800,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  borderRadius: "15px",
-  boxShadow: 24,
-  p: 4,
-};
-
+// const style = {
+//   position: "absolute",
+//   top: "50%",
+//   left: "50%",
+//   transform: "translate(-50%, -50%)",
+//   width: 800,
+//   bgcolor: "background.paper",
+//   border: "2px solid #000",
+//   borderRadius: "15px",
+//   boxShadow: 24,
+//   p: 4,
+// };
 
 const LoginModal = () => {
   const [open, setOpen] = React.useState(false);
@@ -42,8 +38,6 @@ const LoginModal = () => {
     setOpen(false);
   };
 
-  let anterior = location; 
- 
 
   //--------del login del facha---------//
   const [email, setEmail] = useState("");
@@ -92,15 +86,23 @@ const LoginModal = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Inicia sesión"}</DialogTitle>
-        <DialogContent sx={{ backgroundColor: "red" }}>
-          <form className="formLogin">
+        <DialogTitle id="alert-dialog-title">
+          {"Inicia sesión en Trendy Tech"}
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            backgroundColor: "white",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <form className="formLogin" style={{ display:"flex",flexDirection:"column" }}>
             <div className="columnaLogin">
               <div className="divInput">
                 <label className="label" htmlFor="email">
                   Email
                 </label>
-
                 <input
                   id="email"
                   type="email"
@@ -109,12 +111,10 @@ const LoginModal = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-
               <div className="divInput">
                 <label className="label" htmlFor="password">
                   Password
                 </label>
-
                 <input
                   id="password"
                   type="password"
@@ -124,11 +124,10 @@ const LoginModal = () => {
                 />
               </div>
             </div>
-
             <div className="columna"></div>
-
             <input type="submit" value="Iniciar Sesión" className="btnLogin" />
           </form>
+          <DialogTitle id="alert-dialog-title">{"Inicia con google"}</DialogTitle>
           <LoginButton />
           <UserProfile />
         </DialogContent>

@@ -20,22 +20,25 @@ import "./nav.css";
 
 const Nav = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const menuId = "primary-search-account-menu";
   const location = useLocation();
   const cart = useSelector((state) => state.shoppingCart);
-  let totalProductsInCart = cart.reduce((acc, product) => acc + product.quantity, 0);
+  let totalProductsInCart = cart.reduce(
+    (acc, product) => acc + product.quantity,
+    0
+  );
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleProductsButton = (event) => {
-    dispatch(getAllProducts())
-    navigate("/home")
-  }
-  
+    dispatch(getAllProducts());
+    navigate("/home");
+  };
+
   //para hacer el rrenderizado condicional de la nav secundaria//
   const pathsWithNavSecondary = [
     "/login",
@@ -52,7 +55,7 @@ const Nav = () => {
   const shouldShowNav = !pathsWithNavSecondary.some((path) =>
     location.pathname.startsWith(path)
   );
-//-------------------------//
+  //-------------------------//
   return (
     <Box>
       <AppBar position="static" color="warning">
@@ -75,7 +78,6 @@ const Nav = () => {
           <SearchBar />
           <Box>
             <Box>
-              <LoginModal />
               <NavLink to="/create">
                 <Button variant="contained" className="button_agregar">
                   Crear
@@ -93,22 +95,23 @@ const Nav = () => {
                   </Badge>
                 </IconButton>
               </NavLink>
-              <NavLink to="/login" className="Nav_IconoPerfil">
+              {/* <NavLink to="/login" className="Nav_IconoPerfil">
                 <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                  className="Nav_IconoPerfil"
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+                className="Nav_IconoPerfil"
                 >
-                  <AccountCircleIcon sx={{ fontSize: 30 }} />
+                <AccountCircleIcon sx={{ fontSize: 30 }} />
                 </IconButton>
-              </NavLink>
+              </NavLink> */}
             </Box>
           </Box>
+          <LoginModal />
         </Toolbar>
       </AppBar>
 

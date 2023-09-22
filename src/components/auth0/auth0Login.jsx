@@ -1,4 +1,6 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import chromeImgLogin from "../../assets/chrome.png"
+import { Button } from "@mui/material"; 
 
 const LoginButton = () => {
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
@@ -13,9 +15,11 @@ const LoginButton = () => {
   return (
     <div>
       {!isAuthenticated ? (
-        <button onClick={handleLogin}>Iniciar Sesión con Google</button>
+        <div>
+          <img src={chromeImgLogin} onClick={handleLogin} />
+        </div>
       ) : (
-        <button onClick={() => logout()}>Cerrar Sesión</button>
+        <Button onClick={() => logout()}>Cerrar Sesión</Button>
       )}
     </div>
   );
