@@ -68,8 +68,6 @@ const ShoppingCart = () => {
                         </div>
                     </div>
                 </div>
-
-
             )}
             <Footer className='footer' />
         </div>
