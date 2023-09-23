@@ -61,7 +61,7 @@ const Footer = () => {
               color="primary"
               sx={{ fontSize: 18 }}
             />
-            <input type="email" placeholder="Ingrese su email..." required />
+            <input type="email" placeholder="Ingrese su email..." required className="footer-input"/>
             <button type="submit">
               <SendSharpIcon color="primary" sx={{ fontSize: 18 }} />
             </button>
