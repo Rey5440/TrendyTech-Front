@@ -2,7 +2,7 @@ import React from "react";
 import CookieBanner from "./cookieBanner";
 
 const ShowCookieBanner = () => {
-  const message = `Este sitio portal es propiedad de TrendyTech y utiliza cookies. Si continuas navegando, consideramos que aceptas su uso.`;
+  const message = `Al navegar en este sitio propiedad de TrendyTech, aceptas las cookies que utilizamos para mejorar tu experiencia.`;
 
   const options = {
     acceptLabel: "Aceptar",

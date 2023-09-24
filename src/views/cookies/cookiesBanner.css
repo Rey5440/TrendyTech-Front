@@ -31,7 +31,7 @@
 
 .accept-button,
 .reject-button {
-  background-color: #646edb;
+  background-color: #38b6ff;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -43,5 +43,5 @@
 }
 
 .reject-button {
-  background-color: #f44336;
+  background-color: #ed6c02;
 }
