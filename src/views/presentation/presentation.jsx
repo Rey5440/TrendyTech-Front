@@ -136,10 +136,10 @@ const Presentation = () => {
           </div>
         </div>
         <div className="div_container_carrousel2">
-          <h2>Productos de novedad</h2>
+          <h2 className="h2_presentation">Productos de novedad</h2>
           <hr className="hr_presentation" />
           <div className="div_carrousel_latest">
-            <Slider {...settings}>
+            <Slider {...settings} className="carrousel">
               {first10Products?.map((product, index) => (
                 <div key={index} >
                   <Card

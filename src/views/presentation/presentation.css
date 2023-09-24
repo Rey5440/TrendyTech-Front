@@ -54,3 +54,8 @@
       width: 100%;
 }
 
+.h2_presentation {
+      font-size: 30px;
+      font-family: 'Poppins', sans-serif;
+      margin-bottom: 10px;
+}
