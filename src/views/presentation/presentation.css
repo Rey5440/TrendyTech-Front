@@ -48,8 +48,9 @@
 }
 
 .hr_presentation{
-      margin: 3px;
+      margin: 0 auto;
       border-radius: 2px;
       border: 2px solid orangered;
+      width: 100%;
 }
 
