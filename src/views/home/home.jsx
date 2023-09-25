@@ -42,6 +42,7 @@ const Home = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0); 
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;

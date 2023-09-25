@@ -162,7 +162,7 @@ const Filter = () => {
         </div>
       </div>
       <div>
-        <Button variant="contained" onClick={handleClear}>Clear filters</Button>
+        <Button variant="contained" onClick={handleClear}>Eliminar filtros</Button>
       </div>
     </div>
   );

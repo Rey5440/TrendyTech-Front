@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
     "@headlessui/react": "^1.7.17",
+    "@mercadopago/sdk-react": "^0.0.14",
     "@mui/icons-material": "^5.14.8",
     "@mui/material": "^5.14.10",
     "axios": "^1.5.0",
