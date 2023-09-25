@@ -1,5 +1,6 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
+import { IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -90,6 +91,7 @@ const LoginModal = () => {
     }, 3000);
   };
 
+  
   return (
     <div>
       {confirmationAlert && (
@@ -98,17 +100,15 @@ const LoginModal = () => {
           type={confirmationAlert.type}
         />
       )}
-      <Button
+      <IconButton
         variant="contained"
         sx={{
-          color: "#fe7622",
-          backgroundColor: "#ffffff",
-          borderRadius: "50px",
+          color: "#ffffff", 
         }}
         onClick={handleClickOpen}
       >
-        <AccountCircleIcon sx={{ fontSize: 30 }} />
-      </Button>
+        <AccountCircleIcon sx={{ fontSize: 40 }} />
+      </IconButton>
       <Dialog
         className="hola"
         open={open}
@@ -137,7 +137,8 @@ const LoginModal = () => {
             <img
               className="img_common_user"
               src={
-              commonUser.image || "https://img.panamericana.pe/noticia/2014/09/640-1410205121176.jpg.webp"
+                commonUser.image ||
+                "https://img.panamericana.pe/noticia/2014/09/640-1410205121176.jpg.webp"
               }
               alt="mi foto"
             />

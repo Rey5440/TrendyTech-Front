@@ -133,7 +133,7 @@ const Filter = () => {
         </Select>
       </FormControl>
       <div style={{marginTop: '10px', width: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
-        <h3>Rango de precio</h3>
+        <h3>Busqueda por precio</h3>
         <Slider
           className="slider"
           value={values}
