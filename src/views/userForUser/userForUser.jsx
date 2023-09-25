@@ -20,7 +20,7 @@ const UserForUser = () => {
   const [userUpdated, setUserUpdated] = useState(false);
   const [imageUpdated, setImageUpdated] = useState(false);
   const dispatch = useDispatch();
-
+  console.log(userData);
   useEffect(() => {
     const fetchData = async () => {
       let emailToSend;
@@ -33,7 +33,7 @@ const UserForUser = () => {
       if (emailToSend) {
         try {
           const result = await axios.post(
-            "http://localhost:3004/users/emailuser",
+            "https://trendy-tech-back-8bm1.onrender.com/users/emailuser",
             {
               email: emailToSend,
             }
@@ -85,7 +85,7 @@ const UserForUser = () => {
             try {
               // Segunda solicitud: Enviar la URL de la imagen a tu backend junto con el email
               const backendResponse = await axios.put(
-                "http://localhost:3004/users/editimage",
+                "https://trendy-tech-back-8bm1.onrender.com/users/editimage",
                 {
                   email: emailToSend,
                   newImage: res.secure_url,

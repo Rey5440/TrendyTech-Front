@@ -46,7 +46,7 @@ const Register = () => {
     }
 
     try {
-      const { data } = await axios.post(`http://localhost:3004/users`, {
+      const { data } = await axios.post(`https://trendy-tech-back-8bm1.onrender.com/users`, {
         name,
         email,
         password,

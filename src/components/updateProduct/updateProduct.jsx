@@ -15,7 +15,7 @@ const updateProduct = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios("http://localhost:3004/products");
+      const response = await axios("https://trendy-tech-back-8bm1.onrender.com/products");
       const { data } = response;
       setAllProducts(data);
     } catch (error) {
