@@ -1,8 +1,9 @@
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT } from "./action-types";
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from "./action-types";
 
 const initialState = {
     allProducts1: [],
     allProducts2: [],
+    shoppingCart : [],
     alert: {
         visible: false,
         message: '',
@@ -75,6 +76,59 @@ const reducer = (state = initialState, {type, payload }) =>{
                     ...state.alert,
                     visible: false
                 }
+            }
+        case ADD_TO_CART:
+            let found = state.shoppingCart.find(product => product.id === payload.id);
+            if(found){
+                console.log("ya esta en el carrito");
+                return {
+                    ...state,
+                    shoppingCart: state.shoppingCart
+                }
+            } else{
+                return {
+                    ...state,
+                    shoppingCart: [...state.shoppingCart, {...payload, quantity: 1}]
+                }
+            }
+        case REMOVE_FROM_CART:
+            return {
+                ...state,
+                shoppingCart: state.shoppingCart.filter(product => product.id !== payload)
+            }
+        case INCREASE_QUANTITY:
+            return {
+                ...state,
+                shoppingCart: state.shoppingCart.map(product => {
+                    if(product.id === payload){
+                        if(product.quantity < product.stock){
+                            product.quantity += 1
+                            console.log(product.name, product.quantity)
+                        } else {
+                            product.quantity = product.stock
+                            console.log("no se puede aumentar mas")
+                        }
+                        return product
+                    }
+                    return product
+                })
+            }
+        case DECREASE_QUANTITY:
+            return {
+                ...state,
+                shoppingCart: state.shoppingCart.map(product => {
+                    if(product.id === payload){
+                        if(product.quantity > 1){
+                            product.quantity -= 1
+                            console.log(product.name, product.quantity)
+                        } else {
+                            product.quantity = 1
+                            console.log("no se puede quitar mas")
+                        }
+                        return product
+                    }
+                    return product
+                })
             }
         default:
             return {...state};
