@@ -76,6 +76,10 @@ const Filter = () => {
 
     dispatch(filterAll(filterPrice));
   };
+
+  const handleDisabled = () => {
+    return allProducts1.length ? "true" : "false";
+  };
   return (
     <div className="FilterTech">
       <FormControl
@@ -85,52 +89,61 @@ const Filter = () => {
         }}
       >
         <InputLabel>Seleccione una categoria</InputLabel>
-        <Select
-          sx={{ width: "15rem"}}
-          onChange={handleType}
-          defaultValue=""
-          label="Seleccione una categoria"
-          color="warning"
-        >
-          {allProducts1.length > 0 &&
-            Array.from(
-              new Set(allProducts1.map((product) => product.type))
-            ).map((type, index) => {
-              return (
-                <MenuItem key={index} value={type}>
-                  {type}
-                </MenuItem>
-              );
-            })}
-        </Select>
+        {allProducts1.length ? (
+          <Select
+            sx={{ width: "15rem" }}
+            onChange={handleType}
+            defaultValue=""
+            label="Seleccione una categoria"
+            color="warning"
+            // disabled={allProducts1.length ? "false" : "false"}
+          >
+            {allProducts1.length > 0 &&
+              Array.from(
+                new Set(allProducts1.map((product) => product.type))
+              ).map((type, index) => {
+                return (
+                  <MenuItem key={index} value={type}>
+                    {type}
+                  </MenuItem>
+                );
+              })}
+          </Select>
+        ) : (
+          <Select sx={{ width: "15rem" }} variant="filled" disabled></Select>
+        )}
       </FormControl>
 
       <FormControl
         style={{
           display: "flex",
           flexDirection: "column",
-          marginTop: '5px'
+          marginTop: "10px",
         }}
       >
         <InputLabel>Seleccione una marca</InputLabel>
-        <Select
-          sx={{ width: "15rem" }}
-          onChange={handleBrand}
-          defaultValue=""
-          label="Seleccione una marca"
-          color="warning"
-        >
-          {allProducts1.length > 0 &&
-            Array.from(
-              new Set(allProducts1.map((product) => product.brand))
-            ).map((brand, index) => {
-              return (
-                <MenuItem key={index} value={brand}>
-                  {brand}
-                </MenuItem>
-              );
-            })}
-        </Select>
+        {allProducts1.length ? (
+          <Select
+            sx={{ width: "15rem" }}
+            onChange={handleBrand}
+            defaultValue=""
+            label="Seleccione una marca"
+            color="warning"
+          >
+            {allProducts1.length > 0 &&
+              Array.from(
+                new Set(allProducts1.map((product) => product.brand))
+              ).map((brand, index) => {
+                return (
+                  <MenuItem key={index} value={brand}>
+                    {brand}
+                  </MenuItem>
+                );
+              })}
+          </Select>
+        ) : (
+          <Select sx={{ width: "15rem" }} variant="filled" disabled></Select>
+        )}
       </FormControl>
       <div style={{marginTop: '10px', width: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
         <h3>Busqueda por precio</h3>
@@ -146,23 +159,39 @@ const Filter = () => {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            width: '100%',
-            marginTop: '10px',
-            marginBottom: '10px',
+            width: "100%",
+            marginTop: "10px",
+            marginBottom: "10px",
           }}
         >
-          <div style={{paddingRight: '5px', display: 'flex', flexDirection: 'column',alignItems: 'center'}}>
+          <div
+            style={{
+              paddingRight: "5px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <label htmlFor="minPrice">Min</label>
             <span>$ {values[0]}</span>
           </div>
-          <div style={{paddingLeft: '5px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+          <div
+            style={{
+              paddingLeft: "5px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <label htmlFor="maxPrice">Max</label>
             <span>$ {values[1]}</span>
           </div>
         </div>
       </div>
       <div>
-        <Button variant="contained" onClick={handleClear}>Eliminar filtros</Button>
+        <Button variant="contained" onClick={handleClear}>
+          Eliminar filtros
+        </Button>
       </div>
     </div>
   );
