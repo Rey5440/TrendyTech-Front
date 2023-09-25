@@ -32,9 +32,10 @@ export const searchByName = (product) => {
     }
 }
 
-export const orderByPrice = () => {
+export const orderByPrice = (payload) => {
     return {
-        type: ORDER_BY_PRICE
+        type: ORDER_BY_PRICE,
+        payload: payload
     }
 }
 

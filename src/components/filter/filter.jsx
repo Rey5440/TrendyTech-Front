@@ -118,7 +118,7 @@ const Filter = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          marginTop: "5px",
+          marginTop: "10px",
         }}
       >
         <InputLabel>Seleccione una marca</InputLabel>
@@ -145,17 +145,8 @@ const Filter = () => {
           <Select sx={{ width: "15rem" }} variant="filled" disabled></Select>
         )}
       </FormControl>
-      <div
-        style={{
-          marginTop: "10px",
-          width: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <h3>Rango de precio</h3>
+      <div style={{marginTop: '10px', width: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
+        <h3>Busqueda por precio</h3>
         <Slider
           className="slider"
           value={values}

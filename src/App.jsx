@@ -28,7 +28,7 @@ function App() {
           <Route path="/confirm/:id" element={<ConfirmAccount />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
-            <Route path="/paymentStatus" element={< PaymentStatus />} />
+          <Route path="/paymentStatus" element={< PaymentStatus />} />
         </Routes>
       </AuthProvider>
     </div>

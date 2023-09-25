@@ -24,10 +24,10 @@ const Detail = () => {
   const alertState = useSelector(state => state.alert)
   const dispatch = useDispatch();
   /* ------------------------------------------ */
-  const handleAlert = () => {
-    dispatch(setAlert("  HOLA CALENEEENIUSS   ", "success"));
+  // const handleAlert = () => {
+  //   dispatch(setAlert("  HOLA CALENEEENIUSS   ", "success"));
 
-  }
+  // }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,11 +35,10 @@ const Detail = () => {
           `http://localhost:3004/products/${id}`
         );
         const { data } = response;
-        dispatch(setAlert("  este es tu producto  ", "success"));
         setProduct(data);
         setTimeout(() => {
           setLoading(false);
-        }, 2000);
+        }, 3000);
       } catch (error) {
         dispatch(setAlert("  el id del producto no existe  ", "error"));
         console.log(error);
@@ -137,7 +136,6 @@ const Detail = () => {
           </div>
         </Container>
       )}
-      <buton onClick={handleAlert}>presione para ver el alerta</buton>
       <hr />
       <Footer/>
     </div>
