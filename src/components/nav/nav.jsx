@@ -27,6 +27,10 @@ const Nav = () => {
   const cart = useSelector((state) => state.shoppingCart);
   let totalProductsInCart = cart.reduce((acc, product) => acc + product.quantity, 0);
 
+  const handleVerPerfil = () => {
+    navigate('/user');
+  }
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -177,6 +181,7 @@ const Nav = () => {
           )}
         </Toolbar>
       </AppBar>
+      <button onClick={handleVerPerfil}>ver perfil</button>
     </Box>
   );
 };

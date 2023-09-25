@@ -41,6 +41,7 @@ const handleSubmit = async (e) => {
 
     try {
         const { data } = await axios.post(`http://localhost:3004/users`, { name, email, password });
+        console.log('pase por aca')
 
         setName('');
         setEmail('');
