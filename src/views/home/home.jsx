@@ -77,19 +77,20 @@ const Home = () => {
         <div
           style={{ display: "flex", justifyContent: "center", width: "100%" }}
         >
-          <Container style={{ display: "flex", padding: "20px" }}>
+          <Container style={{ display: "flex", padding: "20px", width: '400rem' }}>
             <Filter />
-            <Grid sx={{ width: "80%" }}>
+            <Grid sx={{ width: "100%", display: 'flex' }}>
               <Cards currentProduct={currentProduct} />
             </Grid>
           </Container>
         </div>
       )}
-      <Paginate
+
+      {currentProduct.length ? (<Paginate
         currentPage={currentPage}
         totalPages={totalPages}
         handlePageChange={handlePageChange}
-      />
+      />) : (null) }
       <Footer />
     </div>
   );

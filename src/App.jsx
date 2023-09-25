@@ -25,6 +25,7 @@ function App() {
             <Route path="/shopping-cart" element={<ShoppingCart />} />
             <Route path="/confirm/:id" element={<ConfirmAccount />} />
             <Route path="/reset-password" element={<ForgetPassword />} />
+            {/* <Route path="/cart" element={<Cart/>}/> */}
           </Routes>
       </AuthProvider>
     </div>
