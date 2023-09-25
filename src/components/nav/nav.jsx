@@ -86,6 +86,11 @@ const Nav = () => {
               />
             </div>
           </NavLink>
+          <NavLink to={"/admin"}>
+            <Button variant="contained" className="button_agregar">
+              Admin
+            </Button>
+          </NavLink>
           <SearchBar />
           <Box>
             <Box>

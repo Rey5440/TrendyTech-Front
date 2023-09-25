@@ -32,7 +32,7 @@ const ForgetPassword = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:3004/users/reset-password",
+        "https://trendy-tech-back-8bm1.onrender.com/users/reset-password",
         { email }
       );
 

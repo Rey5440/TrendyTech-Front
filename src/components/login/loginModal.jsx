@@ -49,7 +49,7 @@ const LoginModal = () => {
       if (auth.email) {
         try {
           const response = await axios.post(
-            "http://localhost:5173/users/emailuser",
+            "https://trendy-tech-back-8bm1.onrender.com/users/emailuser",
             { email: auth.email }
           );
           setCommonUser(response.data);
@@ -66,7 +66,7 @@ const LoginModal = () => {
 
     try {
       //Informacion requerida: email y password
-      const { data } = await axios.post("http://localhost:3004/users/login", {
+      const { data } = await axios.post("https://trendy-tech-back-8bm1.onrender.com/users/login", {
         email,
         password,
       });
