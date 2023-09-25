@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 // import axiosClient from "../config/axiosClient";
 
 const AuthContext = createContext()
@@ -14,7 +15,8 @@ const AuthProvider = ({children}) => {
       });
     const [cargando, setCargando] = useState(true)
 
-   
+    console.log(auth)
+    console.log(cargando)
 
     const navigate = useNavigate()
 
@@ -45,6 +47,7 @@ const AuthProvider = ({children}) => {
                 const {data} = await axios('http://localhost:3004/users/profile', config)
                 // const {data} = await axiosClient('/users/profile', config)
                 setAuth(data)
+                /* dispatch(neptuno(data)) */
                 console.log(data)
                 navigate('/home')
 
