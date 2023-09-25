@@ -24,10 +24,6 @@ const Detail = () => {
   const alertState = useSelector(state => state.alert)
   const dispatch = useDispatch();
   /* ------------------------------------------ */
-  const handleAlert = () => {
-    dispatch(setAlert("  HOLA CALENEEENIUSS   ", "success"));
-
-  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -137,7 +133,6 @@ const Detail = () => {
           </div>
         </Container>
       )}
-      <buton onClick={handleAlert}>presione para ver el alerta</buton>
       <hr />
       <Footer/>
     </div>
