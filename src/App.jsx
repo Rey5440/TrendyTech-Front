@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import PaymentStatus from './components/paymentStatus/paymentStatus';
 import Home from "./views/home/home";
 import Detail from "./views/detail/detail";
 import Create from "./views/create/create";
@@ -27,6 +28,7 @@ function App() {
           <Route path="/confirm/:id" element={<ConfirmAccount />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
+            <Route path="/paymentStatus" element={< PaymentStatus />} />
         </Routes>
       </AuthProvider>
     </div>
