@@ -50,8 +50,8 @@ const Nav = () => {
     "/detail",
     "/create",
     "/shopping-cart",
+    "/reset-password",
   ];
-
   const shouldShowNav = !pathsWithNavSecondary.some((path) =>
     location.pathname.startsWith(path)
   );
@@ -148,7 +148,7 @@ const Nav = () => {
                   endIcon={<RocketLaunchIcon />}
                   onClick={handleProductsButton}
                 >
-                  Products
+                  Productos
                 </Button>
               </NavLink>
               <NavLink to="">
