@@ -2,8 +2,12 @@ import "./filter.css";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { filterAll, getAllProducts } from "../../redux/actions";
-import Slider from 'react-slider';
-
+import Slider from "react-slider";
+import Button from "@mui/material/Button";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -74,53 +78,62 @@ const Filter = () => {
   };
   return (
     <div className="FilterTech">
-      <div>
-        <select
+      <FormControl
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <InputLabel>Seleccione una categoria</InputLabel>
+        <Select
+          sx={{ width: "15rem"}}
           onChange={handleType}
           defaultValue=""
+          label="Seleccione una categoria"
+          color="warning"
         >
-          <option value="" selected hidden>
-            Seleccione una categoria
-          </option>
           {allProducts1.length > 0 &&
             Array.from(
               new Set(allProducts1.map((product) => product.type))
             ).map((type, index) => {
               return (
-                <option key={index} value={type}>
+                <MenuItem key={index} value={type}>
                   {type}
-                </option>
+                </MenuItem>
               );
             })}
-        </select>
-      </div>
-      <div>
-        <select onChange={handleBrand} /* value='' */ defaultValue="">
-          <option value="" selected hidden>
-            Seleccione una marca
-          </option>
+        </Select>
+      </FormControl>
+
+      <FormControl
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: '5px'
+        }}
+      >
+        <InputLabel>Seleccione una marca</InputLabel>
+        <Select
+          sx={{ width: "15rem" }}
+          onChange={handleBrand}
+          defaultValue=""
+          label="Seleccione una marca"
+          color="warning"
+        >
           {allProducts1.length > 0 &&
             Array.from(
               new Set(allProducts1.map((product) => product.brand))
             ).map((brand, index) => {
               return (
-                <option key={index} value={brand}>
+                <MenuItem key={index} value={brand}>
                   {brand}
-                </option>
+                </MenuItem>
               );
             })}
-        </select>
-      </div>
-      <div
-        style={{
-          padding: "20px",
-          border: "1px solid #ddd",
-          borderRadius: "5px",
-          boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h2>Price Range</h2>
-        <p>Use the slider to select a price range:</p>
+        </Select>
+      </FormControl>
+      <div style={{marginTop: '10px', width: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
+        <h3>Rango de precio</h3>
         <Slider
           className="slider"
           value={values}
@@ -128,34 +141,32 @@ const Filter = () => {
           min={MIN}
           max={MAX}
         />
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div>
-            <label htmlFor="minPrice">Min Price:</label>
-            <input
-              type="number"
-              id="minPrice"
-              value={values[0]}
-              onChange={(e) => handleChange([+e.target.value, values[1]])}
-            />
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: '100%',
+            marginTop: '10px',
+            marginBottom: '10px',
+          }}
+        >
+          <div style={{paddingRight: '5px', display: 'flex', flexDirection: 'column',alignItems: 'center'}}>
+            <label htmlFor="minPrice">Min</label>
+            <span>$ {values[0]}</span>
           </div>
-          <div>
-            <label htmlFor="maxPrice">Max Price:</label>
-            <input
-              type="number"
-              id="maxPrice"
-              value={values[1]}
-              onChange={(e) => handleChange([values[0], +e.target.value])}
-            />
+          <div style={{paddingLeft: '5px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <label htmlFor="maxPrice">Max</label>
+            <span>$ {values[1]}</span>
           </div>
         </div>
       </div>
       <div>
-        <button onClick={handleClear}>Clear filters</button>
+        <Button variant="contained" onClick={handleClear}>Clear filters</Button>
       </div>
     </div>
   );
 };
-
 
 export default Filter;
 
@@ -198,4 +209,3 @@ length
 [[Prototype]]
 : 
 Array(0) */
-
