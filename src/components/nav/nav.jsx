@@ -32,9 +32,9 @@ const Nav = () => {
     0
   );
 
-    useEffect(() => {
-      user && autenticateAllUsers(user, isAuthenticated);
-    }, [user]);
+  useEffect(() => {
+    user && autenticateAllUsers(user, isAuthenticated);
+  }, [user]);
 
   const handleProductsButton = (event) => {
     dispatch(getAllProducts());
@@ -59,9 +59,9 @@ const Nav = () => {
   );
   //-------------------------//
 
-const handleMoveToFooter = (event) => {
-  window.scrollTo(0, 1000); // Scroll down
-}
+  const handleMoveToFooter = (event) => {
+    window.scrollTo(0, 1000); // Scroll down
+  };
 
   return (
     <Box>
@@ -81,6 +81,11 @@ const handleMoveToFooter = (event) => {
                 className="Nav_Logo"
               />
             </div>
+          </NavLink>
+          <NavLink to={"/admin"}>
+            <Button variant="contained" className="button_agregar">
+              Admin
+            </Button>
           </NavLink>
           <SearchBar />
           <Box>
@@ -167,7 +172,6 @@ const handleMoveToFooter = (event) => {
               >
                 Contactenos
               </Button>
-              
             </div>
           )}
         </Toolbar>

@@ -18,7 +18,7 @@ const NewPassword = () => {
   useEffect(() => {
     const testToken = async () => {
       try {
-        await axios(`http://localhost:3004/users/reset-password/${token}`);
+        await axios(`https://trendy-tech-back-8bm1.onrender.com/users/reset-password/${token}`);
         setValidToken(true);
       } catch (error) {
         setShowAlertError(true);
@@ -42,7 +42,7 @@ const NewPassword = () => {
       return;
     }
     try {
-      const url = `http://localhost:3004/users/reset-password/${token}`;
+      const url = `https://trendy-tech-back-8bm1.onrender.com/users/reset-password/${token}`;
 
       const { data } = await axios.post(url, { password });
       // setAlert({
