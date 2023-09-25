@@ -1,0 +1,64 @@
+html {
+   
+    max-width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    align-items: center;
+    background-color: #ebebeb;
+}
+
+* {
+    cursor: url("./assets/cursor.png"), default;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    /* outline: 1px solid red; */
+}
+
+body {
+    user-select: none;
+    /* Evita la selección de texto en la página */
+    -webkit-user-select: none;
+    /* Para navegadores basados en WebKit como Chrome y Safari */
+    -moz-user-select: none;
+    /* Para navegadores basados en Mozilla Firefox */
+    -ms-user-select: none;
+    /* Para Internet Explorer/Edge */
+}
+
+/* Opcionalmente, también puedes deshabilitar la selección de fondo */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Evita que los eventos se propaguen al contenido detrás */
+    background-color: transparent;
+    /* Establece el color de fondo a transparente o el que desees */
+}
+
+/* Estilo para la barra de desplazamiento */
+::-webkit-scrollbar {
+    width: 10px;
+    /* Ancho de la barra de desplazamiento */
+}
+
+/* Color de fondo de la barra de desplazamiento */
+::-webkit-scrollbar-track {
+    background-color: #dcdbdb;
+}
+
+/* Color de la barra de desplazamiento */
+::-webkit-scrollbar-thumb {
+    background-color: #3191ff;
+    border-radius: 10px;
+}
+
+/* Color al pasar el mouse sobre la barra de desplazamiento */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #0077ff;
+        /* Ancho aumentado */
+}
