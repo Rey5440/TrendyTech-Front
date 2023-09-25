@@ -26,6 +26,7 @@ const ShoppingCart = () => {
     const createPreference = async (cart) => {
         let productos = cart.map((product) => {
             return {
+                id: product.id,
                 title: product.name,
                 unit_price: Number(product.price),
                 picture_url: product.images[0],
