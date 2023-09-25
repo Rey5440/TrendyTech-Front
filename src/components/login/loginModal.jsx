@@ -127,7 +127,7 @@ const LoginModal = () => {
               fontWeight: "bold",
             }}
           >
-            {"Inicia sesión en Trendy Tech"}
+            {"Inicia sesión en TrendyTech"}
           </DialogTitle>
         )}
         {auth.email && (
