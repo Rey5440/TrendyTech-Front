@@ -16,12 +16,14 @@ const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-
   //-------------------------------//
-  const { user, isAuthenticated } = useAuth0();
+  const { user } = useAuth0();
 
   useEffect(() => {
-    user && autenticateAllUsers(user, isAuthenticated);
+    if (user && user.email) {
+      const result = autenticateAllUsers(user);
+      console.log(result);
+    }
   }, [user]);
 
   //-----------------------------//
@@ -42,7 +44,7 @@ const Home = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    window.scrollTo(0, 0); 
+    window.scrollTo(0, 0);
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -64,20 +66,24 @@ const Home = () => {
         <div
           style={{ display: "flex", justifyContent: "center", width: "100%" }}
         >
-          <Container style={{ display: "flex", padding: "20px", width: '400rem' }}>
+          <Container
+            style={{ display: "flex", padding: "20px", width: "400rem" }}
+          >
             <Filter />
-            <Grid sx={{ width: "100%", display: 'flex' }}>
+            <Grid sx={{ width: "100%", display: "flex" }}>
               <Cards currentProduct={currentProduct} />
             </Grid>
           </Container>
         </div>
       )}
 
-      {currentProduct.length ? (<Paginate
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-      />) : (null) }
+      {currentProduct.length ? (
+        <Paginate
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
+      ) : null}
       <Footer />
     </div>
   );

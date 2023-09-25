@@ -22,7 +22,7 @@ import "./nav.css";
 const Nav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth0();
+  // const { user} = useAuth0();
   const [anchorEl, setAnchorEl] = useState(null);
   const menuId = "primary-search-account-menu";
   const location = useLocation();
@@ -31,9 +31,13 @@ const Nav = () => {
     (acc, product) => acc + product.quantity,
     0
   );
+  const { user } = useAuth0();
 
   useEffect(() => {
-    user && autenticateAllUsers(user, isAuthenticated);
+    if (user && user.email) {
+      const result = autenticateAllUsers(user);
+      console.log(result);
+    }
   }, [user]);
 
   const handleProductsButton = (event) => {
