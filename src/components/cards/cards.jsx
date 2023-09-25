@@ -1,6 +1,6 @@
 import Card from "../card/card";
-import { Box, Container } from "@mui/system";
-
+import { Box } from "@mui/system";
+import Empty from "./emptyCards";
 const Cards = ({ currentProduct }) => {
   return (
     <Box sx={{
@@ -12,7 +12,7 @@ const Cards = ({ currentProduct }) => {
       rowGap: 3,
       gridTemplateColumns: 'repeat(5, 1fr)',
     }}>
-      {currentProduct?.map((product) => (
+      {currentProduct.length ? currentProduct?.map((product) => (
         <Card
           key={product.id}
           id={product.id}
@@ -21,7 +21,7 @@ const Cards = ({ currentProduct }) => {
           price={product.price}
           brand={product.brand}
         />
-      ))}
+      )) : (<Empty/>)}
     </Box>
   );
 };

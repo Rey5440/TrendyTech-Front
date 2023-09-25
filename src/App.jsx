@@ -20,10 +20,9 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/create" element={<Create />} />
-          {/* <Route path="/login" element={<Login />} /> */}
           <Route path="/register" element={<Register />} />
           <Route path="/reset-password" element={<ForgetPassword />} />
-          <Route path="/new-password/:id" element={<NewPassword/>}/>
+          <Route path="/new-password/:id" element={<NewPassword />} />
           <Route path="/confirm/:id" element={<ConfirmAccount />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />
         </Routes>
