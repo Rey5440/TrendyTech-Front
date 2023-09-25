@@ -63,14 +63,6 @@ const ForgetPassword = () => {
     <>
       <Nav />
       <div className="divContainer_ResetPassword">
-        <img
-          className="bg_image_register"
-          src="https://res.cloudinary.com/dntrwijx5/image/upload/v1695222841/imagenes/zyyrjmno1js0hsjcowkr.png"
-          alt=""
-        />
-        <h3 className="h1_ResetPassword">
-          Recupera el acceso a tu cuenta de TrendyTech
-        </h3>
         {confirmationAlert && (
           <AlertTech
             message={confirmationAlert.message}
@@ -78,7 +70,10 @@ const ForgetPassword = () => {
           />
         )}
         <form action="" className="form_ResetPassword" onSubmit={handleSubmit}>
-          <div>
+        <h4 className="h1_ResetPassword">
+          Recupera el acceso a tu cuenta de TrendyTech
+        </h4>
+      
             <div className="div_input_ResetPassword">
               <label htmlFor="email">Email</label>
               <input
@@ -89,13 +84,13 @@ const ForgetPassword = () => {
                 value={email}
                 onChange={(e) => handleInputChange(e, setEmail)}
               />
-            </div>
             <input
               type="submit"
               value="Enviar instrucciones"
               className="button_form_ResetPassword"
-            />
-          </div>
+              />
+              </div>
+ 
 
           <nav className="nav_Login_reset">
             <Link className="links_Login_and_reset" to="/home">
@@ -106,8 +101,8 @@ const ForgetPassword = () => {
             </Link>
           </nav>
         </form>
-        <NavLink to="/home">
-          <img src={imageLogo} alt="logo-home" className="logoRegister" />
+        <NavLink to="/home" style={{display: 'flex', justifyContent: 'center'}}>
+          <img src={imageLogo} alt="logo-home" className="logo_footer_login" />
         </NavLink>
       </div>
     </>

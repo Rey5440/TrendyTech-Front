@@ -57,3 +57,10 @@
 .h2_confirmAccount{
       margin-bottom: 15px;
 }
+
+.logo_footer_login{
+      width: 250px;
+      transition: .2s;
+      cursor: pointer;
+      filter: drop-shadow(1px 6px 5px #000000);
+}

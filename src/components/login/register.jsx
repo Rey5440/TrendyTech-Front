@@ -93,21 +93,16 @@ const Register = () => {
     <>
       <Nav />
       <div className="divContainer_Register">
-        <img
-          className="bg_image_register"
-          src="https://res.cloudinary.com/dntrwijx5/image/upload/v1695222841/imagenes/zyyrjmno1js0hsjcowkr.png"
-          alt=""
-        />
-        <h1 className="h1_Register">Registro de tu cuenta en Trendy</h1>
 
         {confirmationAlert && (
           <AlertTech
-            message={confirmationAlert.message}
-            type={confirmationAlert.type}
+          message={confirmationAlert.message}
+          type={confirmationAlert.type}
           />
-        )}
+          )}
 
         <form action="" className="form_Register" onSubmit={handleSubmit}>
+          <h3 className="h1_Register">Regístrate</h3>
           <div>
             <div className="div_input_Register">
               <label htmlFor="name">Name</label>
