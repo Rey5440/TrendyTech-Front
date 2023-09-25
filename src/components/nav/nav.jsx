@@ -15,7 +15,7 @@ import Badge from "@mui/material/Badge";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import LoginModal from "../loginModal/loginModal";
+import LoginModal from "../login/loginModal";
 import "./nav.css";
 
 const Nav = () => {
