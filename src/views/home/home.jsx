@@ -10,7 +10,7 @@ import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
+import autenticateAllUsers from "../../components/helpers/autenticateAllUsers";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -20,24 +20,29 @@ const Home = () => {
   //-------------------------------//
   const { user, isAuthenticated } = useAuth0();
 
-  const postUser = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3004/users/auth",
-        user
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    if (isAuthenticated) {
-      postUser();
-    } else {
-    }
-  }, [isAuthenticated, user]);
+    const fetchData = async () => {
+      try {
+        // No necesitas getUserDataFromCookie aquí, se maneja en el contexto de autenticación
+        if (isAuthenticated) {
+          const isGoogleUser = user.sub.includes("google-oauth2");
+          if (isGoogleUser) {
+            console.log("Usuario de Google");
+          } else {
+            console.log("Usuario común");
+          }
+        }
+      } catch (error) {
+        console.error(
+          "Error al obtener los datos del usuario desde la cookie:",
+          error
+        );
+      }
+    };
+    fetchData(); // Llama a la función fetchData
 
+    user && autenticateAllUsers(user, isAuthenticated);
+  }, [user, autenticateAllUsers]);
   //-----------------------------//
 
   useEffect(() => {
@@ -75,8 +80,7 @@ const Home = () => {
         <Loader />
       ) : (
         <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}
-        >
+          style={{ display: "flex", justifyContent: "center", width: "100%" }}>
           <Container style={{ display: "flex", padding: "20px" }}>
             <Filter />
             <Grid sx={{ width: "80%" }}>
@@ -90,12 +94,6 @@ const Home = () => {
         totalPages={totalPages}
         handlePageChange={handlePageChange}
       />
-      <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-        <Filter />
-        <Grid sx={{ width: "100%" }}>
-          <Cards currentProduct={currentProduct} />
-        </Grid>
-      </div>
       <Footer />
     </div>
   );
