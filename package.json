@@ -17,11 +17,20 @@
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
     "@headlessui/react": "^1.7.17",
+    "@mercadopago/sdk-react": "^0.0.14",
     "@mui/icons-material": "^5.14.8",
+<<<<<<< HEAD
     "@mui/material": "^5.14.9",
     "axios": "^1.5.0",
     "dotenv": "^16.3.1",
     "js-cookie": "^3.0.5",
+=======
+    "@mui/material": "^5.14.10",
+    "axios": "^1.5.0",
+    "dotenv": "^16.3.1",
+    "js-cookie": "^3.0.5",
+    "mercadopago": "^1.5.17",
+>>>>>>> Dev
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.2",

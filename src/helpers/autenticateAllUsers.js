@@ -27,6 +27,7 @@ const postUser = async (user) => {
 
 // Función para obtener los datos del usuario desde la cookie
 const getUserDataFromCookie = (user, isAuthenticated) => {
+  console.log("pase por get cookie");
   // Genera la clave única para el usuario
   const userKey = `user_${user.sub}`;
   try {
