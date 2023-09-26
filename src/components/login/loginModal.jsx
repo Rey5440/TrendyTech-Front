@@ -75,7 +75,6 @@ const LoginModal = () => {
       navigate("/home");
       // setOpen(false) hay que ver cuando el usuario no esta loggeado
     } catch (error) {
-      console.log(error);
       console.log(error.response.data.msg);
       showAlert("error", error.response.data.msg);
     }
