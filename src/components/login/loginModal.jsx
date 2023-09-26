@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import * as React from "react";
 import Button from "@mui/material/Button";
 import { IconButton } from "@mui/material";
@@ -49,7 +50,7 @@ const LoginModal = () => {
       if (auth.email) {
         try {
           const response = await axios.post(
-            "https://trendy-tech-back-8bm1.onrender.com/users/emailuser",
+            `${VITE_BACKEND_URL}/users/emailuser`,
             { email: auth.email }
           );
           setCommonUser(response.data);
@@ -66,7 +67,7 @@ const LoginModal = () => {
 
     try {
       //Informacion requerida: email y password
-      const { data } = await axios.post("https://trendy-tech-back-8bm1.onrender.com/users/login", {
+      const { data } = await axios.post(`${VITE_BACKEND_URL}/users/login`, {
         email,
         password,
       });
@@ -90,7 +91,6 @@ const LoginModal = () => {
     }, 3000);
   };
 
-  
   return (
     <div>
       {confirmationAlert && (
@@ -102,7 +102,7 @@ const LoginModal = () => {
       <IconButton
         variant="contained"
         sx={{
-          color: "#ffffff", 
+          color: "#ffffff",
         }}
         onClick={handleClickOpen}
       >

@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import useAuth from "../../context-client/hooks/useAuth";
@@ -33,7 +34,7 @@ const UserForUser = () => {
       if (emailToSend) {
         try {
           const result = await axios.post(
-            "https://trendy-tech-back-8bm1.onrender.com/users/emailuser",
+            `${VITE_BACKEND_URL}/users/emailuser`,
             {
               email: emailToSend,
             }
@@ -85,7 +86,7 @@ const UserForUser = () => {
             try {
               // Segunda solicitud: Enviar la URL de la imagen a tu backend junto con el email
               const backendResponse = await axios.put(
-                "https://trendy-tech-back-8bm1.onrender.com/users/editimage",
+                `${VITE_BACKEND_URL}/users/editimage`,
                 {
                   email: emailToSend,
                   newImage: res.secure_url,
