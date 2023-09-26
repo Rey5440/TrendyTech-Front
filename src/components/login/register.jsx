@@ -47,11 +47,7 @@ const Register = () => {
     }
 
     try {
-<<<<<<< HEAD
-      const { data } = await axios.post(`https://trendy-tech-back-8bm1.onrender.com/users`, {
-=======
       const { data } = await axios.post(`${VITE_BACKEND_URL}/users`, {
->>>>>>> f9d786f2ff2484f3f972af49d1f42dbce50a3075
         name,
         email,
         password,
