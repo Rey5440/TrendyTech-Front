@@ -20,7 +20,7 @@ const LoginButton = () => {
           <img src={chromeImgLogin} onClick={handleLogin} className="img_login_google"/>
         </div>
       ) : (
-        <Button onClick={() => logout()} style={{marginTop:"15px"}}>Cerrar Sesión</Button>
+        <Button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })} style={{marginTop:"15px"}}>Cerrar Sesión</Button>
       )}
     </div>
   );
