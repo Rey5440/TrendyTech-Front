@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useEffect, useState } from "react";
 import { useParams, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -15,7 +16,7 @@ const ConfirmAccount = () => {
   useEffect(() => {
     const ConfirmAccount = async () => {
       try {
-        const url = `https://trendy-tech-back-8bm1.onrender.com/users/confirm/${id}`;
+        const url = `${VITE_BACKEND_URL}/users/confirm/${id}`;
         const { data } = await axios.post(url);
 
         console.log(data);

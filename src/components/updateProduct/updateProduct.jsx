@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useEffect, useState } from "react";
 import {
   Table,
@@ -15,7 +16,7 @@ const updateProduct = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios("https://trendy-tech-back-8bm1.onrender.com/products");
+      const response = await axios(`${VITE_BACKEND_URL}/products`);
       const { data } = response;
       setAllProducts(data);
     } catch (error) {

@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -7,7 +8,6 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import "./detail.css";
 import { Box, Container } from "@mui/system";
 import { addToCart } from "../../redux/actions";
-
 import Loader from "../../components/loader/loader";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlert } from "../../redux/actions";//---------> para el setAlert
@@ -32,7 +32,7 @@ const Detail = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://trendy-tech-back-8bm1.onrender.com/products/${id}`
+          `${VITE_BACKEND_URL}/products/${id}`
         );
         const { data } = response;
         setProduct(data);

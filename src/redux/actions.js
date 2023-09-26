@@ -1,11 +1,15 @@
 import axios from 'axios';
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from './action-types';
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from './action-types';
 
 export const getAllProducts = ()=>{
     return async function (dispatch) {
         try{
-            const all = await axios(`https://trendy-tech-back-8bm1.onrender.com/products`);
+            const all = await axios(
+              `${VITE_BACKEND_URL}/products`
+            );
             return dispatch({
                 type:GET_ALL_PRODUCTS,
                 payload: all.data
@@ -20,7 +24,9 @@ export const searchByName = (product) => {
     return async function (dispatch) {
         console.log(product)
         try{
-            const foundProduct = await axios(`https://trendy-tech-back-8bm1.onrender.com/products/?name=${product}`);
+            const foundProduct = await axios(
+              `${VITE_BACKEND_URL}/products/?name=${product}`
+            );
             console.log(foundProduct.data)
             return dispatch({
                 type:SEARCH_BY_NAME,

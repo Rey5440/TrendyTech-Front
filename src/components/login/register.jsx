@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
@@ -13,9 +14,9 @@ const Register = () => {
   const [repetirPassword, setRepetirPassword] = useState("");
   const [confirmationAlert, setConfirmationAlert] = useState(null);
 
-   useEffect(() => {
-     window.scrollTo(0, 400); // Scroll hacia arriba
-   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 400); // Scroll hacia arriba
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,7 +47,7 @@ const Register = () => {
     }
 
     try {
-      const { data } = await axios.post(`https://trendy-tech-back-8bm1.onrender.com/users`, {
+      const { data } = await axios.post(`${VITE_BACKEND_URL}/users`, {
         name,
         email,
         password,
@@ -93,13 +94,12 @@ const Register = () => {
     <>
       <Nav />
       <div className="divContainer_Register">
-
         {confirmationAlert && (
           <AlertTech
-          message={confirmationAlert.message}
-          type={confirmationAlert.type}
+            message={confirmationAlert.message}
+            type={confirmationAlert.type}
           />
-          )}
+        )}
 
         <form action="" className="form_Register" onSubmit={handleSubmit}>
           <h3 className="h1_Register">Regístrate</h3>
