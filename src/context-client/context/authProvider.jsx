@@ -1,6 +1,7 @@
 import { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch } from "react-redux";
 // import axiosClient from "../config/axiosClient";
 import {
   saveUserDataToCookie,
@@ -20,12 +21,8 @@ const AuthProvider = ({ children }) => {
 
   const navigate = useNavigate();
 
-  /* Se ejecuta una sola vez , ya que solo comprueba que haya un token para autenticar al usuario */
-  useEffect(() => {
-    const authenticateUser = async () => {
-      /* leer el token */
-      const token = Cookies.get("auth");
-      console.log(token);
+    console.log(auth)
+    console.log(cargando)
 
       //Si no hay token detenemos la ejecucion del codigo
       if (!token) {
@@ -77,6 +74,50 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-export { AuthProvider };
+                const {data} = await axios('http://localhost:3004/users/profile', config)
+                // const {data} = await axiosClient('/users/profile', config)
+                setAuth(data)
+                /* dispatch(neptuno(data)) */
+                console.log(data)
+                navigate('/home')
+
+            } catch (error) {
+                setAuth({})
+            } finally{
+                 setCargando(false) 
+            }
+
+            
+        }
+        authenticateUser()
+    }, [])
+
+
+    const closeSession = () => {
+        localStorage.removeItem('token')
+        setAuth({})
+    }
+
+
+    return(
+        <AuthContext.Provider
+
+            value={{
+                auth,
+                setAuth, 
+                cargando,
+                closeSession
+            }}
+        >
+
+
+            {children}
+        </AuthContext.Provider>
+    )
+}
+
+export {
+    AuthProvider
+}
 
 export default AuthContext;

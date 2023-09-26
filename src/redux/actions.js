@@ -5,7 +5,7 @@ import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER
 export const getAllProducts = ()=>{
     return async function (dispatch) {
         try{
-            const all = await axios(`http://localhost:3004/products`);
+            const all = await axios(`https://trendy-tech-back-8bm1.onrender.com/products`);
             return dispatch({
                 type:GET_ALL_PRODUCTS,
                 payload: all.data
@@ -20,7 +20,7 @@ export const searchByName = (product) => {
     return async function (dispatch) {
         console.log(product)
         try{
-            const foundProduct = await axios(`http://localhost:3004/products/?name=${product}`);
+            const foundProduct = await axios(`https://trendy-tech-back-8bm1.onrender.com/products/?name=${product}`);
             console.log(foundProduct.data)
             return dispatch({
                 type:SEARCH_BY_NAME,
@@ -32,9 +32,10 @@ export const searchByName = (product) => {
     }
 }
 
-export const orderByPrice = () => {
+export const orderByPrice = (payload) => {
     return {
-        type: ORDER_BY_PRICE
+        type: ORDER_BY_PRICE,
+        payload: payload
     }
 }
 

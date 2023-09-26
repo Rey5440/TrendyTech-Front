@@ -10,36 +10,21 @@ import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
 import { useAuth0 } from "@auth0/auth0-react";
-import autenticateAllUsers from "../../components/helpers/autenticateAllUsers";
+import autenticateAllUsers from "../../helpers/autenticateAllUsers";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-
   //-------------------------------//
-  const { user, isAuthenticated } = useAuth0();
+  const { user } = useAuth0();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // No necesitas getUserDataFromCookie aquí, se maneja en el contexto de autenticación
-        if (isAuthenticated) {
-          const isGoogleUser = user.sub.includes("google-oauth2");
-          if (isGoogleUser) {
-            console.log("Usuario de Google");
-          } else {
-            console.log("Usuario común");
-          }
-        }
-      } catch (error) {
-        console.error(
-          "Error al obtener los datos del usuario desde la cookie:",
-          error
-        );
-      }
-    };
-    fetchData(); // Llama a la función fetchData
+    if (user && user.email) {
+      const result = autenticateAllUsers(user);
+      console.log(result);
+    }
+  }, [user]);
 
     user && autenticateAllUsers(user, isAuthenticated);
   }, [user, autenticateAllUsers]);
@@ -61,6 +46,7 @@ const Home = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -80,20 +66,26 @@ const Home = () => {
         <Loader />
       ) : (
         <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}>
-          <Container style={{ display: "flex", padding: "20px" }}>
+          style={{ display: "flex", justifyContent: "center", width: "100%" }}
+        >
+          <Container
+            style={{ display: "flex", padding: "20px", width: "400rem" }}
+          >
             <Filter />
-            <Grid sx={{ width: "80%" }}>
+            <Grid sx={{ width: "100%", display: "flex" }}>
               <Cards currentProduct={currentProduct} />
             </Grid>
           </Container>
         </div>
       )}
-      <Paginate
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-      />
+
+      {currentProduct.length ? (
+        <Paginate
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
+      ) : null}
       <Footer />
     </div>
   );
