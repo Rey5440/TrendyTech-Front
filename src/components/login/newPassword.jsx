@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
@@ -18,7 +19,11 @@ const NewPassword = () => {
   useEffect(() => {
     const testToken = async () => {
       try {
+<<<<<<< HEAD
         await axios(`https://trendy-tech-back-8bm1.onrender.com/users/reset-password/${token}`);
+=======
+        await axios(`${VITE_BACKEND_URL}/users/reset-password/${token}`);
+>>>>>>> f9d786f2ff2484f3f972af49d1f42dbce50a3075
         setValidToken(true);
       } catch (error) {
         setShowAlertError(true);
@@ -42,7 +47,11 @@ const NewPassword = () => {
       return;
     }
     try {
+<<<<<<< HEAD
       const url = `https://trendy-tech-back-8bm1.onrender.com/users/reset-password/${token}`;
+=======
+      const url = `${VITE_BACKEND_URL}/users/reset-password/${token}`;
+>>>>>>> f9d786f2ff2484f3f972af49d1f42dbce50a3075
 
       const { data } = await axios.post(url, { password });
       // setAlert({
