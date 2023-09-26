@@ -56,7 +56,7 @@ const editButton = ({ product, updatePage }) => {
       // Si no hay errores, enviar la solicitud al servidor
       try {
         const response = await axios.put(
-          "http://localhost:3004/products/update",
+          "https://trendy-tech-back-8bm1.onrender.com/products/update",
           editedProduct
         );
         const { data } = response;

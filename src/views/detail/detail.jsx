@@ -32,7 +32,7 @@ const Detail = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3004/products/${id}`
+          `https://trendy-tech-back-8bm1.onrender.com/products/${id}`
         );
         const { data } = response;
         setProduct(data);
