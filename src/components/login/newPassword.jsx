@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
@@ -18,7 +19,7 @@ const NewPassword = () => {
   useEffect(() => {
     const testToken = async () => {
       try {
-        await axios(`http://localhost:3004/users/reset-password/${token}`);
+        await axios(`${VITE_BACKEND_URL}/users/reset-password/${token}`);
         setValidToken(true);
       } catch (error) {
         setShowAlertError(true);
@@ -42,7 +43,7 @@ const NewPassword = () => {
       return;
     }
     try {
-      const url = `http://localhost:3004/users/reset-password/${token}`;
+      const url = `${VITE_BACKEND_URL}/users/reset-password/${token}`;
 
       const { data } = await axios.post(url, { password });
       // setAlert({

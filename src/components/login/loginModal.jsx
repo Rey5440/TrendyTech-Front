@@ -1,5 +1,7 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import * as React from "react";
 import Button from "@mui/material/Button";
+import { IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -48,7 +50,7 @@ const LoginModal = () => {
       if (auth.email) {
         try {
           const response = await axios.post(
-            "http://localhost:5173/users/emailuser",
+            `${VITE_BACKEND_URL}/users/emailuser`,
             { email: auth.email }
           );
           setCommonUser(response.data);
@@ -65,7 +67,7 @@ const LoginModal = () => {
 
     try {
       //Informacion requerida: email y password
-      const { data } = await axios.post("http://localhost:3004/users/login", {
+      const { data } = await axios.post(`${VITE_BACKEND_URL}/users/login`, {
         email,
         password,
       });
@@ -74,7 +76,6 @@ const LoginModal = () => {
       navigate("/home");
       // setOpen(false) hay que ver cuando el usuario no esta loggeado
     } catch (error) {
-      console.log(error);
       console.log(error.response.data.msg);
       showAlert("error", error.response.data.msg);
     }
@@ -98,17 +99,15 @@ const LoginModal = () => {
           type={confirmationAlert.type}
         />
       )}
-      <Button
+      <IconButton
         variant="contained"
         sx={{
-          color: "#fe7622",
-          backgroundColor: "#ffffff",
-          borderRadius: "50px",
+          color: "#ffffff",
         }}
         onClick={handleClickOpen}
       >
-        <AccountCircleIcon sx={{ fontSize: 30 }} />
-      </Button>
+        <AccountCircleIcon sx={{ fontSize: 40 }} />
+      </IconButton>
       <Dialog
         className="hola"
         open={open}
@@ -137,7 +136,8 @@ const LoginModal = () => {
             <img
               className="img_common_user"
               src={
-              commonUser.image || "https://img.panamericana.pe/noticia/2014/09/640-1410205121176.jpg.webp"
+                commonUser.image ||
+                "https://img.panamericana.pe/noticia/2014/09/640-1410205121176.jpg.webp"
               }
               alt="mi foto"
             />
