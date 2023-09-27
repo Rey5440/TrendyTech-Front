@@ -27,7 +27,7 @@ const SearchBar = () => {
     if (e.keyCode === 13) {
       handleSearch(e);
     }
-  }
+  };
 
   const Search = styled("div")(({ theme }) => ({
     position: "relative",

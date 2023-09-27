@@ -26,16 +26,17 @@ const reducer = (state = initialState, {type, payload }) =>{
             }
         case ORDER_BY_PRICE:
             let productsByPrice = state.allProducts1;
-            if(payload === 'asc'){
+            if(payload === "asc"){
                 productsByPrice = productsByPrice.sort((a, b) => a.price - b.price);
             }
-            if(payload === 'desc'){
+            if(payload === "desc"){
                 productsByPrice = productsByPrice.sort((a, b) => b.price - a.price);
+                console.log(productsByPrice);
             }
             return {
-                ...state,
-                allProducts1: productsByPrice
-            }
+              ...state,
+              allProducts1: productsByPrice,
+            };
 
 /*             case FILTER_PRODUCTS :
                 return {

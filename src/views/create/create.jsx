@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Nav from "../../components/nav/nav.jsx";
@@ -32,8 +33,8 @@ const Create = () => {
     type: "",
   });
 
-  useEffect(() => { }, [form, error]);
-  useEffect(() => { }, [imageCloudinary]);
+  useEffect(() => {}, [form, error]);
+  useEffect(() => {}, [imageCloudinary]);
   // HANDLERS
   const handleChange = (event) => {
     if (event.target.name == "price" || event.target.name == "stock") {
@@ -110,7 +111,7 @@ const Create = () => {
     } else {
       // posteo al backend
       const response = await axios.post(
-        "http://localhost:3004/products/create",
+        `${VITE_BACKEND_URL}/products/create`,
         form
       );
       const { data } = response;
@@ -182,7 +183,9 @@ const Create = () => {
               className={styles.textarea_create}
               placeholder="Describe tu producto."
             ></textarea>
-            {error.description && <p className={styles.error}>{error.description}</p>}
+            {error.description && (
+              <p className={styles.error}>{error.description}</p>
+            )}
           </div>
 
           {/* BRAND */}
@@ -238,9 +241,17 @@ const Create = () => {
               />
               <div className={styles.error_images_container}>
                 {Array.isArray(error.image) &&
-                  error.image.map((img, index) => <span className={styles.error} key={index}>{img}</span>)}
+                  error.image.map((img, index) => (
+                    <span className={styles.error} key={index}>
+                      {img}
+                    </span>
+                  ))}
                 {Array.isArray(error.imageFiles) &&
-                  error.imageFiles.map((img, index) => <span className={styles.error} key={index}>{img}</span>)}
+                  error.imageFiles.map((img, index) => (
+                    <span className={styles.error} key={index}>
+                      {img}
+                    </span>
+                  ))}
               </div>
             </div>
 
@@ -262,13 +273,40 @@ const Create = () => {
         <div className={styles.divcontainer_images_form}>
           <h2 className={styles.title_images}>Imagenes seleccionadas</h2>
           <div className={styles.images_container}>
-            {imageCloudinary[0] ? <img src={imageCloudinary[0]} alt="" loading="lazy" className={styles.image} /> : <span className={styles.imagen_ph}>Imagen 1</span>}
+            {imageCloudinary[0] ? (
+              <img
+                src={imageCloudinary[0]}
+                alt=""
+                loading="lazy"
+                className={styles.image}
+              />
+            ) : (
+              <span className={styles.imagen_ph}>Imagen 1</span>
+            )}
           </div>
           <div className={styles.images_container}>
-            {imageCloudinary[1] ? <img src={imageCloudinary[1]} alt="" loading="lazy" className={styles.image} /> : <span className={styles.imagen_ph}>Imagen 2</span>}
+            {imageCloudinary[1] ? (
+              <img
+                src={imageCloudinary[1]}
+                alt=""
+                loading="lazy"
+                className={styles.image}
+              />
+            ) : (
+              <span className={styles.imagen_ph}>Imagen 2</span>
+            )}
           </div>
           <div className={styles.images_container}>
-            {imageCloudinary[2] ? <img src={imageCloudinary[2]} alt="" loading="lazy" className={styles.image} /> : <span className={styles.imagen_ph}>Imagen 3</span>}
+            {imageCloudinary[2] ? (
+              <img
+                src={imageCloudinary[2]}
+                alt=""
+                loading="lazy"
+                className={styles.image}
+              />
+            ) : (
+              <span className={styles.imagen_ph}>Imagen 3</span>
+            )}
           </div>
         </div>
       </div>

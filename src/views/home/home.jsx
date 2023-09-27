@@ -10,33 +10,21 @@ import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
+import autenticateAllUsers from "../../helpers/autenticateAllUsers";
 
 const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-
   //-------------------------------//
-  const { user, isAuthenticated } = useAuth0();
-
-  const postUser = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3004/users/auth",
-        user
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { user } = useAuth0();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      postUser();
-    } else {
+    if (user && user.email) {
+      const result = autenticateAllUsers(user);
+      console.log(result);
     }
-  }, [isAuthenticated, user]);
+  }, [user]);
 
   //-----------------------------//
 
@@ -56,6 +44,7 @@ const Home = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -77,19 +66,24 @@ const Home = () => {
         <div
           style={{ display: "flex", justifyContent: "center", width: "100%" }}
         >
-          <Container style={{ display: "flex", padding: "20px" }}>
+          <Container
+            style={{ display: "flex", padding: "20px", width: "400rem" }}
+          >
             <Filter />
-            <Grid sx={{ width: "80%" }}>
+            <Grid sx={{ width: "100%", display: "flex" }}>
               <Cards currentProduct={currentProduct} />
             </Grid>
           </Container>
         </div>
       )}
-      <Paginate
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-      />
+
+      {currentProduct.length ? (
+        <Paginate
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
+      ) : null}
       <Footer />
     </div>
   );
