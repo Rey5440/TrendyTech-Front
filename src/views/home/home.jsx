@@ -13,6 +13,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import autenticateAllUsers from "../../helpers/autenticateAllUsers";
 
 const Home = () => {
+  window.scrollTo(0,0);
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);

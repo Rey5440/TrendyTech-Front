@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import useAuth from "../../context-client/hooks/useAuth";
 import axios from "axios";
-import "./UserForUser.css";
+import "./userForUser.css";
 import { Edit as EditIcon } from "@mui/icons-material";
 import Nav from "../../components/nav/nav";
 import Footer from "../footer/footer";

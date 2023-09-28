@@ -10,7 +10,7 @@ const Cards = ({ currentProduct }) => {
       margin: '1%',
       marginLeft: '6%',
       rowGap: 3,
-      gridTemplateColumns: 'repeat(5, 1fr)',
+      gridTemplateColumns: 'repeat(4, 1fr)',
     }}>
       {currentProduct.length ? currentProduct?.map((product) => (
         <Card

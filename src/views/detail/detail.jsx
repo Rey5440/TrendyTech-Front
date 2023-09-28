@@ -28,6 +28,8 @@ const Detail = () => {
   //   dispatch(setAlert("  HOLA CALENEEENIUSS   ", "success"));
 
   // }
+  const [hasScrolled, setHasScrolled] = useState(false);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -47,6 +49,13 @@ const Detail = () => {
     };
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    if(!hasScrolled){
+      window.scrollTo(0,0);
+      setHasScrolled(true);
+    }
+  }, [hasScrolled])
 
   useEffect(() => {}, [imagePP]);
   // Cambiar la imagen principal cuando se haga clic en un botón de imagen
