@@ -1,4 +1,4 @@
-import { BrowserRouter, HashRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
@@ -8,19 +8,17 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { StrictMode } from "react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
-      <Auth0Provider
-        domain="dev-6u1rw8b065enk7nb.us.auth0.com"
-        clientId="q8WshN0PeWFSr3lZlvXkBx0blXS5SwjZ"
-        authorizationParams={{
-          redirect_uri: window.location.origin,
-        }}
-      >
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Auth0Provider>
-    </Provider>
-  </StrictMode>
+  <Provider store={store}>
+    <Auth0Provider
+      domain="dev-6u1rw8b065enk7nb.us.auth0.com"
+      clientId="q8WshN0PeWFSr3lZlvXkBx0blXS5SwjZ"
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    >
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </Auth0Provider>
+  </Provider>
 );
