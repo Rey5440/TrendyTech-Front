@@ -8,7 +8,6 @@ import axios from "axios";
 const NewPassword = () => {
   const [password, setPassword] = useState("");
   const [validToken, setValidToken] = useState(false);
-  // const [alert, setAlert] = useState({});
   const [passwordModified, setPasswordModified] = useState(false);
   const [showAlertError, setShowAlertError] = useState(false);
   const [showErrorPassword, setShowErrorPassword] = useState(false);
@@ -46,17 +45,10 @@ const NewPassword = () => {
       const url = `${VITE_BACKEND_URL}/users/reset-password/${token}`;
 
       const { data } = await axios.post(url, { password });
-      // setAlert({
-      //   msg: data.msg,
-      //   error: false,
-      // });
       setPassword("");
       setPasswordModified(true);
     } catch (error) {
-      // setAlert({
-      //   msg: error.response.data.msg,
-      //   error: true,
-      // });
+      console.log(error)
     }
   };
   const handleInputChange = (e, setState) => {
@@ -77,8 +69,6 @@ const NewPassword = () => {
             {/* <img src={imageLogo} alt="logo-home" className='logoRegister' />   */}
           </NavLink>
         </div>
-
-        {/* {msg && <Alert alerta={alert} />} */}
 
         {validToken && (
           <form action="" className="formRegister" onSubmit={handleSubmit}>

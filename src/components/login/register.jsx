@@ -47,7 +47,7 @@ const Register = () => {
     }
 
     try {
-      const { data } = await axios.post(`http://localhost:3004/users`, {
+      const { data } = await axios.post(`${VITE_BACKEND_URL}/users`, {
         name,
         email,
         password,
