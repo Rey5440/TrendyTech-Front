@@ -8,6 +8,11 @@ import { NavLink } from "react-router-dom";
 import "./footer.css";
 
 const Footer = () => {
+
+  const scroll = () => {
+    window.scrollTo(0,0);
+  };
+
   return (
     <footer className="foo">
       <div className="row">
@@ -35,7 +40,7 @@ const Footer = () => {
             </div>
           </h3>
           <ul>
-            <NavLink to={"/home"} style={{ textDecoration: "none" }}>
+            <NavLink to={"/home"} style={{ textDecoration: "none" }} onClick={scroll}>
               <li>
                 <a href="#">Home</a>
               </li>
@@ -45,7 +50,7 @@ const Footer = () => {
                 <a href="#">Sobre Nosotros</a>
               </li>
             </NavLink>
-            <NavLink to={"/"} style={{ textDecoration: "none" }}>
+            <NavLink to={"/"} style={{ textDecoration: "none" }} onClick={scroll}>
               <li>
                 <a href="#">Novedades</a>
               </li>
