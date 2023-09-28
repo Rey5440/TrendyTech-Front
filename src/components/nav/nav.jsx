@@ -52,7 +52,7 @@ const Nav = () => {
   //para hacer el rrenderizado condicional de la nav secundaria//
   const shouldShowNav = location.pathname === "/";
   //-------------------------//
-  const pathsWithNavAdmin = ["/admin", "/home", "/create", "/manageUsers"];
+  const pathsWithNavAdmin = ["/admin", "/home", "/create", "/manageUsers", "/user", "/shopping-cart"];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
   );
