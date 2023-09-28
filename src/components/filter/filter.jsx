@@ -93,6 +93,7 @@ const Filter = () => {
           <Select
             sx={{ width: "15rem" }}
             onChange={handleType}
+            value={selectedType}
             defaultValue=""
             label="Seleccione una categoria"
             color="warning"
@@ -126,6 +127,7 @@ const Filter = () => {
           <Select
             sx={{ width: "15rem" }}
             onChange={handleBrand}
+            value={selectedBrand}
             defaultValue=""
             label="Seleccione una marca"
             color="warning"

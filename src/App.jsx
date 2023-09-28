@@ -13,6 +13,7 @@ import NewPassword from "./components/login/newPassword";
 import { AuthProvider } from "./context-client/context/authProvider";
 import UserForUser from "./views/userForUser/userForUser";
 import Admin from "./views/admin/admin";
+import ManageUsers from "./components/manageUsers/manageUsers";
 function App() {
   return (
     <div>
@@ -24,12 +25,13 @@ function App() {
           <Route path="/create" element={<Create />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reset-password" element={<ForgetPassword />} />
-          <Route path="/new-password/:id" element={<NewPassword />} />
           <Route path="/confirm/:id" element={<ConfirmAccount />} />
+          <Route path="/new-password/:id" element={<NewPassword />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
           <Route path="/paymentStatus" element={<PaymentStatus />} />
-          <Route path="/admin" element={<Admin/>}/>
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/manageUsers" element={<ManageUsers />} />
         </Routes>
       </AuthProvider>
     </div>
