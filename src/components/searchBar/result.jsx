@@ -1,8 +1,9 @@
 import React from 'react';
+import styles from './result.module.css';
 
 const Result = ({result}) => {
     return (
-        <div>{result.name}</div>
+        <div className={styles.container}><button className={styles.button}>{result.name}</button></div>
     )
 }
 

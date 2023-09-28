@@ -14,14 +14,16 @@ const SearchBar = () => {
   const [results, setResults] = useState("");
   const dispatch = useDispatch();
   const products = useSelector(state => state.allProducts2);
-  const placeholder = fetch("https://jsonplaceholder.typicode.com/users").then((res) => res.json());
-  const suggestions = placeholder.filter((prod) => prod.name.toLowerCase().includes(product).toLowerCase())
+  const suggestions = async () => {
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const data = await response.json();
+    return data.filter((prod) => prod.name.toLowerCase().includes(product.toLowerCase()));
+  }
 
-
-  
-  const handleInput = (e) => {
+  const handleInput = async (e) => {
     setProduct(e.target.value);
-    setResults(suggestions);
+    const results = await suggestions();
+    setResults(results);
   };
 
   const handleSearch = (e) => {
@@ -91,9 +93,12 @@ const SearchBar = () => {
           <SearchIcon sx={{ fontSize: 30 }} className="SearchBar_ButtonIcon" />
         </button>
       </div>
-      <div>
-        <SearchResults results={results} />
-      </div>
+      {product && results && (
+        <div className="SearchResults_Container">
+          <SearchResults results={results} />
+        </div>
+      )}
+      
     </div>
   );
 };
