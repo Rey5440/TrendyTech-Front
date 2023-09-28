@@ -17,6 +17,8 @@ import ManageUsers from "./components/manageUsers/manageUsers";
 function App() {
   return (
     <div>
+      <Route path="/confirm/:id" element={<ConfirmAccount />} />
+      <Route path="/new-password/:id" element={<NewPassword />} />
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Presentation />} />
@@ -25,13 +27,11 @@ function App() {
           <Route path="/create" element={<Create />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reset-password" element={<ForgetPassword />} />
-          <Route path="/new-password/:id" element={<NewPassword />} />
-          <Route path="/confirm/:id" element={<ConfirmAccount />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
           <Route path="/paymentStatus" element={<PaymentStatus />} />
-          <Route path="/admin" element={<Admin/>}/>
-          <Route path="/manageUsers" element={<ManageUsers/>}/>
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/manageUsers" element={<ManageUsers />} />
         </Routes>
       </AuthProvider>
     </div>
