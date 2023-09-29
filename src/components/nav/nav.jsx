@@ -13,17 +13,22 @@ import Badge from "@mui/material/Badge";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import SortIcon from "@mui/icons-material/Sort";
+import ArchiveIcon from "@mui/icons-material/Archive";
 import LoginModal from "../login/loginModal";
 import autenticateAllUsers from "../../helpers/autenticateAllUsers";
 import { useAuth0 } from "@auth0/auth0-react";
+import useAuth from "../../context-client/hooks/useAuth";
+import axios from "axios";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import "./nav.css";
 
 const Nav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { user} = useAuth0();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [admin, setAdmin] = useState(false);
   const menuId = "primary-search-account-menu";
   const location = useLocation();
   const cart = useSelector((state) => state.shoppingCart);
@@ -32,40 +37,45 @@ const Nav = () => {
     0
   );
   const { user } = useAuth0();
-
+  const { auth } = useAuth();
   useEffect(() => {
     if (user && user.email) {
       const result = autenticateAllUsers(user);
-      console.log(result);
     }
   }, [user]);
 
   const handleProductsButton = (event) => {
-    dispatch(getAllProducts());
+    // dispatch(getAllProducts());
     navigate("/home");
   };
 
   //para hacer el rrenderizado condicional de la nav secundaria//
-  const pathsWithNavSecondary = [
-    "/register",
-    "/confirm",
-    "/logged_in",
-    "/dashboard",
-    "/home",
-    "/detail",
-    "/create",
-    "/shopping-cart",
-    "/reset-password",
-    "/user",
-  ];
-  const shouldShowNav = !pathsWithNavSecondary.some((path) =>
+  const shouldShowNav = location.pathname === "/";
+  //-------------------------//
+  const pathsWithNavAdmin = ["/admin", "/home", "/create", "/manageUsers", "/user", "/shopping-cart"];
+  const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
   );
-  //-------------------------//
 
   const handleMoveToFooter = (event) => {
     window.scrollTo(0, 1000); // Scroll down
   };
+
+  useEffect(() => {
+    async function findAdmin() {
+      const { id } = auth;
+      const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
+      if (data && data.isAdmin === true) {
+        setAdmin(true);
+      } else {
+        setAdmin(false);
+      }
+    }
+    findAdmin();
+  }, [auth, admin]);
+
+  // const searchAdmin = async () => {
+  // };
 
   return (
     <Box>
@@ -77,7 +87,7 @@ const Nav = () => {
             alignItems: "center",
           }}
         >
-          <NavLink to={"/home"}>
+          <NavLink to={"/"}>
             <div className="Nav_LogoContainer">
               <img
                 alt="Trendy Tech"
@@ -86,19 +96,10 @@ const Nav = () => {
               />
             </div>
           </NavLink>
-          <NavLink to={"/admin"}>
-            <Button variant="contained" className="button_agregar">
-              Admin
-            </Button>
-          </NavLink>
+
           <SearchBar />
           <Box>
             <Box>
-              <NavLink to="/create">
-                <Button variant="contained" className="button_agregar">
-                  Crear
-                </Button>
-              </NavLink>
               <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
                 <IconButton
                   size="large"
@@ -121,11 +122,85 @@ const Nav = () => {
         <Toolbar
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "space-around",
             alignItems: "center",
           }}
         >
-          {shouldShowNav ? (
+          {admin && showNavAdmin ? (
+            <div className="button_presentation">
+              <NavLink to={"/manageUsers"}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  endIcon={<AccountCircleIcon />}
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                >
+                  Users
+                </Button>
+              </NavLink>
+              <NavLink to="/create">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    borderRadius: "50px",
+                    margin: "4px",
+                  }}
+                  endIcon={<ArchiveIcon />}
+                >
+                  Crear
+                </Button>
+              </NavLink>
+
+              <NavLink to={"/admin"}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  endIcon={<AutoFixHighIcon />}
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                >
+                  Editar
+                </Button>
+              </NavLink>
+
+              <NavLink to="/home">
+                <Button
+                  variant="contained"
+                  color="warning"
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                  // className="button_ingresar"
+                  endIcon={<RocketLaunchIcon />}
+                  onClick={handleProductsButton}
+                >
+                  Productos
+                </Button>
+              </NavLink>
+              <NavLink to="">
+                <Button
+                  variant="contained"
+                  color="warning"
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                  // className="button_ingresar"
+                  endIcon={<LocalOfferIcon />}
+                >
+                  Descuentos
+                </Button>
+              </NavLink>
+
+              <Button
+                variant="contained"
+                color="warning"
+                style={{
+                  borderRadius: "50px",
+                  margin: "4px",
+                }}
+                endIcon={<PermContactCalendarIcon />}
+                onClick={handleMoveToFooter}
+              >
+                Contactenos
+              </Button>
+            </div>
+          ) : shouldShowNav ? (
             <div className="button_presentation">
               <NavLink to="/home">
                 <Button
@@ -164,6 +239,7 @@ const Nav = () => {
                   Descuentos
                 </Button>
               </NavLink>
+
               <Button
                 variant="contained"
                 color="warning"

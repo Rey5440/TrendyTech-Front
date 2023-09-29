@@ -226,9 +226,11 @@ const LoginModal = () => {
           ) : null}
           {/* ------------- */}
           {auth.email && (
+            <NavLink to="/">
             <Button sx={{ marginTop: "10px" }} onClick={closeSession}>
               cerrar sesión
             </Button>
+            </NavLink>
           )}
           {/* ------------- */}
           {!auth.email && <LoginButton />}
