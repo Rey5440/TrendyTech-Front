@@ -14,6 +14,7 @@ import { AuthProvider } from "./context-client/context/authProvider";
 import UserForUser from "./views/userForUser/userForUser";
 import Admin from "./views/admin/admin";
 import ManageUsers from "./components/manageUsers/manageUsers";
+import NotFound from "./views/page_not_found/not_found";
 function App() {
   return (
     <div>
@@ -31,7 +32,8 @@ function App() {
           <Route path="/user" element={<UserForUser />} />
           <Route path="/paymentStatus" element={<PaymentStatus />} />
           <Route path="/admin" element={<Admin/>}/>
-          <Route path="/manageUsers" element={<ManageUsers/>}/>
+          <Route path="/manageUsers" element={<ManageUsers/>}/> 
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
     </div>
