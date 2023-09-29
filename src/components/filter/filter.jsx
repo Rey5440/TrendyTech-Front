@@ -3,11 +3,11 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { filterAll, getAllProducts } from "../../redux/actions";
 import Slider from "react-slider";
-import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { Button, Grid } from "@mui/material";
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -80,120 +80,166 @@ const Filter = () => {
   const handleDisabled = () => {
     return allProducts1.length ? "true" : "false";
   };
+
   return (
-    <div className="FilterTech">
-      <FormControl
-        style={{
-          display: "flex",
-          flexDirection: "column",
+    <Grid
+      container
+      sx={{
+        width: "100%",
+      }}  className="FilterTech"
+    >
+      <Grid
+        item
+        xs={6}
+        sm={4}
+        md={12}
+        lx={12}
+        sx={{
+          padding: "2px 8px",
         }}
       >
-        <InputLabel>Seleccione una categoria</InputLabel>
-        {allProducts1.length ? (
-          <Select
-            sx={{ width: "15rem" }}
-            onChange={handleType}
-            defaultValue=""
-            label="Seleccione una categoria"
-            color="warning"
-            // disabled={allProducts1.length ? "false" : "false"}
-          >
-            {allProducts1.length > 0 &&
-              Array.from(
-                new Set(allProducts1.map((product) => product.type))
-              ).map((type, index) => {
-                return (
-                  <MenuItem key={index} value={type}>
-                    {type}
-                  </MenuItem>
-                );
-              })}
-          </Select>
-        ) : (
-          <Select sx={{ width: "15rem" }} variant="filled" disabled></Select>
-        )}
-      </FormControl>
-
-      <FormControl
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          marginTop: "10px",
+        <FormControl
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <InputLabel>Seleccione una categoria</InputLabel>
+          {allProducts1.length ? (
+            <Select
+              onChange={handleType}
+              defaultValue=""
+              label="Seleccione una categoria"
+              color="warning"
+              // disabled={allProducts1.length ? "false" : "false"}
+            >
+              {allProducts1.length > 0 &&
+                Array.from(
+                  new Set(allProducts1.map((product) => product.type))
+                ).map((type, index) => {
+                  return (
+                    <MenuItem key={index} value={type}>
+                      {type}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          ) : (
+            <Select sx={{ width: "15rem" }} variant="filled" disabled></Select>
+          )}
+        </FormControl>
+      </Grid>
+      <Grid
+        item
+        xs={6}
+        sm={4}
+        md={12}
+        lx={12}
+        sx={{
+          padding: "2px 8px",
         }}
       >
-        <InputLabel>Seleccione una marca</InputLabel>
-        {allProducts1.length ? (
-          <Select
-            sx={{ width: "15rem" }}
-            onChange={handleBrand}
-            defaultValue=""
-            label="Seleccione una marca"
-            color="warning"
-          >
-            {allProducts1.length > 0 &&
-              Array.from(
-                new Set(allProducts1.map((product) => product.brand))
-              ).map((brand, index) => {
-                return (
-                  <MenuItem key={index} value={brand}>
-                    {brand}
-                  </MenuItem>
-                );
-              })}
-          </Select>
-        ) : (
-          <Select sx={{ width: "15rem" }} variant="filled" disabled></Select>
-        )}
-      </FormControl>
-      <div style={{marginTop: '10px', width: '100%', alignItems: 'center', justifyContent: 'center', display: 'flex', flexDirection: 'column'}}>
-        <h3>Busqueda por precio</h3>
-        <Slider
-          className="slider"
-          value={values}
-          onChange={handleRange}
-          min={MIN}
-          max={MAX}
-        />
-
+        <FormControl
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <InputLabel>Seleccione una marca</InputLabel>
+          {allProducts1.length ? (
+            <Select
+              onChange={handleBrand}
+              defaultValue=""
+              label="Seleccione una marca"
+              color="warning"
+            >
+              {allProducts1.length > 0 &&
+                Array.from(
+                  new Set(allProducts1.map((product) => product.brand))
+                ).map((brand, index) => {
+                  return (
+                    <MenuItem key={index} value={brand}>
+                      {brand}
+                    </MenuItem>
+                  );
+                })}
+            </Select>
+          ) : (
+            <Select sx={{ width: "15rem" }} variant="filled" disabled></Select>
+          )}
+        </FormControl>
+      </Grid>
+      <Grid item xs={6} sm={4} md={12} lx={12}>
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-            marginTop: "10px",
-            marginBottom: "10px",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: "2px 8px",
           }}
         >
+          <h3>Busqueda por precio</h3>
+          <Slider
+            className="slider"
+            value={values}
+            onChange={handleRange}
+            min={MIN}
+            max={MAX}
+          />
+
           <div
             style={{
-              paddingRight: "5px",
               display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              marginTop: "10px",
+              marginBottom: "10px",
             }}
           >
-            <label htmlFor="minPrice">Min</label>
-            <span>$ {values[0]}</span>
-          </div>
-          <div
-            style={{
-              paddingLeft: "5px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <label htmlFor="maxPrice">Max</label>
-            <span>$ {values[1]}</span>
+            <div
+              style={{
+                paddingRight: "5px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <label htmlFor="minPrice">Min</label>
+              <span>$ {values[0]}</span>
+            </div>
+            <div
+              style={{
+                paddingLeft: "5px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <label htmlFor="maxPrice">Max</label>
+              <span>$ {values[1]}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
+      </Grid>
+      <Grid
+        item
+        xs={6}
+        sm={12}
+        md={12}
+        lx={12}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          maxHeight: "50px",
+          alignSelf: "center",
+          padding: "8px",
+        }}
+      >
         <Button variant="contained" onClick={handleClear}>
           Eliminar filtros
         </Button>
-      </div>
-    </div>
+      </Grid>
+    </Grid>
   );
 };
 

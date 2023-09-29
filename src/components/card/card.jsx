@@ -1,38 +1,64 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+// import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
 import { Box } from "@mui/system";
 
 export default function CardTech({ images, id, name, price, brand }) {
+
   return (
-    /*  <Card sx={{ maxWidth: 330 }}>
-   <div> */
-    <Card sx={{ width: "100%", display: "grid", height: "300px", }}>
-      <Box sx={{ width: "100%", alignSelf: "flex-end" }}>
-        <NavLink
-          to={`/detail/${id}`}
-          style={{ width: "100%", textDecoration: "none" }}
-        >
+    <Card
+      sx={{
+        height: "300px",
+        padding: "4px",
+        display: "flex",
+        boxSizing: "content-box",
+      }}
+    >
+      <NavLink to={`/detail/${id}`} style={{ textDecoration: "none" }}>
+        <Box sx={{ height: "50%", width: "100%" }}>
           <CardMedia
-            sx={{ width: "100%" }}
+            sx={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
             component="img"
             image={images[0]}
             alt={name}
           />
-          <CardContent>
-            <Typography sx={{fontWeight: 'bold',}}>
-              <h4>{name}</h4>
-            </Typography>
+        </Box>
+        <Box
+          sx={{
+            height: "50%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              maxHeight: "80px",
+              fontFamily: "Poppins",
+            }}
+          >
+            <h4>{name}</h4>
+          </Typography>
 
-            <Typography variant="subtitle2" color="text.secondary">
+          <Typography
+            variant="subtitle2"
+            color="text.secondary"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              backgroundColor: "#007bff",
+              borderRadius: "4px",
+              color: "white",
+            }}
+          >
             <h2>${price}</h2>
-            </Typography>
-          </CardContent>
-        </NavLink>
-      </Box>
+          </Typography>
+        </Box>
+      </NavLink>
     </Card>
   );
 }
