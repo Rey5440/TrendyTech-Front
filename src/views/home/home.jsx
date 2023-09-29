@@ -6,7 +6,7 @@ import NavBar from "../../components/nav/nav";
 import Filter from "../../components/filter/filter";
 import OrderBy from "../../components/orderBy/orderBy";
 import Grid from "@mui/material/Grid";
-import { Container, Box } from "@mui/material";
+import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
 import { useAuth0 } from "@auth0/auth0-react";
