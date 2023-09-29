@@ -13,6 +13,8 @@ import NewPassword from "./components/login/newPassword";
 import { AuthProvider } from "./context-client/context/authProvider";
 import UserForUser from "./views/userForUser/userForUser";
 import Admin from "./views/admin/admin";
+import DeleteUser from "./components/deleteUser/deleteUser";
+import DeleteProduct from "./components/deleteProduct/deleteProduct";
 function App() {
   return (
     <div>
@@ -30,6 +32,8 @@ function App() {
           <Route path="/user" element={<UserForUser />} />
           <Route path="/paymentStatus" element={<PaymentStatus />} />
           <Route path="/admin" element={<Admin/>}/>
+          <Route path="/deleteuser" element={<DeleteUser/>}/>
+          <Route path="/deleteproduct" element={<DeleteProduct/>}/>
         </Routes>
       </AuthProvider>
     </div>
