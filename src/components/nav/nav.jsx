@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../redux/actions";
-import { Button, Box } from "@mui/material";
+import { Button, Box, Grid, Container } from "@mui/material";
 import SearchBar from "../searchBar/searchBar";
 import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
 import AppBar from "@mui/material/AppBar";
@@ -52,7 +52,14 @@ const Nav = () => {
   //para hacer el rrenderizado condicional de la nav secundaria//
   const shouldShowNav = location.pathname === "/";
   //-------------------------//
-  const pathsWithNavAdmin = ["/admin", "/home", "/create", "/manageUsers", "/user", "/shopping-cart"];
+  const pathsWithNavAdmin = [
+    "/admin",
+    "/home",
+    "/create",
+    "/manageUsers",
+    "/user",
+    "/shopping-cart",
+  ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
   );
@@ -79,44 +86,70 @@ const Nav = () => {
 
   return (
     <Box>
-      <AppBar position="static" color="warning">
-        <Toolbar
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+      <Grid
+        container
+        sx={{
+          backgroundColor: "#fd6f09",
+          alignItems: "center",
+          height: "120px",
+          maxHeight: "120px",
+        }}
+      >
+        <Grid
+          item
+          xs={5}
+          sm={4}
+          md={3}
+          lg={3}
+          xl={4}
+          sx={{ paddingLeft: "14px" }}
         >
           <NavLink to={"/"}>
-            <div className="Nav_LogoContainer">
-              <img
-                alt="Trendy Tech"
-                src={Trendy_Tech_Logo}
-                className="Nav_Logo"
-              />
-            </div>
+            <img
+              alt="Trendy Tech"
+              src={Trendy_Tech_Logo}
+              className="Nav_Logo"
+              style={{
+                maxWidth: "140px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            />
           </NavLink>
-
+        </Grid>
+        <Grid
+          item
+          xs={7}
+          sm={8}
+          md={6}
+          lg={6}
+          xl={4}
+        >
           <SearchBar />
-          <Box>
-            <Box>
-              <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                  className="Nav_IconoCarrito"
-                >
-                  <Badge badgeContent={totalProductsInCart} color="error">
-                    <ShoppingCartIcon sx={{ fontSize: 30 }} />
-                  </Badge>
-                </IconButton>
-              </NavLink>
-            </Box>
-          </Box>
-          <LoginModal />
-        </Toolbar>
-      </AppBar>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={3}
+          lg={3}
+          xl={4}
+          sx={{ display: "flex", justifyContent: "end", paddingRight:"10px" }}
+        >
+          <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={totalProductsInCart} color="error">
+                <ShoppingCartIcon sx={{ fontSize: 30 }} />
+              </Badge>
+            </IconButton>
+          </NavLink>
+          <LoginModal className="Nav_IconoPerfil" />
+        </Grid>
+      </Grid>
 
       <AppBar position="static" color="text">
         <Toolbar

@@ -77,9 +77,9 @@ const Filter = () => {
     dispatch(filterAll(filterPrice));
   };
 
-  const handleDisabled = () => {
-    return allProducts1.length ? "true" : "false";
-  };
+  // const handleDisabled = () => {
+  //   return allProducts1.length ? "true" : "false";
+  // };
 
   return (
     <Grid
