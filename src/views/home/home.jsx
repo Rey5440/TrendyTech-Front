@@ -14,6 +14,7 @@ import autenticateAllUsers from "../../helpers/autenticateAllUsers";
 import { getAllProducts, orderByPrice } from "../../redux/actions";
 
 const Home = () => {
+  window.scrollTo(0,0);
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
