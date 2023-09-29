@@ -12,6 +12,7 @@ export default defineConfig({
       "process.env.VITE_BACKEND_URL": JSON.stringify(
         process.env.VITE_BACKEND_URL
       ),
+      preventAssignment: true,  // Agregar esta línea
     }),
   ],
   assets: ["SearchBar.css"],

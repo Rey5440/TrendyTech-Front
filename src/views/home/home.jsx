@@ -3,20 +3,24 @@ import { useDispatch, useSelector } from "react-redux";
 import Cards from "../../components/cards/cards";
 import Paginate from "../../components/paginate/paginate";
 import NavBar from "../../components/nav/nav";
-import { getAllProducts } from "../../redux/actions";
 import Filter from "../../components/filter/filter";
+import OrderBy from "../../components/orderBy/orderBy";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import autenticateAllUsers from "../../helpers/autenticateAllUsers";
+import { getAllProducts, orderByPrice } from "../../redux/actions";
 
 const Home = () => {
   window.scrollTo(0,0);
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const [orderBy, setOrderBy] = useState(false);
+
+
   //-------------------------------//
   const { user } = useAuth0();
 
@@ -26,14 +30,17 @@ const Home = () => {
       console.log(result);
     }
   }, [user]);
-
   //-----------------------------//
+
+  useEffect(() => {
+    dispatch(orderByPrice(orderBy));
+  }, [orderBy]);
 
   useEffect(() => {
     dispatch(getAllProducts());
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
   }, [dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,18 +71,29 @@ const Home = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}
+        <Container
+          style={{
+            width: "100%",
+          }}
         >
-          <Container
-            style={{ display: "flex", padding: "20px", width: "400rem" }}
-          >
-            <Filter />
-            <Grid sx={{ width: "100%", display: "flex" }}>
+          <Grid container sx={{ paddingTop: "4px" }}>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              lg={3}
+              sx={{
+                paddingTop: "4px",
+              }}
+            >
+             {<Filter />}
+            </Grid>
+            <Grid item xs={12} md={9} lg={9} xl={9}>
+              <OrderBy orderBy={orderBy} setOrderBy={setOrderBy} />
               <Cards currentProduct={currentProduct} />
             </Grid>
-          </Container>
-        </div>
+          </Grid>
+        </Container>
       )}
 
       {currentProduct.length ? (
@@ -91,3 +109,8 @@ const Home = () => {
 };
 
 export default Home;
+
+
+
+
+

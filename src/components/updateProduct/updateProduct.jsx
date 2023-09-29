@@ -58,6 +58,9 @@ const updateProduct = () => {
               Descripción
             </TableCell>
             <TableCell style={{ fontFamily: "Poppins", fontSize: "18px" }}>
+              Imagen
+            </TableCell>
+            <TableCell style={{ fontFamily: "Poppins", fontSize: "18px" }}>
               Editar
             </TableCell>
           </TableRow>
@@ -72,6 +75,13 @@ const updateProduct = () => {
               <TableCell>{product.type}</TableCell>
               <TableCell>{product.color}</TableCell>
               <TableCell>{product.description}</TableCell>
+              <TableCell>
+                <img
+                  src={product.images[0]}
+                  width="50px"
+                  alt="images de producto"
+                />
+              </TableCell>
               <TableCell>
                 <EditButton product={{ ...product }} updatePage={updatePage} />
               </TableCell>

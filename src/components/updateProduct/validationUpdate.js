@@ -1,6 +1,6 @@
 
 const validate = (value) => {
-    const regex = /^[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜ.-]*$/;
+    const regex = /^[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜ.,()-]*$/;
     return regex.test(value);
 };
 
