@@ -6,7 +6,7 @@ import Nav from "../nav/nav";
 import AlertTech from "../alert/alert";
 import imageLogo from "../../assets/logo-trendy-negro.png";
 import axios from "axios";
-import "./forgetPassword.css";
+import "./forgetPassword.css"
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");

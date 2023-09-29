@@ -1,10 +1,11 @@
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import store from "./redux/store.js";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { StrictMode } from "react";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
@@ -15,9 +16,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         redirect_uri: window.location.origin,
       }}
     >
-      <BrowserRouter>
+      <HashRouter>
         <App />
-      </BrowserRouter>
+      </HashRouter>
     </Auth0Provider>
   </Provider>
 );

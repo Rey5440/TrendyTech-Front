@@ -109,6 +109,7 @@ const Filter = () => {
             <Select
               onChange={handleType}
               defaultValue=""
+              value={selectedType}
               label="Seleccione una categoria"
               color="warning"
               // disabled={allProducts1.length ? "false" : "false"}
@@ -150,6 +151,7 @@ const Filter = () => {
             <Select
               onChange={handleBrand}
               defaultValue=""
+              value={selectedBrand}
               label="Seleccione una marca"
               color="warning"
             >
