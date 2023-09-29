@@ -25,11 +25,14 @@ const reducer = (state = initialState, {type, payload }) =>{
                 allProducts1: payload,
             }
         case ORDER_BY_PRICE:
-            let productsByPrice = state.allProducts1;
-            if(payload === "asc"){
-                productsByPrice = productsByPrice.sort((a, b) => a.price - b.price);
-            }
+
+            let productsByPrice = [...state.allProducts1];
             if(payload === "desc"){
+                productsByPrice = productsByPrice.sort((a, b) => a.price - b.price);
+                console.log(productsByPrice);
+
+            }
+            if(payload === "asc"){
                 productsByPrice = productsByPrice.sort((a, b) => b.price - a.price);
                 console.log(productsByPrice);
             }
