@@ -4,7 +4,6 @@ import Home from "./views/home/home";
 import Detail from "./views/detail/detail";
 import Create from "./views/create/create";
 import Presentation from "./views/presentation/presentation";
-// import Login from "./components/login/login";
 import Register from "./components/login/register";
 import ShoppingCart from "./components/shopping_cart/shopping_cart";
 import ConfirmAccount from "./components/login/confirmAccount";
@@ -13,6 +12,7 @@ import NewPassword from "./components/login/newPassword";
 import { AuthProvider } from "./context-client/context/authProvider";
 import UserForUser from "./views/userForUser/userForUser";
 import Admin from "./views/admin/admin";
+import ManageUsers from "./components/manageUsers/manageUsers";
 function App() {
   return (
     <div>
@@ -30,6 +30,7 @@ function App() {
           <Route path="/user" element={<UserForUser />} />
           <Route path="/paymentStatus" element={<PaymentStatus />} />
           <Route path="/admin" element={<Admin/>}/>
+          <Route path="/manageUsers" element={<ManageUsers/>}/>
         </Routes>
       </AuthProvider>
     </div>

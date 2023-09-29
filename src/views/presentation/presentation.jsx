@@ -19,7 +19,6 @@ import Footer from "../footer/footer"
 import "./presentation.css";
 
 const images = [banner1, banner2, banner3];
-
 const Presentation = () => {
   const dispatch = useDispatch();
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -31,6 +30,8 @@ const Presentation = () => {
 //modificamos allPrducts1 para tener los ultimos 10 abjetos que esten en la vase de datos//
   const lastProducts = [...allProducts1].reverse();
   const first10Products = lastProducts.slice(0, 10);
+
+  const [hasScrolled, setHasScrolled] = useState(false);
 
   //settings del carrousel//
   var settings = {
@@ -86,6 +87,13 @@ const Presentation = () => {
       clearTimeout(timer);
     };
   }, [selectedImage]);
+
+  useEffect(() => {
+    if(!hasScrolled){
+      window.scrollTo(0,0);
+      setHasScrolled(true);
+    }
+  }, [hasScrolled])
 
   const selectNewImage = (index, images, next = true) => {
     setLoaded(false);
