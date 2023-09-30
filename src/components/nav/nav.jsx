@@ -52,7 +52,14 @@ const Nav = () => {
   //para hacer el rrenderizado condicional de la nav secundaria//
   const shouldShowNav = location.pathname === "/";
   //-------------------------//
-  const pathsWithNavAdmin = ["/admin", "/home", "/create", "/manageUsers", "/user", "/shopping-cart"];
+  const pathsWithNavAdmin = [
+    "/admin",
+    "/home",
+    "/create",
+    "/manageUsers",
+    "/user",
+    "/shopping-cart",
+  ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
   );
@@ -64,6 +71,7 @@ const Nav = () => {
   useEffect(() => {
     async function findAdmin() {
       const { id } = auth;
+      console.log(auth);
       const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
       if (data && data.isAdmin === true) {
         setAdmin(true);
@@ -128,6 +136,17 @@ const Nav = () => {
         >
           {admin && showNavAdmin ? (
             <div className="button_presentation">
+              <NavLink to={"/delete"}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  endIcon={<AccountCircleIcon />}
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                >
+                  Borrar
+                </Button>
+              </NavLink>
+
               <NavLink to={"/manageUsers"}>
                 <Button
                   variant="contained"

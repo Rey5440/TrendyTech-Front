@@ -14,12 +14,11 @@ import autenticateAllUsers from "../../helpers/autenticateAllUsers";
 import { getAllProducts, orderByPrice } from "../../redux/actions";
 
 const Home = () => {
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState(false);
-
 
   //-------------------------------//
   const { user } = useAuth0();
@@ -86,7 +85,7 @@ const Home = () => {
                 paddingTop: "4px",
               }}
             >
-             {<Filter />}
+              {<Filter />}
             </Grid>
             <Grid item xs={12} md={9} lg={9} xl={9}>
               <OrderBy orderBy={orderBy} setOrderBy={setOrderBy} />
@@ -109,8 +108,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
-
-

@@ -25,13 +25,14 @@ const OrderBy = ({ orderBy, setOrderBy }) => {
       ></Grid>
       <Grid item xs={4} sm={3} md={3} lx={3}>
         <FormControl fullWidth variant="standard">
-          <InputLabel id="demo-simple-select-label">ORDEN</InputLabel>
+          <InputLabel color="warning" id="demo-simple-select-label">ORDEN</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={orderBy}
             label="order"
             onChange={handleChange}
+            color="warning"
           >
             <MenuItem value={"asc"}>Mayor Precio</MenuItem>
             <MenuItem value={"desc"}>Menor precio</MenuItem>
