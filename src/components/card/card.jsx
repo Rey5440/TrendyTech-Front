@@ -4,8 +4,11 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
 import { Box } from "@mui/system";
+import { toFormatPrice } from "../../helpers/toFormatPrice";
 
 export default function CardTech({ images, id, name, price, brand }) {
+//------formateamos el precio con puntos y comas----/
+  const formattedPrice = toFormatPrice(price)
 
   return (
     <Card
@@ -54,7 +57,7 @@ export default function CardTech({ images, id, name, price, brand }) {
               color: "white",
             }}
           >
-            <h2>${price}</h2>
+            <h2>{formattedPrice}</h2>
           </Typography>
         </Box>
       </NavLink>
@@ -62,23 +65,3 @@ export default function CardTech({ images, id, name, price, brand }) {
   );
 }
 
-/* import { NavLink } from "react-router-dom";
-import './card.css'
-
-const Card = ({ images, id, name, price, brand }) => {
-    return (
-        // el id va a servir para utilizar el NavLink que lleva al detail
-        <NavLink to={`/detail/${id}`}>
-        <div className="CardTech">
-            <div className="ImgContainer">
-            <img className="Img" src={image[0]} alt={name} width={"300px"} />
-            </div>
-            <h4 >{name}</h4>
-            <h3 >{brand}</h3>
-            <h2>$ {price}</h2>
-        </div>
-        </NavLink>
-    )
-}
-
-export default Card; */
