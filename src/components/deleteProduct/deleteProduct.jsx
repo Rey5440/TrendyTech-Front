@@ -54,7 +54,7 @@ const DeleteProduct = () => {
                             <TableCell>
                                 <Button 
                                     variant="contained" 
-                                    color={product.isDeleted ? "primary" : "error"} 
+                                    color={product.isDeleted ? "success" : "error"} 
                                     value={product.id} 
                                     onClick={handleDelete}
                                     style={{transition: 'background-color 0.3s'}}

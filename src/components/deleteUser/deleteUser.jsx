@@ -46,10 +46,10 @@ const DeleteUser = () => {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Nombre</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell style={{ width: "150px" }}>Estado</TableCell>
-            <TableCell style={{ width: "150px" }}>Confirmación</TableCell>
+            <TableCell style={{ width: "250px" }}>Nombre</TableCell>
+            <TableCell style={{ width: "250px" }}>Email</TableCell>
+            <TableCell style={{ width: "250px" }}>Estado</TableCell>
+            <TableCell style={{ width: "250px" }}>Confirmación</TableCell>
             <TableCell style={{ width: "150px" }}>Acción</TableCell>
           </TableRow>
         </TableHead>
@@ -78,20 +78,23 @@ const DeleteUser = () => {
               </TableCell>
               <TableCell>
                 {user.confirmated ? (
-                  <Typography color="error">No confirmado</Typography>
-                ) : (
                   <Typography color="success">Confirmado</Typography>
+                ) : (
+                  <Typography color="error">No confirmado</Typography>
                 )}
               </TableCell>
               <TableCell>
                 <Button
                   variant="contained"
-                  color={user.isDeleted ? "primary" : "error"}
+                  color={user.isDeleted ? "success" : "error"}
                   value={user.id}
                   onClick={handleDelete}
-                  style={{ transition: "background-color 0.3s" }}
+                  style={{
+                    transition: "background-color 0.3s",
+                    width: "150px",
+                  }}
                 >
-                  {user.isDeleted ? "Agregar" : "Borrar"}
+                  {user.isDeleted ? "Activar" : "Desactivar"}
                 </Button>
               </TableCell>
             </TableRow>

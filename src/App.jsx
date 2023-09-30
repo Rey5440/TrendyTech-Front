@@ -30,11 +30,9 @@ function App() {
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
           <Route path="/paymentStatus" element={<PaymentStatus />} />
-
-          <Route path="/admin" element={<Admin/>}/>
-          <Route path="/delete" element={<Delete/>}/>
-          <Route path="/manageUsers" element={<ManageUsers/>}/>
-
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/delete" element={<Delete />} />
+          <Route path="/manageUsers" element={<ManageUsers />} />
         </Routes>
       </AuthProvider>
     </div>
