@@ -1,5 +1,12 @@
 import Cookies from "js-cookie";
 import axios from "axios";
+import generateToken from "./generateToken";
+
+const getToken = (user) => {
+  const token = generateToken();
+  user.token = token;
+  return user;
+};
 
 const saveUserDataToCookie = (user) => {
   // Genera una clave única para cada usuario (por ejemplo, el ID de usuario)
@@ -14,31 +21,40 @@ const saveUserDataToCookie = (user) => {
   }
 };
 
+const getUser = async (user) => {
+  try {
+    const response = await axios.get(`http://localhost:3004/users/token/${user}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const postUser = async (user) => {
   try {
     const response = await axios.post("http://localhost:3004/users/auth", user);
-
-    saveUserDataToCookie(user);
-    // console.log("pase por aca");
+    saveUserDataToCookie(user.token);
   } catch (error) {
     console.log(error);
   }
 };
 
 // Función para obtener los datos del usuario desde la cookie
-const getUserDataFromCookie = (user) => {
-  // console.log("pase por get cookie");
-
+const getUserDataFromCookie = async(user) => {
   // Genera la clave única para el usuario
   try {
     // Obtiene la cadena JSON de la cookie "userKey"
     const userDataJSON = Cookies.get("ignacioMagic");
-    
+    console.log(userDataJSON);
     // Si la cookie existe, la parsea de JSON a un objeto
     if (userDataJSON) {
-      return JSON.parse(userDataJSON);
+      const user = JSON.parse(userDataJSON);
+      const tal = await getUser(user)
+      return tal;
+      console.log(tal);
     } else if (user.email) {
-      postUser(user);
+      const userWithToken = getToken(user);
+      postUser(userWithToken);
     }
   } catch (error) {
     console.log(error);
@@ -48,10 +64,9 @@ const getUserDataFromCookie = (user) => {
 };
 
 const autenticateAllUsers = (user) => {
-  // console.log(user);
-
-  getUserDataFromCookie(user);
+ const result = getUserDataFromCookie(user);
   // Función para guardar datos del usuario en una cookie
+  return result;
 };
 
 export default autenticateAllUsers;
