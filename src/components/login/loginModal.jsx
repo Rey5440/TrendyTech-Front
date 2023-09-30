@@ -8,7 +8,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import LoginButton from "../auth0/auth0Login";
 import UserProfile from "../auth0/auth0Profile";
-import { useAuth0 } from "@auth0/auth0-react";
+import {  useSelector } from "react-redux";
 import "./loginModal.css";
 
 //----import del login del facha------//
@@ -19,8 +19,8 @@ import useAuth from "../../context-client/hooks/useAuth";
 import AlertTech from "../alert/alert";
 
 const LoginModal = () => {
-  const { isAuthenticated } = useAuth0();
-
+  const userData = useSelector(state => state.userData)
+console.log(!!userData.name);
   const [open, setOpen] = React.useState(false);
   // const location = useLocation();
   const handleClickOpen = () => {
@@ -38,11 +38,6 @@ const LoginModal = () => {
   const [confirmationAlert, setConfirmationAlert] = useState(null);
   const { auth, closeSession } = useAuth();
   const { setAuth } = useAuth();
-
-  // console.log(auth);
-  // console.log(closeSession);
-  // console.log(isAuthenticated);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,6 +67,7 @@ const LoginModal = () => {
         password,
       });
       localStorage.setItem("token", data.token);
+      console.log(data);
       setAuth(data);
       navigate("/home");
       // setOpen(false) hay que ver cuando el usuario no esta loggeado
@@ -115,7 +111,7 @@ const LoginModal = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        {!auth.email && !isAuthenticated && (
+        {!auth.email && !userData.name && (
           <DialogTitle
             id="alert-dialog-title"
             sx={{
@@ -152,8 +148,7 @@ const LoginModal = () => {
             alignItems: "center",
           }}
         >
-          {(auth.email && !isAuthenticated) ||
-          (!auth.email && isAuthenticated) ? null : (
+          {(auth.email && !userData.name) || (!auth.email && userData.name) ? null : (
             <div className="divContainer_Form_Login">
               <form className="form_Login" onSubmit={handleSubmit}>
                 <div className="divContainer_input_login">
@@ -199,8 +194,7 @@ const LoginModal = () => {
             </div>
           )}
           {/* --------------- */}
-          {(auth.email && !isAuthenticated) ||
-          (!auth.email && isAuthenticated) ? null : (
+          {(auth.email && !userData.name) || (!auth.email && userData.name) ? null : (
             <DialogTitle
               id="alert-dialog-title"
               style={{
@@ -216,7 +210,7 @@ const LoginModal = () => {
           )}
           {/* ----------------- */}
           <UserProfile />
-          {isAuthenticated || auth.email ? (
+          {userData.name || auth.email ? (
             <NavLink to="/mi-perfil">
               {/* ver que ruta es la del perfil */}
               <NavLink to="/user">
@@ -227,9 +221,9 @@ const LoginModal = () => {
           {/* ------------- */}
           {auth.email && (
             <NavLink to="/">
-            <Button sx={{ marginTop: "10px" }} onClick={closeSession}>
-              cerrar sesión
-            </Button>
+              <Button sx={{ marginTop: "10px" }} onClick={closeSession}>
+                cerrar sesión
+              </Button>
             </NavLink>
           )}
           {/* ------------- */}

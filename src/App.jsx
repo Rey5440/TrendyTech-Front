@@ -25,14 +25,16 @@ function App() {
           <Route path="/create" element={<Create />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reset-password" element={<ForgetPassword />} />
-          <Route path="/new-password/:id" element={<NewPassword />} />
           <Route path="/confirm/:id" element={<ConfirmAccount />} />
+          <Route path="/new-password/:token" element={<NewPassword />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
           <Route path="/paymentStatus" element={<PaymentStatus />} />
+
           <Route path="/admin" element={<Admin/>}/>
           <Route path="/delete" element={<Delete/>}/>
           <Route path="/manageUsers" element={<ManageUsers/>}/>
+
         </Routes>
       </AuthProvider>
     </div>

@@ -1,9 +1,12 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "@mui/material";
+import { useSelector } from "react-redux";
 import chromeImgLogin from "../../assets/chrome.png";
 import "./auth0Login.css";
 
 const LoginButton = () => {
+  const userData = useSelector((state) => state.userData);
+  console.log(userData);
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   const handleLogin = async () => {
@@ -16,7 +19,7 @@ const LoginButton = () => {
 
   return (
     <div>
-      {!isAuthenticated ? (
+      {!userData.name ? (
         <div>
           <img
             src={chromeImgLogin}
