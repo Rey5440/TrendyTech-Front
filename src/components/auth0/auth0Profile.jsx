@@ -1,31 +1,19 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
+import { useSelector } from "react-redux";
 
-const UserProfile = () => {
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [accessToken, setAccessToken] = useState(null);
-
+export const UserProfile = () => {
+  const userData = useSelector((state) => state.userData);
+  // const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  // const [accessToken, setAccessToken] = useState(null);
+console.log(userData, "esllsdkjgñlfdkg");
   useEffect(() => {
-    if (isAuthenticated) {
-      obtenerToken();
-    } else {
-      setAccessToken(null);
-    }
-  }, [isAuthenticated, user]);
-
-  const obtenerToken = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-      setAccessToken(token);
-    } catch (error) {
-      console.error("Error al obtener el token de acceso:", error);
-    }
-  };
+  
+  }, [userData]);
 
   return (
     <div>
-      {isAuthenticated ? (
+      {userData.name ? (
         <div
           style={{
             display: "flex",
@@ -34,12 +22,19 @@ const UserProfile = () => {
             alignItems: "center",
           }}
         >
-          <p style={{ fontSize: "25px", fontWeight: "bold" }}>{user?.name}</p>
+          <p style={{ fontSize: "25px", fontWeight: "bold" }}>
+            {userData.name}
+          </p>
           <hr className="hr_login" />
           <img
-            src={user?.picture}
+            src={userData.image}
             alt="Perfil"
-            style={{ borderRadius: "50px", border: "3px solid #007bff", marginTop:"10px", marginBottom:"10px" }}
+            style={{
+              borderRadius: "50px",
+              border: "3px solid #007bff",
+              marginTop: "10px",
+              marginBottom: "10px",
+            }}
           />
         </div>
       ) : (
@@ -48,6 +43,5 @@ const UserProfile = () => {
     </div>
   );
 };
-
 
 export default UserProfile;

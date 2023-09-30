@@ -11,23 +11,29 @@ import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import autenticateAllUsers from "../../helpers/autenticateAllUsers";
-import { getAllProducts, orderByPrice } from "../../redux/actions";
+import { getAllProducts, orderByPrice, getuserData } from "../../redux/actions";
 
 const Home = () => {
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState(false);
 
-
   //-------------------------------//
   const { user } = useAuth0();
-
   useEffect(() => {
     if (user && user.email) {
-      const result = autenticateAllUsers(user);
-      console.log(result);
+      const fetchData = async () => {
+        try {
+          const result = await autenticateAllUsers(user);
+          console.log(result);
+          dispatch(getuserData(result));
+        } catch (error) {
+          console.log(error)
+        }
+      };
+      fetchData();
     }
   }, [user]);
   //-----------------------------//
@@ -86,7 +92,7 @@ const Home = () => {
                 paddingTop: "4px",
               }}
             >
-             {<Filter />}
+              {<Filter />}
             </Grid>
             <Grid item xs={12} md={9} lg={9} xl={9}>
               <OrderBy orderBy={orderBy} setOrderBy={setOrderBy} />
@@ -109,8 +115,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
-
-
