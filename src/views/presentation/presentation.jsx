@@ -80,6 +80,9 @@ const Presentation = () => {
 
   useEffect(() => {
     dispatch(getAllProducts());
+  },[])
+
+  useEffect(() => {
     const timer = setTimeout(() => {
       selectNewImage(selectedIndex, images);
     }, 2500);
