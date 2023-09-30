@@ -12,7 +12,7 @@ import NewPassword from "./components/login/newPassword";
 import { AuthProvider } from "./context-client/context/authProvider";
 import UserForUser from "./views/userForUser/userForUser";
 import Admin from "./views/admin/admin";
-import Delete from "./components/delete/delete";
+import Delete from "./views/delete/delete";
 import ManageUsers from "./components/manageUsers/manageUsers";
 function App() {
   return (

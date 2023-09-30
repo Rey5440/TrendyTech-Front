@@ -1,8 +1,8 @@
 // import DeleteUser from "../deleteUser/deleteUser";
-import DeleteProduct from "../deleteProduct/deleteProduct";
-import DeleteUser from "../deleteUser/deleteUser";
+import DeleteProduct from "../../components/deleteProduct/deleteProduct";
+import DeleteUser from "../../components/deleteUser/deleteUser";
 import { Button, Container } from "@mui/material";
-import Nav from "../nav/nav";
+import Nav from "../../components/nav/nav";
 import { useState } from "react";
 import "./delete.css";
 import GroupRemoveIcon from "@mui/icons-material/GroupRemove";

@@ -20,7 +20,6 @@ import AlertTech from "../alert/alert";
 
 const LoginModal = () => {
   const userData = useSelector(state => state.userData)
-console.log(!!userData.name);
   const [open, setOpen] = React.useState(false);
   // const location = useLocation();
   const handleClickOpen = () => {
@@ -66,6 +65,9 @@ console.log(!!userData.name);
         email,
         password,
       });
+      if(data.isDeleted === true) {
+        return showAlert("warning", "Su cuenta ha sido desactivada por incumplir nuestros términos de uso.")
+      }
       localStorage.setItem("token", data.token);
       console.log(data);
       setAuth(data);
@@ -89,19 +91,13 @@ console.log(!!userData.name);
 
   return (
     <div>
-      {confirmationAlert && (
-        <AlertTech
-          message={confirmationAlert.message}
-          type={confirmationAlert.type}
-        />
-      )}
       <IconButton
         variant="contained"
         sx={{
           color: "#ffffff",
         }}
         onClick={handleClickOpen}
-      >
+        >
         <AccountCircleIcon sx={{ fontSize: 40 }} />
       </IconButton>
       <Dialog
@@ -110,18 +106,24 @@ console.log(!!userData.name);
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-      >
+        >
         {!auth.email && !userData.name && (
           <DialogTitle
-            id="alert-dialog-title"
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              fontSize: "25px",
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "bold",
-            }}
+          id="alert-dialog-title"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            fontSize: "25px",
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: "bold",
+          }}
           >
+            {confirmationAlert && (
+              <AlertTech
+                message={confirmationAlert.message}
+                type={confirmationAlert.type}
+              />
+            )}
             {"Inicia sesión en TrendyTech"}
           </DialogTitle>
         )}
