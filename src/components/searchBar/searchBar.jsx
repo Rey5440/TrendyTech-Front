@@ -5,7 +5,7 @@ import { searchByName } from "../../redux/actions";
 import "./searchBar.css";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Autocomplete, Button, Grid, Stack, TextField } from "@mui/material";
 
 const SearchBar = () => {

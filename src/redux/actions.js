@@ -10,7 +10,7 @@ export const getAllProducts = ()=>{
             const all = await axios(
               `${VITE_BACKEND_URL}/products`
             );
-            console.log(all)
+            // console.log(all)
             return dispatch({
                 type:GET_ALL_PRODUCTS,
                 payload: all.data
