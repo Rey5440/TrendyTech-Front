@@ -6,7 +6,6 @@ import "./auth0Login.css";
 
 const LoginButton = () => {
   const userData = useSelector((state) => state.userData);
-  console.log(userData);
   const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   const handleLogin = async () => {

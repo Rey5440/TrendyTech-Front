@@ -10,3 +10,4 @@ export const DECREASE_QUANTITY = 'DECREASE_QUANTITY';
 export const SHOW_ALERT = 'SHOW_ALERT';
 export const HIDE_ALERT = 'HIDE_ALERT';
 export const USER_DATA = 'USER_DATA';
+export const SET_OPEN_MODAL_LOGIN = "SET_OPEN_MODAL_LOGIN";
