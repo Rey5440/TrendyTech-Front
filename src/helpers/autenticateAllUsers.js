@@ -51,7 +51,6 @@ const getUserDataFromCookie = async(user) => {
       const user = JSON.parse(userDataJSON);
       const tal = await getUser(user)
       return tal;
-      console.log(tal);
     } else if (user.email) {
       const userWithToken = getToken(user);
       postUser(userWithToken);

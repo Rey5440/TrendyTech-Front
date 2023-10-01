@@ -9,9 +9,7 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
-import { useAuth0 } from "@auth0/auth0-react";
-import autenticateAllUsers from "../../helpers/autenticateAllUsers";
-import { getAllProducts, orderByPrice, getuserData } from "../../redux/actions";
+import { getAllProducts, orderByPrice} from "../../redux/actions";
 
 const Home = () => {
   window.scrollTo(0, 0);
@@ -19,24 +17,6 @@ const Home = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState(false);
-
-  //-------------------------------//
-  const { user } = useAuth0();
-  useEffect(() => {
-    if (user && user.email) {
-      const fetchData = async () => {
-        try {
-          const result = await autenticateAllUsers(user);
-          console.log(result);
-          dispatch(getuserData(result));
-        } catch (error) {
-          console.log(error)
-        }
-      };
-      fetchData();
-    }
-  }, [user]);
-  //-----------------------------//
 
   useEffect(() => {
     dispatch(orderByPrice(orderBy));

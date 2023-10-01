@@ -117,14 +117,7 @@ const Nav = () => {
             />
           </NavLink>
         </Grid>
-        <Grid
-          item
-          xs={7}
-          sm={8}
-          md={6}
-          lg={6}
-          xl={4}
-        >
+        <Grid item xs={7} sm={8} md={6} lg={6} xl={4}>
           <SearchBar />
         </Grid>
         <Grid
@@ -134,7 +127,7 @@ const Nav = () => {
           md={3}
           lg={3}
           xl={4}
-          sx={{ display: "flex", justifyContent: "end", paddingRight:"10px" }}
+          sx={{ display: "flex", justifyContent: "end", paddingRight: "10px" }}
         >
           <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
             <IconButton
