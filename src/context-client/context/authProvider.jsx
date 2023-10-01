@@ -1,7 +1,7 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import axiosClient from "../config/axiosClient";
 
 const AuthContext = createContext()
 
@@ -14,7 +14,6 @@ const AuthProvider = ({children}) => {
       });
     const [cargando, setCargando] = useState(true)
 
-   
 
     const navigate = useNavigate()
 
@@ -41,10 +40,9 @@ const AuthProvider = ({children}) => {
             }
             
             try {
-
-                const {data} = await axios('http://localhost:3004/users/profile', config)
-                // const {data} = await axiosClient('/users/profile', config)
+                const {data} = await axios(`${VITE_BACKEND_URL}/users/profile`, config)
                 setAuth(data)
+                /* dispatch(neptuno(data)) */
                 console.log(data)
                 navigate('/home')
 

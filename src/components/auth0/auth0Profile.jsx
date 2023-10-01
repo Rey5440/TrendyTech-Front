@@ -1,63 +1,41 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
+import { useSelector } from "react-redux";
 
-const UserProfile = () => {
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-
-  const [userData, setUserData] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-  const [userResponse, setUserResponse] = useState({});
-
-  
-
-  const postUser = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3004/users/auth",
-        user
-      );
-      const { data } = response;
-      setUserResponse(data);
-    } catch (error) {
-      console.log(error.response.data);
-    }
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      setUserData(user);
-      obtenerToken();
-      postUser();
-    } else {
-      setUserData(null);
-      setAccessToken(null);
-    }
-  }, [isAuthenticated, user]);
-
-  const obtenerToken = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-      setAccessToken(token);
-    } catch (error) {
-      console.error("Error al obtener el token de acceso:", error);
-    }
-  };
+export const UserProfile = () => {
+  const userData = useSelector((state) => state.userData);
+  // const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  // const [accessToken, setAccessToken] = useState(null);
+  useEffect(() => {}, [userData]);
 
   return (
     <div>
-      {isAuthenticated ? (
-        <div>
-          <p>
-            Imagen de Perfil: <img src={userData?.picture} alt="Perfil" />
+      {userData.name ? (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            // justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <p style={{ fontSize: "25px", fontWeight: "bold" }}>
+            {userData.name}
           </p>
-          <p>Nombre: {userData?.name}</p>
-          <p>Email: {userData?.email}</p>
-          {/* <h2>Datos del Usuario</h2> */}
-          {/* <p>Token de Acceso: {accessToken}</p> */}
+          <hr className="hr_login" />
+          <img
+            src={userData.image}
+            alt="Perfil"
+            style={{
+              borderRadius: "50px",
+              border: "3px solid #007bff",
+              marginTop: "10px",
+              marginBottom: "10px",
+            }}
+          />
         </div>
       ) : (
-        <p>No has iniciado sesión.</p>
+        <></>
       )}
     </div>
   );

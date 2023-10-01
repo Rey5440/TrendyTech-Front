@@ -2,125 +2,231 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../../redux/actions";
-import { Button } from "@mui/material";
+import { Button, Box, Grid, Container } from "@mui/material";
 import SearchBar from "../searchBar/searchBar";
 import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
 import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
-import LoginModal from "../loginModal/loginModal";
+import ArchiveIcon from "@mui/icons-material/Archive";
+import LoginModal from "../login/loginModal";
+import autenticateAllUsers from "../../helpers/autenticateAllUsers";
+import { useAuth0 } from "@auth0/auth0-react";
+import useAuth from "../../context-client/hooks/useAuth";
+import axios from "axios";
+import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import "./nav.css";
 
 const Nav = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [admin, setAdmin] = useState(false);
   const menuId = "primary-search-account-menu";
   const location = useLocation();
   const cart = useSelector((state) => state.shoppingCart);
-  let totalProductsInCart = cart.reduce((acc, product) => acc + product.quantity, 0);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  let totalProductsInCart = cart.reduce(
+    (acc, product) => acc + product.quantity,
+    0
+  );
+  const { user } = useAuth0();
+  const { auth } = useAuth();
+  useEffect(() => {
+    if (user && user.email) {
+      const result = autenticateAllUsers(user);
+    }
+  }, [user]);
 
   const handleProductsButton = (event) => {
-    dispatch(getAllProducts())
-    navigate("/home")
-  }
-  
+    // dispatch(getAllProducts());
+    navigate("/home");
+  };
+
   //para hacer el rrenderizado condicional de la nav secundaria//
-  const pathsWithNavSecondary = [
-    "/login",
-    "/register",
-    "/confirm",
-    "/logged_in",
-    "/dashboard",
+  const shouldShowNav = location.pathname === "/";
+  //-------------------------//
+  const pathsWithNavAdmin = [
+    "/admin",
     "/home",
-    "/detail",
     "/create",
+    "/manageUsers",
+    "/user",
     "/shopping-cart",
   ];
-
-  const shouldShowNav = !pathsWithNavSecondary.some((path) =>
+  const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
   );
-//-------------------------//
+
+  const handleMoveToFooter = (event) => {
+    window.scrollTo(0, 1000); // Scroll down
+  };
+
+  useEffect(() => {
+    async function findAdmin() {
+      const { id } = auth;
+      const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
+      if (data && data.isAdmin === true) {
+        setAdmin(true);
+      } else {
+        setAdmin(false);
+      }
+    }
+    findAdmin();
+  }, [auth, admin]);
+
+  // const searchAdmin = async () => {
+  // };
+
   return (
     <Box>
-      <AppBar position="static" color="warning">
-        <Toolbar
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+      <Grid
+        container
+        sx={{
+          backgroundColor: "#fd6f09",
+          alignItems: "center",
+          height: "120px",
+          maxHeight: "120px",
+        }}
+      >
+        <Grid
+          item
+          xs={5}
+          sm={4}
+          md={3}
+          lg={3}
+          xl={4}
+          sx={{ paddingLeft: "14px" }}
         >
-          <NavLink to={"/home"}>
-            <div className="Nav_LogoContainer">
-              <img
-                alt="Trendy Tech"
-                src={Trendy_Tech_Logo}
-                className="Nav_Logo"
-              />
-            </div>
+          <NavLink to={"/"}>
+            <img
+              alt="Trendy Tech"
+              src={Trendy_Tech_Logo}
+              className="Nav_Logo"
+              style={{
+                maxWidth: "140px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            />
           </NavLink>
+        </Grid>
+        <Grid item xs={7} sm={8} md={6} lg={6} xl={4}>
           <SearchBar />
-          <Box>
-            <Box>
-              <LoginModal />
-              <NavLink to="/create">
-                <Button variant="contained" className="button_agregar">
-                  Crear
-                </Button>
-              </NavLink>
-              <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                  className="Nav_IconoCarrito"
-                >
-                  <Badge badgeContent={totalProductsInCart} color="error">
-                    <ShoppingCartIcon sx={{ fontSize: 30 }} />
-                  </Badge>
-                </IconButton>
-              </NavLink>
-              <NavLink to="/login" className="Nav_IconoPerfil">
-                <IconButton
-                  size="large"
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                  className="Nav_IconoPerfil"
-                >
-                  <AccountCircleIcon sx={{ fontSize: 30 }} />
-                </IconButton>
-              </NavLink>
-            </Box>
-          </Box>
-        </Toolbar>
-      </AppBar>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={3}
+          lg={3}
+          xl={4}
+          sx={{ display: "flex", justifyContent: "end", paddingRight: "10px" }}
+        >
+          <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={totalProductsInCart} color="error">
+                <ShoppingCartIcon sx={{ fontSize: 30 }} />
+              </Badge>
+            </IconButton>
+          </NavLink>
+          <LoginModal className="Nav_IconoPerfil" />
+        </Grid>
+      </Grid>
 
       <AppBar position="static" color="text">
         <Toolbar
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "space-around",
             alignItems: "center",
           }}
         >
-          {shouldShowNav ? (
+          {admin && showNavAdmin ? (
+            <div className="button_presentation">
+              <NavLink to={"/manageUsers"}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  endIcon={<AccountCircleIcon />}
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                >
+                  Users
+                </Button>
+              </NavLink>
+              <NavLink to="/create">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    borderRadius: "50px",
+                    margin: "4px",
+                  }}
+                  endIcon={<ArchiveIcon />}
+                >
+                  Crear
+                </Button>
+              </NavLink>
+
+              <NavLink to={"/admin"}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  endIcon={<AutoFixHighIcon />}
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                >
+                  Editar
+                </Button>
+              </NavLink>
+
+              <NavLink to="/home">
+                <Button
+                  variant="contained"
+                  color="warning"
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                  // className="button_ingresar"
+                  endIcon={<RocketLaunchIcon />}
+                  onClick={handleProductsButton}
+                >
+                  Productos
+                </Button>
+              </NavLink>
+              <NavLink to="">
+                <Button
+                  variant="contained"
+                  color="warning"
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                  // className="button_ingresar"
+                  endIcon={<LocalOfferIcon />}
+                >
+                  Descuentos
+                </Button>
+              </NavLink>
+
+              <Button
+                variant="contained"
+                color="warning"
+                style={{
+                  borderRadius: "50px",
+                  margin: "4px",
+                }}
+                endIcon={<PermContactCalendarIcon />}
+                onClick={handleMoveToFooter}
+              >
+                Contactenos
+              </Button>
+            </div>
+          ) : shouldShowNav ? (
             <div className="button_presentation">
               <NavLink to="/home">
                 <Button
@@ -145,7 +251,7 @@ const Nav = () => {
                   endIcon={<RocketLaunchIcon />}
                   onClick={handleProductsButton}
                 >
-                  Products
+                  Productos
                 </Button>
               </NavLink>
               <NavLink to="">
@@ -159,20 +265,19 @@ const Nav = () => {
                   Descuentos
                 </Button>
               </NavLink>
-              <NavLink to="">
-                <Button
-                  variant="contained"
-                  color="warning"
-                  style={{
-                    borderRadius: "50px",
-                    margin: "4px",
-                  }}
-                  // className="button_ingresar"
-                  endIcon={<PermContactCalendarIcon />}
-                >
-                  Contactenos
-                </Button>
-              </NavLink>
+
+              <Button
+                variant="contained"
+                color="warning"
+                style={{
+                  borderRadius: "50px",
+                  margin: "4px",
+                }}
+                endIcon={<PermContactCalendarIcon />}
+                onClick={handleMoveToFooter}
+              >
+                Contactenos
+              </Button>
             </div>
           )}
         </Toolbar>

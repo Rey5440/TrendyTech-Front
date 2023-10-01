@@ -1,9 +1,11 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Nav from "../../components/nav/nav.jsx";
 import validation from "./validation.js";
+import Footer from "../footer/footer.jsx";
 import axios from "axios";
-import "./create.css";
+import styles from "./create.module.css";
 const Create = () => {
   const navigate = useNavigate();
   const [error, setError] = useState({
@@ -31,8 +33,8 @@ const Create = () => {
     type: "",
   });
 
-  useEffect(() => { }, [form, error]);
-  useEffect(() => { }, [imageCloudinary]);
+  useEffect(() => {}, [form, error]);
+  useEffect(() => {}, [imageCloudinary]);
   // HANDLERS
   const handleChange = (event) => {
     if (event.target.name == "price" || event.target.name == "stock") {
@@ -109,7 +111,7 @@ const Create = () => {
     } else {
       // posteo al backend
       const response = await axios.post(
-        "http://localhost:3004/products/create",
+        `${VITE_BACKEND_URL}/products/create`,
         form
       );
       const { data } = response;
@@ -118,17 +120,17 @@ const Create = () => {
   };
 
   return (
-    <div className="divcontainer">
+    <div className={styles.divcontainer}>
       <Nav />
-      <div className="title_container">
+      <div className={styles.title_container}>
         <h1>Crear un producto</h1>
       </div>
 
-      <div className="divcontainer_form_formimage">
-        <form onSubmit={handleSubmit} className="divcontainer_form">
-          {error.submit && <p className="error">{error.submit}</p>}
+      <div className={styles.divcontainer_form_formimage}>
+        <form onSubmit={handleSubmit} className={styles.divcontainer_form}>
+          {error.submit && <p className={styles.error}>{error.submit}</p>}
           {/* NOMBRE  */}
-          <div className="divlabel_input_create">
+          <div className={styles.divlabel_input_create}>
             <label>Nombre</label>
             <input
               type="text"
@@ -136,41 +138,41 @@ const Create = () => {
               value={form.name}
               onChange={handleChange}
               maxLength="100"
-              className="input_create"
+              className={styles.input_create}
             />
-            {error.name && <p className="error">{error.name}</p>}
+            {error.name && <p className={styles.error}>{error.name}</p>}
           </div>
 
-          <div className="div_precio_stock">
+          <div className={styles.div_precio_stock}>
             {/* PRECIO */}
-            <div className="divlabel_input_create">
+            <div className={styles.divlabel_input_create}>
               <label>Precio</label>
               <input
                 type="text"
                 name="price"
                 value={form.price}
                 onChange={handleChange}
-                className="input_create_num"
+                className={styles.input_create_num}
               />
-              {error.price && <p className="error">{error.price}</p>}
+              {error.price && <p className={styles.error}>{error.price}</p>}
             </div>
 
             {/* STOCK */}
-            <div className="divlabel_input_create">
+            <div className={styles.divlabel_input_create}>
               <label>Cantidad</label>
               <input
                 type="text"
                 name="stock"
                 value={form.stock}
                 onChange={handleChange}
-                className="input_create_num"
+                className={styles.input_create_num}
               />
-              {error.stock && <p className="error">{error.stock}</p>}
+              {error.stock && <p className={styles.error}>{error.stock}</p>}
             </div>
           </div>
 
           {/* DESCRIPCION */}
-          <div className="divlabel_input_create">
+          <div className={styles.divlabel_input_create}>
             <label>Descripción</label>
             <textarea
               maxLength="500"
@@ -178,14 +180,16 @@ const Create = () => {
               name="description"
               value={form.description}
               onChange={handleChange}
-              className="textarea_create"
+              className={styles.textarea_create}
               placeholder="Describe tu producto."
             ></textarea>
-            {error.description && <p className="error">{error.description}</p>}
+            {error.description && (
+              <p className={styles.error}>{error.description}</p>
+            )}
           </div>
 
           {/* BRAND */}
-          <div className="divlabel_input_create">
+          <div className={styles.divlabel_input_create}>
             <label>Marca</label>
             <input
               maxLength="20"
@@ -193,12 +197,12 @@ const Create = () => {
               name="brand"
               value={form.brand}
               onChange={handleChange}
-              className="input_create"
+              className={styles.input_create}
             />
-            {error.brand && <p className="error">{error.brand}</p>}
+            {error.brand && <p className={styles.error}>{error.brand}</p>}
           </div>
           {/* TYPE */}
-          <div className="divlabel_input_create">
+          <div className={styles.divlabel_input_create}>
             <label>Categoría</label>
             <input
               maxLength="20"
@@ -206,12 +210,12 @@ const Create = () => {
               name="type"
               value={form.type}
               onChange={handleChange}
-              className="input_create"
+              className={styles.input_create}
             />
-            {error.type && <p className="error">{error.type}</p>}
+            {error.type && <p className={styles.error}>{error.type}</p>}
           </div>
           {/* COLOR */}
-          <div className="divlabel_input_create">
+          <div className={styles.divlabel_input_create}>
             <label>Color</label>
             <input
               maxLength="20"
@@ -219,13 +223,13 @@ const Create = () => {
               name="color"
               value={form.color}
               onChange={handleChange}
-              className="input_create"
+              className={styles.input_create}
             />
-            {error.color && <p className="error">{error.color}</p>}
+            {error.color && <p className={styles.error}>{error.color}</p>}
           </div>
           {/* IMAGENES */}
-          <div className="divlabel_input_create_img_btn">
-            <div className="divlabel_input_create">
+          <div className={styles.divlabel_input_create_img_btn}>
+            <div className={styles.divlabel_input_create}>
               <label>Imagen</label>
               <input
                 type="file"
@@ -233,45 +237,80 @@ const Create = () => {
                 multiple
                 accept="image/*"
                 onChange={handleChangeImg}
-                className="input_create_files"
+                className={styles.input_create_files}
               />
-              <div className="error_images_container">
+              <div className={styles.error_images_container}>
                 {Array.isArray(error.image) &&
-                  error.image.map((img, index) => <span className="error" key={index}>{img}</span>)}
+                  error.image.map((img, index) => (
+                    <span className={styles.error} key={index}>
+                      {img}
+                    </span>
+                  ))}
                 {Array.isArray(error.imageFiles) &&
-                  error.imageFiles.map((img, index) => <span className="error" key={index}>{img}</span>)}
+                  error.imageFiles.map((img, index) => (
+                    <span className={styles.error} key={index}>
+                      {img}
+                    </span>
+                  ))}
               </div>
             </div>
 
             {!error.imageFiles.length > 0 ? (
-            <button type="submit" className="buttonsubmit_create">
-              Enviar
-            </button>
-          ) : (
-            <button
-              type="submit"
-              className="buttonsubmit_create_disabled"
-              disabled
-            >
-              Enviar
-            </button>
-          )}
+              <button type="submit" className={styles.buttonsubmit_create}>
+                Enviar
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className={styles.buttonsubmit_create_disabled}
+                disabled
+              >
+                Enviar
+              </button>
+            )}
           </div>
         </form>
-        <div className="divcontainer_images_form">
-          <h2 className="title_images">Imagenes seleccionadas</h2>
-          <div className="images_container">
-            {imageCloudinary[0] ? <img src={imageCloudinary[0]} alt="" loading="lazy" className="image" /> : <span className="imagen_ph">Imagen 1</span>}
+        <div className={styles.divcontainer_images_form}>
+          <h2 className={styles.title_images}>Imagenes seleccionadas</h2>
+          <div className={styles.images_container}>
+            {imageCloudinary[0] ? (
+              <img
+                src={imageCloudinary[0]}
+                alt=""
+                loading="lazy"
+                className={styles.image}
+              />
+            ) : (
+              <span className={styles.imagen_ph}>Imagen 1</span>
+            )}
           </div>
-          <div className="images_container">
-            {imageCloudinary[1] ? <img src={imageCloudinary[1]} alt="" loading="lazy" className="image" /> : <span className="imagen_ph">Imagen 2</span>}
+          <div className={styles.images_container}>
+            {imageCloudinary[1] ? (
+              <img
+                src={imageCloudinary[1]}
+                alt=""
+                loading="lazy"
+                className={styles.image}
+              />
+            ) : (
+              <span className={styles.imagen_ph}>Imagen 2</span>
+            )}
           </div>
-          <div className="images_container">
-            {imageCloudinary[2] ? <img src={imageCloudinary[2]} alt="" loading="lazy" className="image" /> : <span className="imagen_ph">Imagen 3</span>}
+          <div className={styles.images_container}>
+            {imageCloudinary[2] ? (
+              <img
+                src={imageCloudinary[2]}
+                alt=""
+                loading="lazy"
+                className={styles.image}
+              />
+            ) : (
+              <span className={styles.imagen_ph}>Imagen 3</span>
+            )}
           </div>
-
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -3,48 +3,30 @@ import { useDispatch, useSelector } from "react-redux";
 import Cards from "../../components/cards/cards";
 import Paginate from "../../components/paginate/paginate";
 import NavBar from "../../components/nav/nav";
-import { getAllProducts } from "../../redux/actions";
 import Filter from "../../components/filter/filter";
+import OrderBy from "../../components/orderBy/orderBy";
 import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
-import { useAuth0 } from "@auth0/auth0-react";
-import axios from "axios";
+import { getAllProducts, orderByPrice} from "../../redux/actions";
 
 const Home = () => {
+  window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-
-  //-------------------------------//
-  const { user, isAuthenticated } = useAuth0();
-
-  const postUser = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:3004/users/auth",
-        user
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [orderBy, setOrderBy] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      postUser();
-    } else {
-    }
-  }, [isAuthenticated, user]);
-
-  //-----------------------------//
+    dispatch(orderByPrice(orderBy));
+  }, [orderBy]);
 
   useEffect(() => {
     dispatch(getAllProducts());
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
   }, [dispatch]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,6 +38,7 @@ const Home = () => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
   };
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -74,22 +57,38 @@ const Home = () => {
       {loading ? (
         <Loader />
       ) : (
-        <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}
+        <Container
+          style={{
+            width: "100%",
+          }}
         >
-          <Container style={{ display: "flex", padding: "20px" }}>
-            <Filter />
-            <Grid sx={{ width: "80%" }}>
+          <Grid container sx={{ paddingTop: "4px" }}>
+            <Grid
+              item
+              xs={12}
+              md={3}
+              lg={3}
+              sx={{
+                paddingTop: "4px",
+              }}
+            >
+              {<Filter />}
+            </Grid>
+            <Grid item xs={12} md={9} lg={9} xl={9}>
+              <OrderBy orderBy={orderBy} setOrderBy={setOrderBy} />
               <Cards currentProduct={currentProduct} />
             </Grid>
-          </Container>
-        </div>
+          </Grid>
+        </Container>
       )}
-      <Paginate
-        currentPage={currentPage}
-        totalPages={totalPages}
-        handlePageChange={handlePageChange}
-      />
+
+      {currentProduct.length ? (
+        <Paginate
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
+      ) : null}
       <Footer />
     </div>
   );

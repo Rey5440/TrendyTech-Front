@@ -1,10 +1,5 @@
-.Nav_LogoContainer {
-    width: 10rem;
-    padding: 5px;
-}
 
 .Nav_Logo {
-    width: 100%;
     object-fit: contain;
     transition: .3s;
 }

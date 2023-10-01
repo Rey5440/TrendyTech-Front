@@ -1,3 +1,4 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -7,7 +8,6 @@ import LocalMallIcon from "@mui/icons-material/LocalMall";
 import "./detail.css";
 import { Box, Container } from "@mui/system";
 import { addToCart } from "../../redux/actions";
-
 import Loader from "../../components/loader/loader";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlert } from "../../redux/actions";//---------> para el setAlert
@@ -24,22 +24,23 @@ const Detail = () => {
   const alertState = useSelector(state => state.alert)
   const dispatch = useDispatch();
   /* ------------------------------------------ */
-  const handleAlert = () => {
-    dispatch(setAlert("  HOLA CALENEEENIUSS   ", "success"));
+  // const handleAlert = () => {
+  //   dispatch(setAlert("  HOLA CALENEEENIUSS   ", "success"));
 
-  }
+  // }
+  const [hasScrolled, setHasScrolled] = useState(false);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:3004/products/${id}`
+          `${VITE_BACKEND_URL}/products/${id}`
         );
         const { data } = response;
-        dispatch(setAlert("  este es tu producto  ", "success"));
         setProduct(data);
         setTimeout(() => {
           setLoading(false);
-        }, 2000);
+        }, 3000);
       } catch (error) {
         dispatch(setAlert("  el id del producto no existe  ", "error"));
         console.log(error);
@@ -48,6 +49,13 @@ const Detail = () => {
     };
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    if(!hasScrolled){
+      window.scrollTo(0,0);
+      setHasScrolled(true);
+    }
+  }, [hasScrolled])
 
   useEffect(() => {}, [imagePP]);
   // Cambiar la imagen principal cuando se haga clic en un botón de imagen
@@ -137,7 +145,6 @@ const Detail = () => {
           </div>
         </Container>
       )}
-      <buton onClick={handleAlert}>presione para ver el alerta</buton>
       <hr />
       <Footer/>
     </div>

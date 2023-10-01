@@ -1,125 +1,142 @@
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
-import AlertTech from '../alert/alert';
-import axios from 'axios'
+import AlertTech from "../alert/alert";
+import axios from "axios";
+import "./forgetPassword.css"
 
 const NewPassword = () => {
-    const [password, setPassword] = useState("");
-    const [validToken, setValidToken] = useState(false);
-    // const [alert, setAlert] = useState({});
-    const [passwordModified, setPasswordModified] = useState(false);
-    const [showAlertError, setShowAlertError] = useState(false);
-    const [showErrorPassword, setShowErrorPassword] = useState(false);
-    
-  
-    const params = useParams();
-    const { token } = params;
-  
-    useEffect(() => {
-      const testToken = async () => {
-        try {
-          await axios(`http://localhost:3004/users/reset-password/${token}`);
-          setValidToken(true);
-        } catch (error) {
-            setShowAlertError(true);
-        //   setAlert({
-        //     msg: error.response.data.msg,
-        //     error: true,
-        //   });
-        }
-      };
-      testToken();
-    }, []);
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      if (password.length < 6) {
-        // setAlert({
-        //   msg: "El Password debe tener al menos 6 caracteres",
-        //   error: true,
-        // });
-        return;
-      }
+  const [password, setPassword] = useState("");
+  const [validToken, setValidToken] = useState(false);
+  const [passwordModified, setPasswordModified] = useState(false);
+  const [confirmationAlert, setConfirmationAlert] = useState(null);
+
+  const params = useParams();
+  const { token } = params;
+
+  useEffect(() => {
+    const testToken = async () => {
       try {
-        const url = `http://localhost:3004/users/reset-password/${token}`;
-  
-        const { data } = await axios.post(url, { password });
-        // setAlert({
-        //   msg: data.msg,
-        //   error: false,
-        // });
-        setPassword("");
-        setPasswordModified(true);
+        await axios(`${VITE_BACKEND_URL}/users/reset-password/${token}`);
+        setValidToken(true);
+
+
       } catch (error) {
-        // setAlert({
-        //   msg: error.response.data.msg,
-        //   error: true,
-        // });
+        showAlert("error", error.response.data.msg);
       }
     };
-    const handleInputChange = (e, setState) => {
-      // Eliminar espacios en blanco al principio y al final del valor
-      const value = e.target.value.trim();
-      setState(value);
-    };
-  
-    // const { msg } = alert;
-  
-    return (
-      <>
-        <div className="mainRegister">
-          <h3 className="titleLogin">Crea una cuenta para hacer tu compra</h3>
-  
-          <div className='columna'>
-                    <NavLink to="/">
-                        {/* <img src={imageLogo} alt="logo-home" className='logoRegister' />   */}
-                    </NavLink>
-               </div> 
-              
-  
-  
-          {/* {msg && <Alert alerta={alert} />} */}
-  
-          {validToken && (
-            <form action="" className="formRegister" onSubmit={handleSubmit}>
-              <div className="columna">
-                <div className="divInput">
-                  <label className="label" htmlFor="password">
-                    Nuevo Password
-                  </label>
-                  <input
-                    id="password"
-                    type="password"
-                    placeholder="Password"
-                    className="input"
-                    value={password}
-                    onChange={(e) => handleInputChange(e, setPassword)}
-                  />
-                </div>
-              </div>
-  
-              <div className="columna">
-                {/* <img src={imageLogo} alt="logo-home" className="logoRegister" /> */}
-              </div>
-  
-              <input
-                type="submit"
-                value="Crear nuevo password"
-                className="btnCreateAccount"
-              />
-            </form>
-          )}
-  
-          {passwordModified && (
-            <Link className="linksRegister" to="/login">
-              Inicia Sesión
-            </Link>
-          )}
-        </div>
-      </>
-    );
+    testToken();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    /* SE RECOMIENDA USAR ESTA VALIDACION EN DESARROLLO PARA NO RENEGAR TANTO CON EL LOGEO  */
+
+    // if (password.length < 6) {
+    //   showAlert('error', 'Todos los campos son obligatorios');
+    //   return;
+    // }
+
+    if (!/(?=.*[a-zA-Z])(?=.*\d).{7,}/.test(password)) {
+      showAlert(
+        "error",
+        "La contraseña debe tener al menos 7 caracteres, incluir al menos una letra y al menos un número."
+      );
+      return;
+    }
+    try {
+      const url = `${VITE_BACKEND_URL}/users/reset-password/${token}`;
+
+      const { data } = await axios.post(url, { password });
+      setPassword("");
+      setPasswordModified(true);
+
+      showAlert(
+        "success",
+        "Su password fue creado correctamente, ya puedes iniciar sesión"
+      );
+    } catch (error) {
+      console.log(error.response.data.error);
+      if (error.response && error.response.data && error.response.data.error) {
+        // Mostrar la alerta de error
+        // showAlert('error', 'Ya hay un registro con este email');
+        /* Se supone aqui deberia imprimir el mensaje de alerta del back */
+        showAlert("error", error.response.data.error);
+      }
+    }
   };
-  
-  export default NewPassword;
+  const handleInputChange = (e, setState) => {
+    // Eliminar espacios en blanco al principio y al final del valor
+    const value = e.target.value.trim();
+    setState(value);
+  };
+
+  const showAlert = (type, message) => {
+    // Mostrar la alerta
+    setConfirmationAlert({ type, message });
+
+    // Limpiar la alerta después de 3 segundos (3000 ms)
+    setTimeout(() => {
+      setConfirmationAlert(null);
+    }, 3000);
+  };
+
+  return (
+    <>
+      <div className="">
+        <h3 className="h1_ResetPassword">Cambia tu contraseña</h3>
+
+        {confirmationAlert && (
+          <AlertTech
+            message={confirmationAlert.message}
+            type={confirmationAlert.type}
+          />
+        )}
+
+        <div className="columna">
+          <NavLink to="/home">
+            {/* <img src={imageLogo} alt="logo-home" className='logoRegister' />   */}
+          </NavLink>
+        </div>
+
+        {validToken && (
+          <form action="" className="form_ResetPassword" onSubmit={handleSubmit}>
+            <div className="div_input_ResetPasswor">
+              <div className="div_input_ResetPassword">
+                <label className="label" htmlFor="password">
+                  Nueva contraseña
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="Password"
+                  className="input_ResetPassword"
+                  value={password}
+                  onChange={(e) => handleInputChange(e, setPassword)}
+                />
+              </div>
+            </div>
+
+            <div className="columna"></div>
+
+            <input
+              type="submit"
+              value="Crear nuevo password"
+              className="button_form_ResetPassword"
+            />
+          </form>
+        )}
+
+        {passwordModified && (
+          <Link className="linksRegister" to="/home">
+            Inicia Sesión
+          </Link>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default NewPassword;

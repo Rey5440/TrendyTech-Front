@@ -1,10 +1,8 @@
 .FilterTech {
-    display: flex;
-    flex-direction: column;
-    align-items: end;
     border-radius: 5px;
-    background-color: rgb(69, 168, 255);
-    width: 20%;
+    border: 2px solid #ff8827;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.15);
 }
 .subdiv_filter{
     margin: 5px;
@@ -13,41 +11,28 @@
 .input_price_filter{
     width: 85px;
 }
-.button_submit_filter{
-    margin: 5px;
-    background: #e9e9e9;
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 7px;
-    transition: .3s;
-}
-.button_submit_filter:hover {
-    background-color: rgb(255, 255, 255);
-    transform: translateY(-2px)
-}
-.button_submit_filter:active {
-    transform: scale(1);
-}
-.div_button_filter{
-    display: flex;
-    width: 100%;
-}
+
 .slider {
-    height: 10px;
+    height: 6px;
     width: 100%;
-    background-color: #ddd;
-    border-radius: 5px;
+    background-color: #fb8c00;
+    border-radius: 25px;
     margin-top: 10px;
+    display: flex;
+    align-items: center;
 }
 .slider .thumb {
     height: 20px;
     width: 20px;
-    border-radius: 50%;
+    border-radius: 25px;
     background-color: #007bff;
     cursor: grab;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: .2s;
+}
+.slider .thumb:hover {
+    border: 2px solid;
 }
 .slider .thumb:active {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    border: 5px solid;
 }
