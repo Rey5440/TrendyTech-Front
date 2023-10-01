@@ -1,19 +1,12 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getAllProducts } from "../../redux/actions";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Carousel from "react-multi-carousel";
 import CardCarrusel from "./card_carrusel";
 import "react-multi-carousel/lib/styles.css";
 
-const DetailCarousel = ({product}) => {
-    const dispatch = useDispatch();
+const DetailCarousel = ({ product }) => {
     const products = useSelector((state) => state.allProducts2);
 
-    useEffect(() => {
-        dispatch(getAllProducts());
-    }, [dispatch]);
-    
     const responsive = {
         superLargeDesktop: {
             // the naming can be any, depends on you.
@@ -34,13 +27,18 @@ const DetailCarousel = ({product}) => {
         }
     };
 
+    let cards = () => {
+        return products.map((product) => {
+            return <CardCarrusel key={product.id} prod={product} />
+        });
+    }
+
     return (
-        <Carousel responsive={responsive} className="carrusel">
-            {products.map((prod) => (
-                console.log(prod),
-                <CardCarrusel key={prod.id} images={prod.images} id={prod.id} name={prod.name} price={prod.price} />
-            ))}
-        </Carousel>
+        <div className="carrusel_container">
+            <Carousel responsive={responsive}>
+                {cards()}
+            </Carousel>
+        </div>
     )
 }
 

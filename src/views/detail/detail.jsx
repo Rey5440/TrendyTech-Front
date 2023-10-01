@@ -135,13 +135,11 @@ const Detail = () => {
               </div>
             </div>
           </div>
-
-        <div className="div_carrusel">
-          <DetailCarousel product={product} />
-        </div>
         </div>
       )}
-      
+      <div className="div_carrusel">
+        <DetailCarousel product={product} />
+      </div>
       <Footer />
     </div>
   );

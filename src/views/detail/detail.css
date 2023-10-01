@@ -61,6 +61,7 @@
       margin-right: 1rem;
       margin-left: 1rem;
       border-radius: 5px;
+      background-color: red;
 }
 
 .imagenPrincipal {
@@ -97,11 +98,14 @@
 .descripcion {
       font-size: 1.2rem;
       color: #6F6F6F;
+      height: 10rem;
+      overflow-y: auto;
 }
 
 .precio {
       font-size: 3rem;
       margin-top: 1rem;
+      margin-bottom: 2rem;
       font-family: 'Lato', sans-serif;
 }
 
@@ -116,6 +120,7 @@
       justify-content: center;
       align-items: center;
       width: 100%;
+      margin-bottom: 2rem;
 }
 
 .boton_imagen {

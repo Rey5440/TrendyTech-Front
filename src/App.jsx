@@ -16,7 +16,14 @@ import DeleteUser from "./components/deleteUser/deleteUser";
 import DeleteProduct from "./components/deleteProduct/deleteProduct";
 import ManageUsers from "./components/manageUsers/manageUsers";
 import NotFound from "./views/page_not_found/not_found";
+import {useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {getAllProducts} from "./redux/actions";
 function App() {
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getAllProducts())
+  }, [])
   return (
     <div>
       <AuthProvider>
