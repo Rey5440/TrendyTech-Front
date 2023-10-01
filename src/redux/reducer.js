@@ -46,25 +46,66 @@ const reducer = (state = initialState, {type, payload }) =>{
               allProducts1: productsByPrice,
               allProductsSearch: productsByPrice2
             };
+    case ORDER_BY_NAME:
+      let productsByName = state.allProducts1;
+      if (payload === "a-z") {
+        productsByName = productsByName.sort((a, b) =>
+          a.name.localeCompare(b.name)
+        );
+      }
+      if (payload === "z-a") {
+        productsByName = productsByName.sort((a, b) =>
+          b.name.localeCompare(a.name)
+        );
+      }
+      return {
+        ...state,
+        allProducts1: products,
+      };
 
-/*             case FILTER_PRODUCTS :
-                return {
-                    ...state,
-                    allProducts1: payload
-                } */
-        case ORDER_BY_NAME:
-            let productsByName = state.allProducts1;
-            if(payload === 'a-z'){
-                productsByName = productsByName.sort((a, b) => a.name.localeCompare(b.name));
+    case SHOW_ALERT:
+      return {
+        ...state,
+        alert: {
+          visible: true,
+          message: payload.message,
+          type: payload.type,
+        },
+      };
+    case HIDE_ALERT:
+      return {
+        ...state,
+        alert: {
+          ...state.alert,
+          visible: false,
+        },
+      };
+
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        shoppingCart: state.shoppingCart.filter(
+          (product) => product.id !== payload
+        ),
+      };
+    case INCREASE_QUANTITY:
+      return {
+        ...state,
+        shoppingCart: state.shoppingCart.map((product) => {
+          if (product.id === payload) {
+            if (product.quantity < product.stock) {
+              product.quantity += 1;
+              console.log(product.name, product.quantity);
+            } else {
+              product.quantity = product.stock;
+              console.log("no se puede aumentar mas");
             }
-            if(payload === 'z-a'){
-                productsByName = productsByName.sort((a, b) => b.name.localeCompare(a.name));
-                
-            }
-            return {
-                ...state,
-                allProducts1: products
-            }
+            return product;
+          }
+          return product;
+        }),
+      };
+
         case FILTER_ALL:
             return {
                 ...state,
@@ -154,6 +195,16 @@ const reducer = (state = initialState, {type, payload }) =>{
                     searchOn: payload
                 };
             }
+            case USER_DATA:
+                return {
+                  ...state,
+                  userData: payload,
+                };
+              case SET_OPEN_MODAL_LOGIN:
+                return {
+                  ...state,
+                  setOpen: payload,
+                };
         default:
             return {...state};
     }

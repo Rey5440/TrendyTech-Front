@@ -123,3 +123,18 @@ export const searchOnSwitch = (payload) => {
         payload
     }
 }
+export const getuserData = (payload) => {
+    console.log(payload);
+    return {
+      type: USER_DATA,
+      payload: payload,
+    };
+  };
+  
+  export const banUser = (payload) => {
+    console.log(payload);
+    return {
+      type: SET_OPEN_MODAL_LOGIN,
+      payload: payload,
+    };
+  };
