@@ -156,6 +156,7 @@ const reducer = (state = initialState, { type, payload }) => {
         }),
       };
     case USER_DATA:
+      console.log(payload);
       return {
         ...state,
         userData: payload,

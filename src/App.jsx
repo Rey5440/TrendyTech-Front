@@ -25,27 +25,23 @@ function App() {
   const dispatch = useDispatch();
 
   //-------------autenticate user with cookies------------------//
-const [ignacioMagic, setIgnacioMagic] = useState({})
-
   const { user } = useAuth0();
+  console.log("Esto es user de google" ,user );
+
   useEffect(() => {
-    if (user && user.email) {
-      const fetchData = async () => {
-        try {
+    const fetchData = async () => {
+      try {
+        if (user && user.email) {
           const result = await autenticateAllUsers(user);
-          setIgnacioMagic(result)
-          if (result.isDeleted) {
-            dispatch(banUser(true));
-          } else {
-           ignacioMagic && dispatch(getuserData(result));
-            dispatch(banUser(false));
-          }
-        } catch (error) {
-          console.log(error);
+          console.log("Esto es lo que mando al dispach", result);
+          dispatch(getuserData(result));
         }
-      };
-      fetchData();
-    }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
   }, [user]);
   //-----------------------------------------------------------//
 

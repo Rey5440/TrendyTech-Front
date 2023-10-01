@@ -22,17 +22,17 @@ import AlertTech from "../alert/alert";
 const LoginModal = () => {
   const [open, setOpen] = useState(false)
   const userData = useSelector((state) => state.userData);
-  const isBanned = useSelector((state) => state.setOpen);
-  const alertState = useSelector((state) => state.alert);
+  // const isBanned = useSelector((state) => state.setOpen);
+  // const alertState = useSelector((state) => state.alert);
+  console.log(userData);
+  // const dispatch = useDispatch()
 
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    if (isBanned) {
-      setOpen(true);
-      dispatch(setAlert("Usted fue desabilitado", "warning"));
-    }
-  }, [isBanned]);
+  // useEffect(() => {
+  //   if (isBanned) {
+  //     setOpen(true);
+  //     dispatch(setAlert("Usted fue desabilitado", "warning"));
+  //   }
+  // }, [isBanned]);
 
   // const location = useLocation();
   const handleClickOpen = () => {
@@ -106,12 +106,12 @@ const LoginModal = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         >
-          {alertState.visible && (
+          {/* {alertState.visible && (
             <AlertTech
               message={alertState.message}
               type={alertState.type}
             />
-          )}
+          )} */}
         {!auth.email && !userData.name && (
           <DialogTitle
             id="alert-dialog-title"
