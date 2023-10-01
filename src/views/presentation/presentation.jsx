@@ -14,7 +14,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import banner1 from "../../assets/banner-publicitario-1.png";
 import banner2 from "../../assets/banner-publicitario-2.png";
 import banner3 from "../../assets/banner-publicitario-3.png";
-import Footer from "../footer/footer"
+import Footer from "../footer/footer";
 
 import "./presentation.css";
 
@@ -27,7 +27,7 @@ const Presentation = () => {
   const [selectedImage, setSelectedImage] = useState(images[0]);
   const [loaded, setLoaded] = useState(false);
 
-//modificamos allPrducts1 para tener los ultimos 10 abjetos que esten en la vase de datos//
+  //modificamos allPrducts1 para tener los ultimos 10 abjetos que esten en la vase de datos//
   const lastProducts = [...allProducts1].reverse();
   const first10Products = lastProducts.slice(0, 10);
 
@@ -92,11 +92,11 @@ const Presentation = () => {
   }, [selectedImage]);
 
   useEffect(() => {
-    if(!hasScrolled){
-      window.scrollTo(0,0);
+    if (!hasScrolled) {
+      window.scrollTo(0, 0);
       setHasScrolled(true);
     }
-  }, [hasScrolled])
+  }, [hasScrolled]);
 
   const selectNewImage = (index, images, next = true) => {
     setLoaded(false);
@@ -125,7 +125,7 @@ const Presentation = () => {
   };
   return (
     <>
-      <Nav />
+      <Nav  />
       <div className="div_container_presentation">
         <div className="div_image_carrusel">
           <img
@@ -152,7 +152,7 @@ const Presentation = () => {
           <div className="div_carrousel_latest">
             <Slider {...settings} className="carrousel">
               {first10Products?.map((product, index) => (
-                <div key={index} >
+                <div key={index}>
                   <Card
                     key={product.id}
                     id={product.id}
@@ -168,7 +168,7 @@ const Presentation = () => {
           <hr className="hr_presentation" />
         </div>
         <hr />
-          <Footer />
+        <Footer />
       </div>
     </>
   );

@@ -11,6 +11,7 @@ import {
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
   USER_DATA,
+  SET_OPEN_MODAL_LOGIN,
 } from "./action-types";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   allProducts2: [],
   shoppingCart: [],
   userData: {},
+  setOpen: false,
   alert: {
     visible: false,
     message: "",
@@ -157,6 +159,11 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         userData: payload,
+      };
+    case SET_OPEN_MODAL_LOGIN:
+      return {
+        ...state,
+        setOpen: payload,
       };
     default:
       return { ...state };
