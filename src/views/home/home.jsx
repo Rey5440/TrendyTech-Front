@@ -27,7 +27,6 @@ const Home = () => {
       const fetchData = async () => {
         try {
           const result = await autenticateAllUsers(user);
-          console.log(result);
           dispatch(getuserData(result));
         } catch (error) {
           console.log(error)
@@ -89,7 +88,7 @@ const Home = () => {
               md={3}
               lg={3}
               sx={{
-                paddingTop: "4px",
+                paddingTop: "6.5%",
               }}
             >
               {<Filter />}

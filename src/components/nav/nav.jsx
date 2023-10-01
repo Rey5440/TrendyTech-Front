@@ -20,7 +20,7 @@ import useAuth from "../../context-client/hooks/useAuth";
 import axios from "axios";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import "./nav.css";
 
@@ -59,7 +59,7 @@ const Nav = () => {
     "/manageUsers",
     "/user",
     "/shopping-cart",
-    "/delete"
+    "/delete",
   ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
@@ -70,9 +70,8 @@ const Nav = () => {
   };
 
   useEffect(() => {
+    const { id } = auth;
     async function findAdmin() {
-      const { id } = auth;
-      console.log(auth);
       const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
       if (data && data.isAdmin === true) {
         setAdmin(true);
@@ -80,7 +79,9 @@ const Nav = () => {
         setAdmin(false);
       }
     }
-    findAdmin();
+    if (id) {
+      findAdmin();
+    }
   }, [auth, admin]);
 
   // const searchAdmin = async () => {
@@ -119,14 +120,7 @@ const Nav = () => {
             />
           </NavLink>
         </Grid>
-        <Grid
-          item
-          xs={7}
-          sm={8}
-          md={6}
-          lg={6}
-          xl={4}
-        >
+        <Grid item xs={7} sm={8} md={6} lg={6} xl={4}>
           <SearchBar />
         </Grid>
         <Grid
@@ -136,7 +130,7 @@ const Nav = () => {
           md={3}
           lg={3}
           xl={4}
-          sx={{ display: "flex", justifyContent: "end", paddingRight:"10px" }}
+          sx={{ display: "flex", justifyContent: "end", paddingRight: "10px" }}
         >
           <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
             <IconButton

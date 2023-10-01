@@ -8,6 +8,7 @@ const Cards = ({ currentProduct }) => {
       {currentProduct.length ? (
         currentProduct?.map((product) => (
           <Grid
+          key={product.id}
             item
             sm={4}
             xs={6}

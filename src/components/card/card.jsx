@@ -7,8 +7,8 @@ import { Box } from "@mui/system";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
 
 export default function CardTech({ images, id, name, price, brand }) {
-//------formateamos el precio con puntos y comas----/
-  const formattedPrice = toFormatPrice(price)
+  //------formateamos el precio con puntos y comas----/
+  const formattedPrice = toFormatPrice(price);
 
   return (
     <Card
@@ -64,4 +64,3 @@ export default function CardTech({ images, id, name, price, brand }) {
     </Card>
   );
 }
-

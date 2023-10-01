@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAlert } from "../../redux/actions";//---------> para el setAlert
 import AlertTech from '../../components/alert/alert'
 import Footer from "../footer/footer"
+import { toFormatPrice } from "../../helpers/toFormatPrice";
 
 const Detail = () => {
   const { id } = useParams();
@@ -67,6 +68,8 @@ const Detail = () => {
     dispatch(addToCart(product));
   }
 
+  const price = toFormatPrice(product.price);
+
   return (
     <div>
       <Nav />
@@ -92,7 +95,7 @@ const Detail = () => {
               </Box>
 
               <div className="div_price_button">
-                <h2 className="h2_price_detail">$ {product.price}.-</h2>
+                <h2 className="h2_price_detail">{price}</h2>
 
                 <Button
                   variant="contained"

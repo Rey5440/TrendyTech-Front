@@ -21,9 +21,6 @@ const SearchBar = () => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    // setProduct("");
-    // navigate("/home");
-    console.log(product);
     dispatch(searchByName(product));
   };
 
