@@ -1,8 +1,11 @@
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from "./action-types";
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, SET_SEARCH_ON } from "./action-types";
 
 const initialState = {
     allProducts1: [],
     allProducts2: [],
+    allProductsSearch: [],
+    allProductsSearch2: [],
+    searchOn: false,
     shoppingCart : [],
     alert: {
         visible: false,
@@ -17,28 +20,31 @@ const reducer = (state = initialState, {type, payload }) =>{
             return {
                 ...state,
                 allProducts1: payload,
-                allProducts2: payload
+                allProducts2: payload,
+                allProductsSearch: payload,
             }
         case SEARCH_BY_NAME:
             return {
                 ...state,
-                allProducts1: payload,
+                allProductsSearch: payload,
+                allProductsSearch2: payload
             }
         case ORDER_BY_PRICE:
 
             let productsByPrice = [...state.allProducts1];
+            let productsByPrice2 = [...state.allProductsSearch];
             if(payload === "desc"){
                 productsByPrice = productsByPrice.sort((a, b) => a.price - b.price);
-                console.log(productsByPrice);
-
+                productsByPrice2 = productsByPrice2.sort((a, b) => a.price - b.price);
             }
             if(payload === "asc"){
                 productsByPrice = productsByPrice.sort((a, b) => b.price - a.price);
-                console.log(productsByPrice);
+                productsByPrice2 = productsByPrice2.sort((a, b) => b.price - a.price);
             }
             return {
               ...state,
               allProducts1: productsByPrice,
+              allProductsSearch: productsByPrice2
             };
 
 /*             case FILTER_PRODUCTS :
@@ -62,7 +68,8 @@ const reducer = (state = initialState, {type, payload }) =>{
         case FILTER_ALL:
             return {
                 ...state,
-                allProducts1: payload
+                allProducts1: payload,
+                allProductsSearch: payload,
             }
         case SHOW_ALERT:
             return {
@@ -133,6 +140,19 @@ const reducer = (state = initialState, {type, payload }) =>{
                     }
                     return product
                 })
+            }
+        case SET_SEARCH_ON:
+            if (payload === true) {
+                return {
+                    ...state,
+                    searchOn: payload,
+                    allProducts1: state.allProducts2
+                };
+            } else {
+                return {
+                    ...state,
+                    searchOn: payload
+                };
             }
         default:
             return {...state};
