@@ -20,8 +20,25 @@ import useAuth from "../../context-client/hooks/useAuth";
 import AlertTech from "../alert/alert";
 
 const LoginModal = () => {
+<<<<<<< HEAD
   const userData = useSelector(state => state.userData)
   const [open, setOpen] = React.useState(false);
+=======
+  const [open, setOpen] = useState(false)
+  const userData = useSelector((state) => state.userData);
+  const isBanned = useSelector((state) => state.setOpen);
+  const alertState = useSelector((state) => state.alert);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (isBanned) {
+      setOpen(true);
+      dispatch(setAlert("Usted fue desabilitado", "warning"));
+    }
+  }, [isBanned]);
+
+>>>>>>> 1ce9a387a2049578ae4ac2ea6fc5dacce8965411
   // const location = useLocation();
   const handleClickOpen = () => {
     setOpen(true);
@@ -96,13 +113,16 @@ const LoginModal = () => {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-          >
+        >
+<<<<<<< HEAD
+=======
           {alertState.visible && (
             <AlertTech
               message={alertState.message}
               type={alertState.type}
             />
           )}
+>>>>>>> 1ce9a387a2049578ae4ac2ea6fc5dacce8965411
         {!auth.email && !userData.name && (
           <DialogTitle
           id="alert-dialog-title"

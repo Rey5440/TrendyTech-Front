@@ -14,11 +14,14 @@ import useAuth from "../../context-client/hooks/useAuth";
 
 initMercadoPago("TEST-185b7434-044a-4830-995d-95780e762ec5");
 const ShoppingCart = () => {
-  const cart = useSelector((state) => state.shoppingCart);
-  const [total, setTotal] = useState(0);
-  const [preferenceId, setPreferenceId] = useState(null);
-  const [button, setButton] = useState(false);
-  const totalProductsInCart = cart.reduce(
+  // state global cart y token
+  let { shoppingCart, userData }= useSelector((state) => state);
+  let cart = shoppingCart;
+  let token = userData.token;
+  let [total, setTotal] = useState(0);
+  let [preferenceId, setPreferenceId] = useState(null);
+  let [button, setButton] = useState(false);
+  let totalProductsInCart = cart.reduce(
     (acc, product) => acc + product.quantity,
     0
   );
@@ -28,7 +31,19 @@ const ShoppingCart = () => {
 
   // Inicio de compra mp
   const handleBuy = async () => {
+<<<<<<< HEAD
     const id = await createPreference();
+=======
+
+    // Verifica si esta logueado
+    if (!token) {
+      window.location.href = "/";
+      return window.location.href;
+    }
+
+    // Crea la preferencia de mercado pago
+    const id = await createPreference(cart);
+>>>>>>> 1ce9a387a2049578ae4ac2ea6fc5dacce8965411
     if (id) {
       setPreferenceId(id);
       await createNewOrder();
