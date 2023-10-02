@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
 import PaymentStatus from "./components/paymentStatus/paymentStatus";
 import Home from "./views/home/home";
 import Detail from "./views/detail/detail";
@@ -16,31 +15,43 @@ import Admin from "./views/admin/admin";
 import DeleteUser from "./components/deleteUser/deleteUser";
 import DeleteProduct from "./components/deleteProduct/deleteProduct";
 import ManageUsers from "./components/manageUsers/manageUsers";
-import { useAuth0 } from "@auth0/auth0-react";
+//----------------------//
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import autenticateAllUsers from "./helpers/autenticateAllUsers";
-import { useDispatch } from "react-redux";
 import { getuserData, banUser } from "./redux/actions";
+import { useAuth0 } from "@auth0/auth0-react";
+import NotFound from "./views/page_not_found/not_found";
+import { getAllProducts } from "./redux/actions";
 
 function App() {
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
 
   //-------------autenticate user with cookies------------------//
+  const isBanned = useSelector((state) => state.setOpen);
+  const [ignacioMagic, setIgnacioMagic] = useState({});
   const { user } = useAuth0();
-  console.log("Esto es user de google" ,user );
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (user && user.email) {
           const result = await autenticateAllUsers(user);
-          console.log("Esto es lo que mando al dispach", result);
-          dispatch(getuserData(result));
+          setIgnacioMagic(result);
+          if (result.isDeleted) {
+            dispatch(banUser(true));
+          } else {
+            ignacioMagic && dispatch(getuserData(result));
+            if (isBanned === true) dispatch(banUser(false));
+          }
         }
       } catch (error) {
         console.log(error);
       }
     };
-
     fetchData();
   }, [user]);
   //-----------------------------------------------------------//
@@ -64,6 +75,7 @@ function App() {
           <Route path="/deleteuser" element={<DeleteUser />} />
           <Route path="/deleteproduct" element={<DeleteProduct />} />
           <Route path="/manageUsers" element={<ManageUsers />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
     </div>
