@@ -34,8 +34,6 @@ function App() {
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
   const { user } = useAuth0();
-  const [ignacioMagic, setIgnacioMagic] = useState({})
-
 
   useEffect(() => {
     if (user && user.email) {
