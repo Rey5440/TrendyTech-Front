@@ -9,17 +9,18 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
-import { useAuth0 } from "@auth0/auth0-react";
-import autenticateAllUsers from "../../helpers/autenticateAllUsers";
-import { getAllProducts, orderByPrice, getuserData } from "../../redux/actions";
+import { getAllProducts, orderByPrice} from "../../redux/actions";
 
 const Home = () => {
   window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
+  const allProductsSearch = useSelector((state) => state.allProductsSearch)
+  const searchOn = useSelector((state) => state.searchOn);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState(false);
 
+<<<<<<< HEAD
   //-------------------------------//
   const { user } = useAuth0();
   useEffect(() => {
@@ -37,6 +38,8 @@ const Home = () => {
   }, [user]);
   //-----------------------------//
 
+=======
+>>>>>>> 1ce9a387a2049578ae4ac2ea6fc5dacce8965411
   useEffect(() => {
     dispatch(orderByPrice(orderBy));
   }, [orderBy]);
@@ -60,14 +63,24 @@ const Home = () => {
     window.scrollTo(0, 0);
   };
 
-  const indexOfLastProduct = currentPage * productsPerPage;
+/*   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProduct = allProducts1.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
 
-  const totalPages = Math.ceil(allProducts1.length / productsPerPage);
+  const totalPages = Math.ceil(allProducts1.length / productsPerPage); */
+  const productsToDisplay = searchOn ? allProductsSearch : allProducts1;
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProduct = productsToDisplay.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(productsToDisplay.length / productsPerPage);
 
   return (
     <div>

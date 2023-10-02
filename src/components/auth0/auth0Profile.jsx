@@ -6,9 +6,13 @@ export const UserProfile = () => {
   const userData = useSelector((state) => state.userData);
   // const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   // const [accessToken, setAccessToken] = useState(null);
+<<<<<<< HEAD
   useEffect(() => {
   
   }, [userData]);
+=======
+  useEffect(() => {}, [userData]);
+>>>>>>> 1ce9a387a2049578ae4ac2ea6fc5dacce8965411
 
   return (
     <div>

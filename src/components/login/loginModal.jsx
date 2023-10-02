@@ -8,7 +8,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import LoginButton from "../auth0/auth0Login";
 import UserProfile from "../auth0/auth0Profile";
-import {  useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setAlert } from "../../redux/actions";
 import "./loginModal.css";
 
 //----import del login del facha------//
@@ -19,8 +20,25 @@ import useAuth from "../../context-client/hooks/useAuth";
 import AlertTech from "../alert/alert";
 
 const LoginModal = () => {
+<<<<<<< HEAD
   const userData = useSelector(state => state.userData)
   const [open, setOpen] = React.useState(false);
+=======
+  const [open, setOpen] = useState(false)
+  const userData = useSelector((state) => state.userData);
+  const isBanned = useSelector((state) => state.setOpen);
+  const alertState = useSelector((state) => state.alert);
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (isBanned) {
+      setOpen(true);
+      dispatch(setAlert("Usted fue desabilitado", "warning"));
+    }
+  }, [isBanned]);
+
+>>>>>>> 1ce9a387a2049578ae4ac2ea6fc5dacce8965411
   // const location = useLocation();
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,7 +52,6 @@ const LoginModal = () => {
   const [commonUser, setCommonUser] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmationAlert, setConfirmationAlert] = useState(null);
   const { auth, closeSession } = useAuth();
   const { setAuth } = useAuth();
   const navigate = useNavigate();
@@ -79,16 +96,6 @@ const LoginModal = () => {
     }
   };
 
-  const showAlert = (type, message) => {
-    // Mostrar la alerta
-    setConfirmationAlert({ type, message });
-
-    // Limpiar la alerta después de 3 segundos (3000 ms)
-    setTimeout(() => {
-      setConfirmationAlert(null);
-    }, 3000);
-  };
-
   return (
     <div>
       <IconButton
@@ -107,6 +114,15 @@ const LoginModal = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         >
+<<<<<<< HEAD
+=======
+          {alertState.visible && (
+            <AlertTech
+              message={alertState.message}
+              type={alertState.type}
+            />
+          )}
+>>>>>>> 1ce9a387a2049578ae4ac2ea6fc5dacce8965411
         {!auth.email && !userData.name && (
           <DialogTitle
           id="alert-dialog-title"
@@ -150,7 +166,8 @@ const LoginModal = () => {
             alignItems: "center",
           }}
         >
-          {(auth.email && !userData.name) || (!auth.email && userData.name) ? null : (
+          {(auth.email && !userData.name) ||
+          (!auth.email && userData.name) ? null : (
             <div className="divContainer_Form_Login">
               <form className="form_Login" onSubmit={handleSubmit}>
                 <div className="divContainer_input_login">
@@ -196,7 +213,8 @@ const LoginModal = () => {
             </div>
           )}
           {/* --------------- */}
-          {(auth.email && !userData.name) || (!auth.email && userData.name) ? null : (
+          {(auth.email && !userData.name) ||
+          (!auth.email && userData.name) ? null : (
             <DialogTitle
               id="alert-dialog-title"
               style={{
@@ -207,7 +225,7 @@ const LoginModal = () => {
                 fontWeight: "bold",
               }}
             >
-              {"Inicia con google"}
+              {"Continua con google"}
             </DialogTitle>
           )}
           {/* ----------------- */}
