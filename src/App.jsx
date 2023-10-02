@@ -24,8 +24,11 @@ import { getuserData, banUser } from "./redux/actions";
 function App() {
   const dispatch = useDispatch();
 
-  //-------------autenticate user with cookies------------------//
-const [ignacioMagic, setIgnacioMagic] = useState({})
+
+  //-------------autenticate user with cookies-------------------//
+  const { user } = useAuth0();
+  const [ignacioMagic, setIgnacioMagic] = useState({})
+
 
   const { user } = useAuth0();
   useEffect(() => {
