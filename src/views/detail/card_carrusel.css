@@ -23,8 +23,15 @@
 
 .cardCarrousel_name {
     font-size: 1.3rem;
+    text-align: center;
 }
 
 .cardCarrousel_price {
     font-size: 1.2rem;
+}
+
+.cardCarrousel {
+    background: none;
+    border: none;
+    cursor: pointer;
 }

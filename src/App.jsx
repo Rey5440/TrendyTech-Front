@@ -34,7 +34,6 @@ function App() {
   const [ignacioMagic, setIgnacioMagic] = useState({})
 
 
-  const { user } = useAuth0();
   useEffect(() => {
     if (user && user.email) {
       const fetchData = async () => {

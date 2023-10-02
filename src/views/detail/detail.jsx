@@ -22,6 +22,8 @@ const Detail = () => {
   const [product, setProduct] = useState({});
   const [imagePP, setImagePP] = useState();
   const [loading, setLoading] = useState(true);
+  const shoppingCart = useSelector(state => state.shoppingCart);
+  const isProductInCart = shoppingCart.some(product => product.id === id);
 
   /* ---------para usar el alert------------- */
   const alertState = useSelector(state => state.alert)
@@ -95,7 +97,7 @@ const Detail = () => {
                   endIcon={<LocalMallIcon />}
                   onClick={handleAddToCart}
                 >
-                  Agregar al carrito
+                  Agregar al Carrito
                 </Button>
                 <p className="stock">{product.stock} unidades disponibles</p>
               </div>
@@ -136,11 +138,11 @@ const Detail = () => {
             </div>
           </div>
           <h2 className="relacionados">Productos relacionados</h2>
+          <div className="div_carrusel">
+            <DetailCarousel product={product} />
+          </div>
         </div>
       )}
-      <div className="div_carrusel">
-        <DetailCarousel product={product} />
-      </div>
       <Footer />
     </div>
   );
