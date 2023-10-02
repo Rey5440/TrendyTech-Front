@@ -24,7 +24,7 @@ import { getuserData, banUser } from "./redux/actions";
 function App() {
   const dispatch = useDispatch();
 
-  //-------------autenticate user with cookies------------------//
+  //-------------autenticate user with cookies-------------------//
   const { user } = useAuth0();
 
   useEffect(() => {
