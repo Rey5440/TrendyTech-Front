@@ -12,6 +12,7 @@ import Footer from "../footer/footer";
 import { useAuth0 } from "@auth0/auth0-react";
 import autenticateAllUsers from "../../helpers/autenticateAllUsers";
 import { getAllProducts, orderByPrice, getuserData } from "../../redux/actions";
+import useAuth from "../../context-client/hooks/useAuth"
 
 const Home = () => {
   window.scrollTo(0, 0);
@@ -19,6 +20,13 @@ const Home = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState(false);
+  const auth = useAuth()
+
+  console.log(auth.auth.name)
+
+  console.log(auth.auth.email)
+
+  console.log(useAuth())
 
   //-------------------------------//
   const { user } = useAuth0();

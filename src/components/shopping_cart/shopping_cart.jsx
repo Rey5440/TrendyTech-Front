@@ -1,5 +1,5 @@
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import CartItem from "./cart_item";
 import Nav from "../../components/nav/nav";
