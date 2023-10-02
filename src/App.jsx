@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PaymentStatus from "./components/paymentStatus/paymentStatus";
 import Home from "./views/home/home";
 import Detail from "./views/detail/detail";
@@ -24,18 +24,23 @@ import { getuserData, banUser } from "./redux/actions";
 function App() {
   const dispatch = useDispatch();
 
+
   //-------------autenticate user with cookies-------------------//
   const { user } = useAuth0();
+  const [ignacioMagic, setIgnacioMagic] = useState({})
 
+
+  const { user } = useAuth0();
   useEffect(() => {
     if (user && user.email) {
       const fetchData = async () => {
         try {
           const result = await autenticateAllUsers(user);
+          setIgnacioMagic(result)
           if (result.isDeleted) {
             dispatch(banUser(true));
           } else {
-            dispatch(getuserData(result));
+           ignacioMagic && dispatch(getuserData(result));
             dispatch(banUser(false));
           }
         } catch (error) {
