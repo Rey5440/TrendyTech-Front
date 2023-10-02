@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getAllProducts } from "../../redux/actions";
 import { Button } from "@mui/material";
 import Nav from "../../components/nav/nav";
+import Card from "../../components/card/card";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -13,8 +14,9 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import banner1 from "../../assets/banner-publicitario-1.png";
 import banner2 from "../../assets/banner-publicitario-2.png";
 import banner3 from "../../assets/banner-publicitario-3.png";
+import Footer from "../footer/footer";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import "./presentation.css";
-import ShowCookieBanner from "../cookies/cookie-banner";
 
 const images = [banner1, banner2, banner3];
 
@@ -110,22 +112,10 @@ const Presentation = () => {
   const next = () => {
     selectNewImage(selectedIndex, images);
   };
-
   return (
     <>
       <Nav />
       <div className="div_container_presentation">
-        <div className="button_presentation">
-          <NavLink to="/home">
-            <Button
-              variant="contained"
-              color="secondary"
-              style={{ borderRadius: "50px" }}
-              endIcon={<RocketLaunchIcon />}>
-              Ingresar
-            </Button>
-          </NavLink>
-        </div>
         <div className="div_image_carrusel">
           <img
             src={selectedImage}
@@ -144,7 +134,6 @@ const Presentation = () => {
             </div>
           </div>
         </div>
-        <ShowCookieBanner />
         <div className="div_container_carrousel2">
           <h2 className="h2_presentation">Productos de novedad</h2>
           <hr className="hr_presentation" />
@@ -167,6 +156,15 @@ const Presentation = () => {
           <hr className="hr_presentation" />
         </div>
         <hr />
+        <NavLink to="/favorites" className="Nav_FavoritesLink">
+          <Button
+            variant="contained"
+            color="warning"
+            style={{ borderRadius: "50px", margin: "4px" }}
+            endIcon={<FavoriteIcon />}>
+            Favoritos
+          </Button>
+        </NavLink>
         <Footer />
       </div>
     </>

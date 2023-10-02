@@ -15,7 +15,7 @@ const ConfirmAccount = () => {
   useEffect(() => {
     const ConfirmAccount = async () => {
       try {
-        const url = `https://trendy-tech-back-8bm1.onrender.com/users/confirm/${id}`;
+        const url = `http://localhost:3004/users/confirm/${id}`;
         const { data } = await axios.post(url);
 
         console.log(data);

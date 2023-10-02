@@ -13,6 +13,7 @@ import NewPassword from "./components/login/newPassword";
 import { AuthProvider } from "./context-client/context/authProvider";
 import UserForUser from "./views/userForUser/userForUser";
 import Admin from "./views/admin/admin";
+import FavoritesPage from "./components/favorites/favorites";
 function App() {
   return (
     <div>
@@ -29,7 +30,8 @@ function App() {
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
           <Route path="/paymentStatus" element={<PaymentStatus />} />
-          <Route path="/admin" element={<Admin/>}/>
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
         </Routes>
       </AuthProvider>
     </div>

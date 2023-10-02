@@ -49,7 +49,7 @@ const LoginModal = () => {
       if (auth.email) {
         try {
           const response = await axios.post(
-            "https://trendy-tech-back-8bm1.onrender.com/users/emailuser",
+            "http://localhost:3004/users/emailuser",
             { email: auth.email }
           );
           setCommonUser(response.data);
@@ -66,7 +66,7 @@ const LoginModal = () => {
 
     try {
       //Informacion requerida: email y password
-      const { data } = await axios.post("https://trendy-tech-back-8bm1.onrender.com/users/login", {
+      const { data } = await axios.post("http://localhost:3004/users/login", {
         email,
         password,
       });
@@ -91,7 +91,6 @@ const LoginModal = () => {
     }, 3000);
   };
 
-  
   return (
     <div>
       {confirmationAlert && (
@@ -103,10 +102,9 @@ const LoginModal = () => {
       <IconButton
         variant="contained"
         sx={{
-          color: "#ffffff", 
+          color: "#ffffff",
         }}
-        onClick={handleClickOpen}
-      >
+        onClick={handleClickOpen}>
         <AccountCircleIcon sx={{ fontSize: 40 }} />
       </IconButton>
       <Dialog
@@ -114,8 +112,7 @@ const LoginModal = () => {
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
+        aria-describedby="alert-dialog-description">
         {!auth.email && !isAuthenticated && (
           <DialogTitle
             id="alert-dialog-title"
@@ -125,8 +122,7 @@ const LoginModal = () => {
               fontSize: "25px",
               fontFamily: "Poppins, sans-serif",
               fontWeight: "bold",
-            }}
-          >
+            }}>
             {"Inicia sesión en TrendyTech"}
           </DialogTitle>
         )}
@@ -151,8 +147,7 @@ const LoginModal = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-          }}
-        >
+          }}>
           {(auth.email && !isAuthenticated) ||
           (!auth.email && isAuthenticated) ? null : (
             <div className="divContainer_Form_Login">
@@ -191,8 +186,7 @@ const LoginModal = () => {
                   </NavLink>
                   <NavLink
                     className="links_Register_and_reset"
-                    to="/reset-password"
-                  >
+                    to="/reset-password">
                     Olvide mi Password
                   </NavLink>
                 </div>
@@ -210,8 +204,7 @@ const LoginModal = () => {
                 fontSize: "25px",
                 fontFamily: "Poppins, sans-serif",
                 fontWeight: "bold",
-              }}
-            >
+              }}>
               {"Inicia con google"}
             </DialogTitle>
           )}

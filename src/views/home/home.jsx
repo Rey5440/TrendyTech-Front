@@ -26,8 +26,6 @@ const Home = () => {
     }
   }, [user]);
 
-    user && autenticateAllUsers(user, isAuthenticated);
-  }, [user, autenticateAllUsers]);
   //-----------------------------//
 
   useEffect(() => {
@@ -66,11 +64,9 @@ const Home = () => {
         <Loader />
       ) : (
         <div
-          style={{ display: "flex", justifyContent: "center", width: "100%" }}
-        >
+          style={{ display: "flex", justifyContent: "center", width: "100%" }}>
           <Container
-            style={{ display: "flex", padding: "20px", width: "400rem" }}
-          >
+            style={{ display: "flex", padding: "20px", width: "400rem" }}>
             <Filter />
             <Grid sx={{ width: "100%", display: "flex" }}>
               <Cards currentProduct={currentProduct} />

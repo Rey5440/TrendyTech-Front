@@ -75,8 +75,7 @@ const Nav = () => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-          }}
-        >
+          }}>
           <NavLink to={"/home"}>
             <div className="Nav_LogoContainer">
               <img
@@ -104,8 +103,7 @@ const Nav = () => {
                   size="large"
                   aria-label="show 17 new notifications"
                   color="inherit"
-                  className="Nav_IconoCarrito"
-                >
+                  className="Nav_IconoCarrito">
                   <Badge badgeContent={totalProductsInCart} color="error">
                     <ShoppingCartIcon sx={{ fontSize: 30 }} />
                   </Badge>
@@ -123,8 +121,7 @@ const Nav = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-          }}
-        >
+          }}>
           {shouldShowNav ? (
             <div className="button_presentation">
               <NavLink to="/home">
@@ -133,8 +130,7 @@ const Nav = () => {
                   color="warning"
                   style={{ borderRadius: "50px" }}
                   // className="button_ingresar"
-                  endIcon={<RocketLaunchIcon />}
-                >
+                  endIcon={<RocketLaunchIcon />}>
                   Ingresar
                 </Button>
               </NavLink>
@@ -148,8 +144,7 @@ const Nav = () => {
                   style={{ borderRadius: "50px", margin: "4px" }}
                   // className="button_ingresar"
                   endIcon={<RocketLaunchIcon />}
-                  onClick={handleProductsButton}
-                >
+                  onClick={handleProductsButton}>
                   Productos
                 </Button>
               </NavLink>
@@ -159,8 +154,7 @@ const Nav = () => {
                   color="warning"
                   style={{ borderRadius: "50px", margin: "4px" }}
                   // className="button_ingresar"
-                  endIcon={<LocalOfferIcon />}
-                >
+                  endIcon={<LocalOfferIcon />}>
                   Descuentos
                 </Button>
               </NavLink>
@@ -172,8 +166,7 @@ const Nav = () => {
                   margin: "4px",
                 }}
                 endIcon={<PermContactCalendarIcon />}
-                onClick={handleMoveToFooter}
-              >
+                onClick={handleMoveToFooter}>
                 Contactenos
               </Button>
             </div>

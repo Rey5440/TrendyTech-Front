@@ -3,11 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 // import axiosClient from "../config/axiosClient";
-import {
-  saveUserDataToCookie,
-  getUserDataFromCookie,
-} from "../../components/helpers/authUtils";
-import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
@@ -15,14 +10,21 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   // const [auth, setAuth] = useState({})
   const [auth, setAuth] = useState({
-    token: "", // Inicializa con el token almacenado
+    token: localStorage.getItem("token") || "", // Inicializa con el token almacenado
   });
   const [cargando, setCargando] = useState(true);
 
+  console.log(auth);
+  console.log(cargando);
+
   const navigate = useNavigate();
 
-    console.log(auth)
-    console.log(cargando)
+  /* Se ejecuta una sola vez , ya que solo comprueba que haya un token para autenticar al usuario */
+  useEffect(() => {
+    const authenticateUser = async () => {
+      /* leer el token */
+      const token = localStorage.getItem("token");
+      console.log(token);
 
       //Si no hay token detenemos la ejecucion del codigo
       if (!token) {
@@ -45,6 +47,7 @@ const AuthProvider = ({ children }) => {
         );
         // const {data} = await axiosClient('/users/profile', config)
         setAuth(data);
+        /* dispatch(neptuno(data)) */
         console.log(data);
         navigate("/home");
       } catch (error) {
@@ -54,10 +57,10 @@ const AuthProvider = ({ children }) => {
       }
     };
     authenticateUser();
-  }, [navigate]);
+  }, []);
 
   const closeSession = () => {
-    Cookies.remove("auth"); // Cambia localStorage a Cookies
+    localStorage.removeItem("token");
     setAuth({});
   };
 
@@ -74,50 +77,6 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-                const {data} = await axios('http://localhost:3004/users/profile', config)
-                // const {data} = await axiosClient('/users/profile', config)
-                setAuth(data)
-                /* dispatch(neptuno(data)) */
-                console.log(data)
-                navigate('/home')
-
-            } catch (error) {
-                setAuth({})
-            } finally{
-                 setCargando(false) 
-            }
-
-            
-        }
-        authenticateUser()
-    }, [])
-
-
-    const closeSession = () => {
-        localStorage.removeItem('token')
-        setAuth({})
-    }
-
-
-    return(
-        <AuthContext.Provider
-
-            value={{
-                auth,
-                setAuth, 
-                cargando,
-                closeSession
-            }}
-        >
-
-
-            {children}
-        </AuthContext.Provider>
-    )
-}
-
-export {
-    AuthProvider
-}
+export { AuthProvider };
 
 export default AuthContext;

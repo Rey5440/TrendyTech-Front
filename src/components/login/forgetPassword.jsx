@@ -32,7 +32,7 @@ const ForgetPassword = () => {
 
     try {
       const { data } = await axios.post(
-        "https://trendy-tech-back-8bm1.onrender.com/users/reset-password",
+        "http://localhost:3004/users/reset-password",
         { email }
       );
 
@@ -70,27 +70,26 @@ const ForgetPassword = () => {
           />
         )}
         <form action="" className="form_ResetPassword" onSubmit={handleSubmit}>
-        <h4 className="h1_ResetPassword">
-          Recupera el acceso a tu cuenta de TrendyTech
-        </h4>
-      
-            <div className="div_input_ResetPassword">
-              <label htmlFor="email">Email</label>
-              <input
-                id="email"
-                type="email"
-                placeholder="Email de Registro"
-                className="input_ResetPassword"
-                value={email}
-                onChange={(e) => handleInputChange(e, setEmail)}
-              />
+          <h4 className="h1_ResetPassword">
+            Recupera el acceso a tu cuenta de TrendyTech
+          </h4>
+
+          <div className="div_input_ResetPassword">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Email de Registro"
+              className="input_ResetPassword"
+              value={email}
+              onChange={(e) => handleInputChange(e, setEmail)}
+            />
             <input
               type="submit"
               value="Enviar instrucciones"
               className="button_form_ResetPassword"
-              />
-              </div>
- 
+            />
+          </div>
 
           <nav className="nav_Login_reset">
             <Link className="links_Login_and_reset" to="/home">
@@ -101,7 +100,9 @@ const ForgetPassword = () => {
             </Link>
           </nav>
         </form>
-        <NavLink to="/home" style={{display: 'flex', justifyContent: 'center'}}>
+        <NavLink
+          to="/home"
+          style={{ display: "flex", justifyContent: "center" }}>
           <img src={imageLogo} alt="logo-home" className="logo_footer_login" />
         </NavLink>
       </div>
