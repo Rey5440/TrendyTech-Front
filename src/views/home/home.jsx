@@ -9,17 +9,45 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
-import { getAllProducts, orderByPrice} from "../../redux/actions";
+import { getAllProducts, orderByPrice } from "../../redux/actions";
+import autenticateAllUsers from "../../helpers/autenticateAllUsers";
+import { getuserData, banUser } from "../../redux/actions";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
   window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [orderBy, setOrderBy] = useState(false);
+  const [orderBy, setOrderBy] = useState("");
+
+  //-------------autenticate user with cookies------------------//
+  const isBanned = useSelector((state) => state.setOpen);
+  const [ignacioMagic, setIgnacioMagic] = useState({});
+  const { user } = useAuth0();
+  useEffect(() => {
+    if (user && user.email) {
+      const fetchData = async () => {
+        try {
+          const result = await autenticateAllUsers(user);
+          setIgnacioMagic(result);
+          if (result.isDeleted) {
+            dispatch(banUser(true));
+          } else {
+            ignacioMagic && dispatch(getuserData(result));
+           if(isBanned === true) dispatch(banUser(false));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }
+  }, [user]);
+  //-----------------------------------------------------------//
 
   useEffect(() => {
-    dispatch(orderByPrice(orderBy));
+    if (orderBy === "") dispatch(orderByPrice(orderBy));
   }, [orderBy]);
 
   useEffect(() => {
@@ -72,7 +100,7 @@ const Home = () => {
                 paddingTop: "4px",
               }}
             >
-              {<Filter />}
+              <Filter />
             </Grid>
             <Grid item xs={12} md={9} lg={9} xl={9}>
               <OrderBy orderBy={orderBy} setOrderBy={setOrderBy} />

@@ -33,12 +33,10 @@ export const getAllProducts = () => {
 
 export const searchByName = (product) => {
   return async function (dispatch) {
-    console.log(product);
     try {
       const foundProduct = await axios(
         `${VITE_BACKEND_URL}/products/?name=${product}`
       );
-      console.log(foundProduct.data);
       return dispatch({
         type: SEARCH_BY_NAME,
         payload: foundProduct.data,
@@ -62,11 +60,6 @@ export const orderByName = () => {
   };
 };
 
-/* export const filterByColor = () => {
-    return {
-        type: FILTER_BY_COLOR
-    }
-} */
 
 export const filterAll = (payload) => {
   return function (dispatch) {
@@ -86,7 +79,7 @@ export const setAlert = (message, type) => {
         type,
       },
     });
-
+    
     // Limpia el alerta después de 3 segundos
     setTimeout(() => {
       dispatch({
@@ -129,7 +122,6 @@ export const decreaseQuantity = (id) => {
 };
 
 export const getuserData = (payload) => {
-  console.log(payload);
   return {
     type: USER_DATA,
     payload: payload,
@@ -137,9 +129,14 @@ export const getuserData = (payload) => {
 };
 
 export const banUser = (payload) => {
-  console.log(payload);
   return {
     type: SET_OPEN_MODAL_LOGIN,
     payload: payload,
   };
 };
+
+/* export const filterByColor = () => {
+    return {
+        type: FILTER_BY_COLOR
+    }
+} */

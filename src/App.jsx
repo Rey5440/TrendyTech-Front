@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
 import PaymentStatus from "./components/paymentStatus/paymentStatus";
 import Home from "./views/home/home";
 import Detail from "./views/detail/detail";
@@ -16,29 +15,32 @@ import Admin from "./views/admin/admin";
 import DeleteUser from "./components/deleteUser/deleteUser";
 import DeleteProduct from "./components/deleteProduct/deleteProduct";
 import ManageUsers from "./components/manageUsers/manageUsers";
-import { useAuth0 } from "@auth0/auth0-react";
+//----------------------//
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import autenticateAllUsers from "./helpers/autenticateAllUsers";
-import { useDispatch } from "react-redux";
 import { getuserData, banUser } from "./redux/actions";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
-  const dispatch = useDispatch();
+
 
   //-------------autenticate user with cookies------------------//
-const [ignacioMagic, setIgnacioMagic] = useState({})
-
+  const isBanned = useSelector((state) => state.setOpen);
+  const [ignacioMagic, setIgnacioMagic] = useState({});
   const { user } = useAuth0();
+  const dispatch = useDispatch()
   useEffect(() => {
     if (user && user.email) {
       const fetchData = async () => {
         try {
           const result = await autenticateAllUsers(user);
-          setIgnacioMagic(result)
+          setIgnacioMagic(result);
           if (result.isDeleted) {
             dispatch(banUser(true));
           } else {
-           ignacioMagic && dispatch(getuserData(result));
-            dispatch(banUser(false));
+            ignacioMagic && dispatch(getuserData(result));
+            if (isBanned === true) dispatch(banUser(false));
           }
         } catch (error) {
           console.log(error);

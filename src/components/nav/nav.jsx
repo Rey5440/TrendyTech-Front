@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../../redux/actions";
 import { Button, Box, Grid, Container } from "@mui/material";
 import SearchBar from "../searchBar/searchBar";
 import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
@@ -15,8 +14,6 @@ import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import LoginModal from "../login/loginModal";
-import autenticateAllUsers from "../../helpers/autenticateAllUsers";
-import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../context-client/hooks/useAuth";
 import axios from "axios";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
@@ -29,20 +26,18 @@ const Nav = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [admin, setAdmin] = useState(false);
-  const menuId = "primary-search-account-menu";
   const location = useLocation();
   const cart = useSelector((state) => state.shoppingCart);
   let totalProductsInCart = cart.reduce(
     (acc, product) => acc + product.quantity,
     0
   );
-  const { user } = useAuth0();
   const { auth } = useAuth();
-  useEffect(() => {
-    if (user && user.email) {
-      const result = autenticateAllUsers(user);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user && user.email) {
+  //     const result = autenticateAllUsers(user);
+  //   }
+  // }, [user]);
 
   const handleProductsButton = (event) => {
     // dispatch(getAllProducts());
@@ -70,17 +65,22 @@ const Nav = () => {
 
   useEffect(() => {
     async function findAdmin() {
-      const { id } = auth;
-      const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
-      if (data && data.isAdmin === true) {
-        setAdmin(true);
-      } else {
-        setAdmin(false);
+      if (auth.email) {
+        try {
+          const { id } = auth;
+          const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
+          if (data && data.isAdmin === true) {
+            setAdmin(true);
+          } else {
+            setAdmin(false);
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
       }
     }
     findAdmin();
   }, [auth, admin]);
-
   // const searchAdmin = async () => {
   // };
 
@@ -201,7 +201,7 @@ const Nav = () => {
                   Productos
                 </Button>
               </NavLink>
-              <NavLink to="">
+              <NavLink to="/home">
                 <Button
                   variant="contained"
                   color="warning"
@@ -254,7 +254,7 @@ const Nav = () => {
                   Productos
                 </Button>
               </NavLink>
-              <NavLink to="">
+              <NavLink to="/">
                 <Button
                   variant="contained"
                   color="warning"

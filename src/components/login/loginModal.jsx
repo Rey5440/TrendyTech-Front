@@ -20,12 +20,11 @@ import useAuth from "../../context-client/hooks/useAuth";
 import AlertTech from "../alert/alert";
 
 const LoginModal = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const userData = useSelector((state) => state.userData);
   const isBanned = useSelector((state) => state.setOpen);
   const alertState = useSelector((state) => state.alert);
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (isBanned) {
@@ -34,7 +33,6 @@ const LoginModal = () => {
     }
   }, [isBanned]);
 
-  // const location = useLocation();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -51,22 +49,22 @@ const LoginModal = () => {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getCommonUser = async () => {
-      if (auth.email) {
-        try {
-          const response = await axios.post(
-            `${VITE_BACKEND_URL}/users/emailuser`,
-            { email: auth.email }
-          );
-          setCommonUser(response.data);
-        } catch (error) {
-          console.log(error.message);
-        }
-      }
-    };
-    getCommonUser();
-  }, [auth]);
+  // useEffect(() => {
+  //   const getCommonUser = async () => {
+  //     if (auth.email) {
+  //       try {
+  //         const response = await axios.post(
+  //           `${VITE_BACKEND_URL}/users/emailuser`,
+  //           { email: auth.email }
+  //         );
+  //         setCommonUser(response.data);
+  //       } catch (error) {
+  //         console.log(error.message);
+  //       }
+  //     }
+  //   };
+  //   getCommonUser();
+  // }, [auth]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,7 +94,7 @@ const LoginModal = () => {
           color: "#ffffff",
         }}
         onClick={handleClickOpen}
-        >
+      >
         <AccountCircleIcon sx={{ fontSize: 40 }} />
       </IconButton>
       <Dialog
@@ -105,13 +103,10 @@ const LoginModal = () => {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        >
-          {alertState.visible && (
-            <AlertTech
-              message={alertState.message}
-              type={alertState.type}
-            />
-          )}
+      >
+        {alertState.visible && (
+          <AlertTech message={alertState.message} type={alertState.type} />
+        )}
         {!auth.email && !userData.name && (
           <DialogTitle
             id="alert-dialog-title"
@@ -214,11 +209,8 @@ const LoginModal = () => {
           {/* ----------------- */}
           <UserProfile />
           {userData.name || auth.email ? (
-            <NavLink to="/mi-perfil">
-              {/* ver que ruta es la del perfil */}
-              <NavLink to="/user">
-                <Button variant="contained">mi perfil</Button>
-              </NavLink>
+            <NavLink to="/user">
+              <Button variant="contained">mi perfil</Button>
             </NavLink>
           ) : null}
           {/* ------------- */}

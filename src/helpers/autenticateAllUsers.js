@@ -12,7 +12,6 @@ const saveUserDataToCookie = async (user) => {
   // Genera una clave única para cada usuario (por ejemplo, el ID de usuario)
   // Convierte el objeto userData a una cadena JSON
   const userData = JSON.stringify(user);
-  console.log(userData, "esto es lo que guardamos en las cookies");
   try {
     // Guarda los datos en una cookie llamada "userData"
     const guardar = Cookies.set("ignacioMagic", userData, { expires: 1 });
@@ -23,7 +22,7 @@ const saveUserDataToCookie = async (user) => {
     console.log(error);
   }
 };
-
+ 
 const getUser = async (userToken) => {
   try {
     const response = await axios.get(
