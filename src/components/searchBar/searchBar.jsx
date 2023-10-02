@@ -5,11 +5,12 @@ import { searchByName, searchOnSwitch } from "../../redux/actions";
 import "./searchBar.css";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Autocomplete, Button, Grid, Stack, TextField } from "@mui/material";
 
 const SearchBar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [product, setProduct] = useState("");
   const dispatch = useDispatch();
   const allProducts2 = useSelector((state) => state.allProducts2);
@@ -20,11 +21,10 @@ const SearchBar = () => {
     setProduct(event.target.value);
   };
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    console.log(product);
-    
-    // Dispatch la acción para buscar por nombre
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setProduct("");
+    location.pathname != "/home" ? navigate("/home") : null;
     dispatch(searchByName(product));
 
     // Dispatch la acción para cambiar el estado de searchOn a true

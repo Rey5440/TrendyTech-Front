@@ -21,15 +21,22 @@ import { useDispatch, useSelector } from "react-redux";
 import autenticateAllUsers from "./helpers/autenticateAllUsers";
 import { getuserData, banUser } from "./redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
+import NotFound from "./views/page_not_found/not_found";
+import {getAllProducts} from "./redux/actions";
 
 function App() {
-
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getAllProducts())
+  }, [])
 
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
   const { user } = useAuth0();
-  const dispatch = useDispatch()
+  const [ignacioMagic, setIgnacioMagic] = useState({})
+
+
   useEffect(() => {
     if (user && user.email) {
       const fetchData = async () => {
@@ -69,7 +76,8 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/deleteuser" element={<DeleteUser />} />
           <Route path="/deleteproduct" element={<DeleteProduct />} />
-          <Route path="/manageUsers" element={<ManageUsers />} />
+          <Route path="/manageUsers" element={<ManageUsers />} /> 
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
     </div>
