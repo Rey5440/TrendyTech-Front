@@ -20,21 +20,8 @@ import useAuth from "../../context-client/hooks/useAuth";
 import AlertTech from "../alert/alert";
 
 const LoginModal = () => {
-  const [open, setOpen] = useState(false)
-  const userData = useSelector((state) => state.userData);
-  const isBanned = useSelector((state) => state.setOpen);
-  const alertState = useSelector((state) => state.alert);
-
-  const dispatch = useDispatch()
-
-  console.log(isBanned);
-  useEffect(() => {
-    if (isBanned) {
-      setOpen(true);
-      dispatch(setAlert("Usted fue desabilitado", "warning"));
-    }
-  }, [isBanned]);
-
+  const userData = useSelector(state => state.userData)
+  const [open, setOpen] = React.useState(false);
   // const location = useLocation();
   const handleClickOpen = () => {
     setOpen(true);
@@ -78,6 +65,9 @@ const LoginModal = () => {
         email,
         password,
       });
+      if(data.isDeleted === true) {
+        return showAlert("warning", "Su cuenta ha sido desactivada por incumplir nuestros términos de uso.")
+      }
       localStorage.setItem("token", data.token);
       console.log(data);
       setAuth(data);
@@ -106,7 +96,7 @@ const LoginModal = () => {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        >
+          >
           {alertState.visible && (
             <AlertTech
               message={alertState.message}
@@ -115,15 +105,21 @@ const LoginModal = () => {
           )}
         {!auth.email && !userData.name && (
           <DialogTitle
-            id="alert-dialog-title"
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              fontSize: "25px",
-              fontFamily: "Poppins, sans-serif",
-              fontWeight: "bold",
-            }}
+          id="alert-dialog-title"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            fontSize: "25px",
+            fontFamily: "Poppins, sans-serif",
+            fontWeight: "bold",
+          }}
           >
+            {confirmationAlert && (
+              <AlertTech
+                message={confirmationAlert.message}
+                type={confirmationAlert.type}
+              />
+            )}
             {"Inicia sesión en TrendyTech"}
           </DialogTitle>
         )}

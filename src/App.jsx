@@ -13,8 +13,7 @@ import NewPassword from "./components/login/newPassword";
 import { AuthProvider } from "./context-client/context/authProvider";
 import UserForUser from "./views/userForUser/userForUser";
 import Admin from "./views/admin/admin";
-import DeleteUser from "./components/deleteUser/deleteUser";
-import DeleteProduct from "./components/deleteProduct/deleteProduct";
+import Delete from "./views/delete/delete";
 import ManageUsers from "./components/manageUsers/manageUsers";
 import { useAuth0 } from "@auth0/auth0-react";
 import autenticateAllUsers from "./helpers/autenticateAllUsers";
@@ -61,10 +60,9 @@ function App() {
           <Route path="/new-password/:token" element={<NewPassword />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
-          <Route path="/paymentStatus" element={<PaymentStatus />} />
+          <Route path="/paymentstatus" element={<PaymentStatus />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/deleteuser" element={<DeleteUser />} />
-          <Route path="/deleteproduct" element={<DeleteProduct />} />
+          <Route path="/delete" element={<Delete />} />
           <Route path="/manageUsers" element={<ManageUsers />} />
         </Routes>
       </AuthProvider>

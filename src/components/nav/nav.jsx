@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../../redux/actions";
-import { Button, Box, Grid, Container } from "@mui/material";
+import { Button, Box, Grid } from "@mui/material";
 import SearchBar from "../searchBar/searchBar";
 import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
 import AppBar from "@mui/material/AppBar";
@@ -21,6 +20,7 @@ import useAuth from "../../context-client/hooks/useAuth";
 import axios from "axios";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import "./nav.css";
 
@@ -59,6 +59,7 @@ const Nav = () => {
     "/manageUsers",
     "/user",
     "/shopping-cart",
+    "/delete",
   ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
@@ -69,8 +70,8 @@ const Nav = () => {
   };
 
   useEffect(() => {
+    const { id } = auth;
     async function findAdmin() {
-      const { id } = auth;
       const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
       if (data && data.isAdmin === true) {
         setAdmin(true);
@@ -78,7 +79,9 @@ const Nav = () => {
         setAdmin(false);
       }
     }
-    findAdmin();
+    if (id) {
+      findAdmin();
+    }
   }, [auth, admin]);
 
   // const searchAdmin = async () => {
@@ -154,6 +157,17 @@ const Nav = () => {
         >
           {admin && showNavAdmin ? (
             <div className="button_presentation">
+              <NavLink to={"/delete"}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  endIcon={<DeleteOutlineIcon />}
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                >
+                  Borrar
+                </Button>
+              </NavLink>
+
               <NavLink to={"/manageUsers"}>
                 <Button
                   variant="contained"
@@ -161,7 +175,7 @@ const Nav = () => {
                   endIcon={<AccountCircleIcon />}
                   style={{ borderRadius: "50px", margin: "4px" }}
                 >
-                  Users
+                  Usuarios
                 </Button>
               </NavLink>
               <NavLink to="/create">
@@ -223,7 +237,7 @@ const Nav = () => {
                 endIcon={<PermContactCalendarIcon />}
                 onClick={handleMoveToFooter}
               >
-                Contactenos
+                Contáctenos
               </Button>
             </div>
           ) : shouldShowNav ? (

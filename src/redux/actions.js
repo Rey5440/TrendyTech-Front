@@ -33,12 +33,10 @@ export const getAllProducts = () => {
 
 export const searchByName = (product) => {
   return async function (dispatch) {
-    console.log(product);
     try {
       const foundProduct = await axios(
         `${VITE_BACKEND_URL}/products/?name=${product}`
       );
-      console.log(foundProduct.data);
       return dispatch({
         type: SEARCH_BY_NAME,
         payload: foundProduct.data,
@@ -129,7 +127,6 @@ export const decreaseQuantity = (id) => {
 };
 
 export const getuserData = (payload) => {
-  console.log(payload);
   return {
     type: USER_DATA,
     payload: payload,

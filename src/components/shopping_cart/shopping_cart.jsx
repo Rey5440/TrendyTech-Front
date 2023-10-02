@@ -9,38 +9,54 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import "./shopping_cart.css";
+import { useAuth0 } from "@auth0/auth0-react";
+import useAuth from "../../context-client/hooks/useAuth";
 
 initMercadoPago("TEST-185b7434-044a-4830-995d-95780e762ec5");
 const ShoppingCart = () => {
-  // state global cart y token
-  let { shoppingCart, userData }= useSelector((state) => state);
-  let cart = shoppingCart;
-  let token = userData.token;
-  let [total, setTotal] = useState(0);
-  let [preferenceId, setPreferenceId] = useState(null);
-  let [button, setButton] = useState(false);
-  let totalProductsInCart = cart.reduce(
+  const cart = useSelector((state) => state.shoppingCart);
+  const [total, setTotal] = useState(0);
+  const [preferenceId, setPreferenceId] = useState(null);
+  const [button, setButton] = useState(false);
+  const totalProductsInCart = cart.reduce(
     (acc, product) => acc + product.quantity,
     0
   );
 
+  const { user } = useAuth0();
+  const { auth } = useAuth();
+
   // Inicio de compra mp
   const handleBuy = async () => {
-
-    // Verifica si esta logueado
-    if (!token) {
-      window.location.href = "/";
-      return window.location.href;
-    }
-
-    // Crea la preferencia de mercado pago
-    const id = await createPreference(cart);
+    const id = await createPreference();
     if (id) {
       setPreferenceId(id);
+      await createNewOrder();
     }
     setButton(true);
   };
-  const createPreference = async (cart) => {
+
+  const createNewOrder = async () => {
+    let id = "";
+
+    if (user) {
+      id = user.id;
+    } else if (auth) {
+      id = auth.id;
+    }
+
+    const obj = {
+      products: cart,
+      userId: id,
+      total: total,
+    };
+    console.log(obj);
+    const response = await axios.post(`${VITE_BACKEND_URL}/orders/create`, obj);
+    console.log(response);
+    return;
+  };
+
+  const createPreference = async () => {
     let productos = cart.map((product) => {
       return {
         id: product.id,
@@ -50,6 +66,7 @@ const ShoppingCart = () => {
         quantity: Number(product.quantity),
       };
     });
+
     try {
 
       // Post a mercado pago

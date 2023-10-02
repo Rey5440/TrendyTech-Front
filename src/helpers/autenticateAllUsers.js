@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 import generateToken from "./generateToken";
-
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const getToken = (user) => {
   const token = generateToken();
   user.token = token;
@@ -23,7 +23,7 @@ const saveUserDataToCookie = (user) => {
 
 const getUser = async (user) => {
   try {
-    const response = await axios.get(`http://localhost:3004/users/token/${user}`);
+    const response = await axios.get(`${VITE_BACKEND_URL}/users/token/${user}`);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -32,7 +32,7 @@ const getUser = async (user) => {
 
 const postUser = async (user) => {
   try {
-    const response = await axios.post("http://localhost:3004/users/auth", user);
+    const response = await axios.post(`${VITE_BACKEND_URL}/users/auth`, user);
     saveUserDataToCookie(user.token);
   } catch (error) {
     console.log(error);
@@ -45,7 +45,6 @@ const getUserDataFromCookie = async(user) => {
   try {
     // Obtiene la cadena JSON de la cookie "userKey"
     const userDataJSON = Cookies.get("ignacioMagic");
-    console.log(userDataJSON);
     // Si la cookie existe, la parsea de JSON a un objeto
     if (userDataJSON) {
       const user = JSON.parse(userDataJSON);

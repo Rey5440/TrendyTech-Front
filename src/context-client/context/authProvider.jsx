@@ -3,88 +3,73 @@ import { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
 /* AuthProvider rodea a toda la aplicacion */
-const AuthProvider = ({children}) => {
+const AuthProvider = ({ children }) => {
+  // const [auth, setAuth] = useState({})
+  const [auth, setAuth] = useState({
+    token: localStorage.getItem("token") || "", // Inicializa con el token almacenado
+  });
+  const [cargando, setCargando] = useState(true);
 
-    // const [auth, setAuth] = useState({})
-    const [auth, setAuth] = useState({
-        token: localStorage.getItem('token') || '', // Inicializa con el token almacenado
-      });
-    const [cargando, setCargando] = useState(true)
+  const navigate = useNavigate();
 
+  /* Se ejecuta una sola vez , ya que solo comprueba que haya un token para autenticar al usuario */
+  useEffect(() => {
+    const authenticateUser = async () => {
+      /* leer el token */
+      const token = localStorage.getItem("token");
 
-    const navigate = useNavigate()
+      //Si no hay token detenemos la ejecucion del codigo
+      if (!token) {
+        setCargando(false);
+        return;
+      }
 
-/* Se ejecuta una sola vez , ya que solo comprueba que haya un token para autenticar al usuario */
-    useEffect(() => {
-        const authenticateUser = async () => {
+      /* headers es un objeto */
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-            /* leer el token */
-            const token = localStorage.getItem('token')
-            console.log(token)
+      try {
+        const { data } = await axios(
+          `${VITE_BACKEND_URL}/users/profile`,
+          config
+        );
+        setAuth(data);
+        navigate("/home");
+      } catch (error) {
+        setAuth({});
+      } finally {
+        setCargando(false);
+      }
+    };
+    authenticateUser();
+  }, []);
 
-            //Si no hay token detenemos la ejecucion del codigo
-            if(!token) {
-                setCargando(false)
-                return
-            }
+  const closeSession = () => {
+    localStorage.removeItem("token");
+    setAuth({});
+  };
 
-            /* headers es un objeto */
-            const config = {
-                headers : {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
-                }
-            }
-            
-            try {
-                const {data} = await axios(`${VITE_BACKEND_URL}/users/profile`, config)
-                setAuth(data)
-                /* dispatch(neptuno(data)) */
-                console.log(data)
-                navigate('/home')
+  return (
+    <AuthContext.Provider
+      value={{
+        auth,
+        setAuth,
+        cargando,
+        closeSession,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
+};
 
-            } catch (error) {
-                setAuth({})
-            } finally{
-                 setCargando(false) 
-            }
-
-            
-        }
-        authenticateUser()
-    }, [])
-
-
-    const closeSession = () => {
-        localStorage.removeItem('token')
-        setAuth({})
-    }
-
-
-    return(
-        <AuthContext.Provider
-
-            value={{
-                auth,
-                setAuth, 
-                cargando,
-                closeSession
-            }}
-        >
-
-
-            {children}
-        </AuthContext.Provider>
-    )
-}
-
-export {
-    AuthProvider
-}
+export { AuthProvider };
 
 export default AuthContext;
-
-

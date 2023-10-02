@@ -6,7 +6,9 @@ export const UserProfile = () => {
   const userData = useSelector((state) => state.userData);
   // const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   // const [accessToken, setAccessToken] = useState(null);
-  useEffect(() => {}, [userData]);
+  useEffect(() => {
+  
+  }, [userData]);
 
   return (
     <div>

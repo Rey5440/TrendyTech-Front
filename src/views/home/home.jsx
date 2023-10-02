@@ -18,6 +18,23 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState(false);
 
+  //-------------------------------//
+  const { user } = useAuth0();
+  useEffect(() => {
+    if (user && user.email) {
+      const fetchData = async () => {
+        try {
+          const result = await autenticateAllUsers(user);
+          dispatch(getuserData(result));
+        } catch (error) {
+          console.log(error)
+        }
+      };
+      fetchData();
+    }
+  }, [user]);
+  //-----------------------------//
+
   useEffect(() => {
     dispatch(orderByPrice(orderBy));
   }, [orderBy]);
@@ -69,7 +86,7 @@ const Home = () => {
               md={3}
               lg={3}
               sx={{
-                paddingTop: "4px",
+                paddingTop: "6.5%",
               }}
             >
               {<Filter />}
