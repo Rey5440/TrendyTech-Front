@@ -1,7 +1,30 @@
 .cardCarrousel_container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    width: 7rem;
-    height: 10rem;
+    width: 15rem;
+    height: 200px;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.cardCarrousel_img_container {
+    height: 100px;
+    width: 100px;
+    background-color: white;
+}
+
+.cardCarrousel_img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+.cardCarrousel_name {
+    font-size: 1.3rem;
+}
+
+.cardCarrousel_price {
+    font-size: 1.2rem;
 }

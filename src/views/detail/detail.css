@@ -36,6 +36,7 @@
       flex-direction: column;
       font-family: 'Poppins', sans-serif;
       gap: 1rem;
+      width: 100%;
 }
 
 .div_imagenes {
@@ -55,13 +56,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100%;
+      max-height: 100%;
       max-width: 500px;
       padding: 1rem;
       margin-right: 1rem;
       margin-left: 1rem;
       border-radius: 5px;
-      background-color: red;
+
 }
 
 .imagenPrincipal {
@@ -98,7 +99,7 @@
 .descripcion {
       font-size: 1.2rem;
       color: #6F6F6F;
-      height: 10rem;
+      height: 7rem;
       overflow-y: auto;
 }
 
@@ -146,8 +147,16 @@
 }
 
 .div_carrusel {
+      width: 100%;
       display: flex;
-      width: 60%;
       justify-content: center;
       align-items: center;
+}
+
+.relacionados {
+      margin-top: 2rem;
+      font-size: 3rem;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      text-shadow: 3px 4px 3px #707070;
 }

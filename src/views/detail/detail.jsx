@@ -135,6 +135,7 @@ const Detail = () => {
               </div>
             </div>
           </div>
+          <h2 className="relacionados">Productos relacionados</h2>
         </div>
       )}
       <div className="div_carrusel">
