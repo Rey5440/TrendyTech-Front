@@ -17,6 +17,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Home = () => {
   window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
+  const allProductsSearch = useSelector((state) => state.allProductsSearch);
+  const searchOn = useSelector((state) => state.searchOn);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState("");
@@ -35,7 +37,7 @@ const Home = () => {
             dispatch(banUser(true));
           } else {
             ignacioMagic && dispatch(getuserData(result));
-           if(isBanned === true) dispatch(banUser(false));
+            if (isBanned === true) dispatch(banUser(false));
           }
         } catch (error) {
           console.log(error);
@@ -69,14 +71,24 @@ const Home = () => {
     window.scrollTo(0, 0);
   };
 
-  const indexOfLastProduct = currentPage * productsPerPage;
+  /*   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProduct = allProducts1.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
 
-  const totalPages = Math.ceil(allProducts1.length / productsPerPage);
+  const totalPages = Math.ceil(allProducts1.length / productsPerPage); */
+  const productsToDisplay = searchOn ? allProductsSearch : allProducts1;
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProduct = productsToDisplay.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(productsToDisplay.length / productsPerPage);
 
   return (
     <div>

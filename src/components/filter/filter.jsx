@@ -1,7 +1,7 @@
 import "./filter.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterAll, getAllProducts } from "../../redux/actions";
+import { filterAll, getAllProducts, searchOnSwitch } from "../../redux/actions";
 import Slider from "react-slider";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -13,6 +13,10 @@ const Filter = () => {
   const dispatch = useDispatch();
   const allProducts1 = useSelector((state) => state.allProducts1);
   const allProducts2 = useSelector((state) => state.allProducts2);
+  const searchOn = useSelector((state) => state.searchOn); // Obtiene el estado global searchOn
+  const allProductsSearch = useSelector((state)=> state.allProductsSearch)
+  const allProductsSearch2 = useSelector((state)=> state.allProductsSearch2)
+
   const getLowestPrice = (products) => {
     return Math.min(...products.map((product) => product.price));
   };
@@ -23,14 +27,29 @@ const Filter = () => {
   const MAX = getHighestPrice(allProducts2);
   const [values, setValues] = useState([MIN, MAX]);
 
+  useEffect(() => {
+    if (searchOn) {
+  /*     const min = getLowestPrice(allProductsSearch2);
+      const max = getHighestPrice(allProductsSearch2);
+      setValues([min, max]); */
+      setSelectedType("");
+      setSelectedBrand("");
+    }
+  }, [searchOn]);
+
+
+
   const [selectedType, setSelectedType] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
+
+
 
   const handleType = (event) => {
     const typeFilter = allProducts1.filter(
       (product) => product.type === event.target.value
     );
     dispatch(filterAll(typeFilter));
+    dispatch(searchOnSwitch(false))
     const min = getLowestPrice(typeFilter);
     const max = getHighestPrice(typeFilter);
     setValues([min, max]);
@@ -42,6 +61,7 @@ const Filter = () => {
       (product) => product.brand === event.target.value
     );
     dispatch(filterAll(brandFilter));
+    dispatch(searchOnSwitch(false))
     const min = getLowestPrice(brandFilter);
     const max = getHighestPrice(brandFilter);
     setValues([min, max]);
@@ -50,6 +70,7 @@ const Filter = () => {
 
   const handleClear = () => {
     dispatch(getAllProducts());
+    dispatch(searchOnSwitch(false))
     setValues([MIN, MAX]);
     setSelectedType("");
     setSelectedBrand("");
@@ -73,7 +94,14 @@ const Filter = () => {
       );
       filterPrice = filterPriceBrand;
     }
-
+    if (searchOn) {
+      
+    const filterPriceSearch = filterPrice.filter(product => 
+        allProductsSearch2.find(searchProduct => searchProduct.id === product.id)
+      );
+      filterPrice = filterPriceSearch
+    }
+    
     dispatch(filterAll(filterPrice));
   };
 

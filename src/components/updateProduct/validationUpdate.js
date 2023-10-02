@@ -52,8 +52,8 @@ const validationForm = (form) => {
         error.description = "La descripción debe ser una cadena de caracteres";
     } else if (description.length == 0) {
         error.description = "La descripción no puede estar vacía";
-    } else if (description.length > 200) {
-        error.description = "La descripción no puede tener más de 200 caracteres";
+    } else if (description.length > 2000) {
+        error.description = "La descripción no puede tener más de 2000 caracteres";
     } else if (!validate(description)) {
         error.description = "La descripción contiene caracteres especiales no permitidos"
     } else {
@@ -65,12 +65,8 @@ const validationForm = (form) => {
         error.stock = "El stock debe ser un número";
     } else if (stock < 0) {
         error.stock = "El stock no puede ser negativo";
-    } else if (stock == 0) {
-        error.stock = "El stock no puede estar vacio";
     } else if (stock > 500) {
         error.stock = "El stock no puede ser mayor a 500 unidades";
-    } else if (stock <= 10) {
-        error.stock = "El stock no puede ser menor a 10 unidades"
     } else {
         error.stock = "";
     }

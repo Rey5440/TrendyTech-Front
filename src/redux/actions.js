@@ -13,8 +13,9 @@ import {
   REMOVE_FROM_CART,
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
-  USER_DATA,
+  SET_SEARCH_ON,
   SET_OPEN_MODAL_LOGIN,
+  USER_DATA,
 } from "./action-types";
 
 export const getAllProducts = () => {
@@ -60,7 +61,6 @@ export const orderByName = () => {
   };
 };
 
-
 export const filterAll = (payload) => {
   return function (dispatch) {
     return dispatch({
@@ -79,7 +79,7 @@ export const setAlert = (message, type) => {
         type,
       },
     });
-    
+
     // Limpia el alerta después de 3 segundos
     setTimeout(() => {
       dispatch({
@@ -121,6 +121,12 @@ export const decreaseQuantity = (id) => {
   };
 };
 
+export const searchOnSwitch = (payload) => {
+  return {
+    type: SET_SEARCH_ON,
+    payload,
+  };
+};
 export const getuserData = (payload) => {
   return {
     type: USER_DATA,
@@ -134,9 +140,3 @@ export const banUser = (payload) => {
     payload: payload,
   };
 };
-
-/* export const filterByColor = () => {
-    return {
-        type: FILTER_BY_COLOR
-    }
-} */

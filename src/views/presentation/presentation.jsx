@@ -79,7 +79,7 @@ const Presentation = () => {
 
   useEffect(() => {
     dispatch(getAllProducts());
-  }, []);
+  },[])
 
   useEffect(() => {
     const timer = setTimeout(() => {
