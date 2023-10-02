@@ -1,9 +1,14 @@
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from "./action-types";
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, SET_SEARCH_ON, USER_DATA, SET_OPEN_MODAL_LOGIN } from "./action-types";
 
 const initialState = {
     allProducts1: [],
     allProducts2: [],
-    shoppingCart : [],
+    allProductsSearch: [],
+    allProductsSearch2: [],
+    searchOn: false,
+    shoppingCart: [],
+    userData: {},
+    setOpen: false,
     alert: {
         visible: false,
         message: '',
@@ -11,58 +16,103 @@ const initialState = {
     }
 }
 
-const reducer = (state = initialState, {type, payload }) =>{
+const reducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case GET_ALL_PRODUCTS:
             return {
                 ...state,
                 allProducts1: payload,
-                allProducts2: payload
+                allProducts2: payload,
+                allProductsSearch: payload,
             }
         case SEARCH_BY_NAME:
             return {
                 ...state,
-                allProducts1: payload,
+                allProductsSearch: payload,
+                allProductsSearch2: payload
             }
         case ORDER_BY_PRICE:
 
             let productsByPrice = [...state.allProducts1];
-            if(payload === "desc"){
+            let productsByPrice2 = [...state.allProductsSearch];
+            if (payload === "desc") {
                 productsByPrice = productsByPrice.sort((a, b) => a.price - b.price);
-                console.log(productsByPrice);
-
+                productsByPrice2 = productsByPrice2.sort((a, b) => a.price - b.price);
             }
-            if(payload === "asc"){
+            if (payload === "asc") {
                 productsByPrice = productsByPrice.sort((a, b) => b.price - a.price);
-                console.log(productsByPrice);
-            }
-            return {
-              ...state,
-              allProducts1: productsByPrice,
-            };
-
-/*             case FILTER_PRODUCTS :
-                return {
-                    ...state,
-                    allProducts1: payload
-                } */
-        case ORDER_BY_NAME:
-            let productsByName = state.allProducts1;
-            if(payload === 'a-z'){
-                productsByName = productsByName.sort((a, b) => a.name.localeCompare(b.name));
-            }
-            if(payload === 'z-a'){
-                productsByName = productsByName.sort((a, b) => b.name.localeCompare(a.name));
-                
+                productsByPrice2 = productsByPrice2.sort((a, b) => b.price - a.price);
             }
             return {
                 ...state,
-                allProducts1: products
+                allProducts1: productsByPrice,
+                allProductsSearch: productsByPrice2
+            };
+        case ORDER_BY_NAME:
+            let productsByName = state.allProducts1;
+            if (payload === "a-z") {
+                productsByName = productsByName.sort((a, b) =>
+                    a.name.localeCompare(b.name)
+                );
             }
+            if (payload === "z-a") {
+                productsByName = productsByName.sort((a, b) =>
+                    b.name.localeCompare(a.name)
+                );
+            }
+            return {
+                ...state,
+                allProducts1: products,
+            };
+
+        case SHOW_ALERT:
+            return {
+                ...state,
+                alert: {
+                    visible: true,
+                    message: payload.message,
+                    type: payload.type,
+                },
+            };
+        case HIDE_ALERT:
+            return {
+                ...state,
+                alert: {
+                    ...state.alert,
+                    visible: false,
+                },
+            };
+
+        case REMOVE_FROM_CART:
+            return {
+                ...state,
+                shoppingCart: state.shoppingCart.filter(
+                    (product) => product.id !== payload
+                ),
+            };
+        case INCREASE_QUANTITY:
+            return {
+                ...state,
+                shoppingCart: state.shoppingCart.map((product) => {
+                    if (product.id === payload) {
+                        if (product.quantity < product.stock) {
+                            product.quantity += 1;
+                            console.log(product.name, product.quantity);
+                        } else {
+                            product.quantity = product.stock;
+                            console.log("no se puede aumentar mas");
+                        }
+                        return product;
+                    }
+                    return product;
+                }),
+            };
+
         case FILTER_ALL:
             return {
                 ...state,
-                allProducts1: payload
+                allProducts1: payload,
+                allProductsSearch: payload,
             }
         case SHOW_ALERT:
             return {
@@ -83,16 +133,16 @@ const reducer = (state = initialState, {type, payload }) =>{
             }
         case ADD_TO_CART:
             let found = state.shoppingCart.find(product => product.id === payload.id);
-            if(found){
+            if (found) {
                 console.log("ya esta en el carrito");
                 return {
                     ...state,
                     shoppingCart: state.shoppingCart
                 }
-            } else{
+            } else {
                 return {
                     ...state,
-                    shoppingCart: [...state.shoppingCart, {...payload, quantity: 1}]
+                    shoppingCart: [...state.shoppingCart, { ...payload, quantity: 1 }]
                 }
             }
         case REMOVE_FROM_CART:
@@ -104,8 +154,8 @@ const reducer = (state = initialState, {type, payload }) =>{
             return {
                 ...state,
                 shoppingCart: state.shoppingCart.map(product => {
-                    if(product.id === payload){
-                        if(product.quantity < product.stock){
+                    if (product.id === payload) {
+                        if (product.quantity < product.stock) {
                             product.quantity += 1
                             console.log(product.name, product.quantity)
                         } else {
@@ -121,8 +171,8 @@ const reducer = (state = initialState, {type, payload }) =>{
             return {
                 ...state,
                 shoppingCart: state.shoppingCart.map(product => {
-                    if(product.id === payload){
-                        if(product.quantity > 1){
+                    if (product.id === payload) {
+                        if (product.quantity > 1) {
                             product.quantity -= 1
                             console.log(product.name, product.quantity)
                         } else {
@@ -134,8 +184,31 @@ const reducer = (state = initialState, {type, payload }) =>{
                     return product
                 })
             }
+        case SET_SEARCH_ON:
+            if (payload === true) {
+                return {
+                    ...state,
+                    searchOn: payload,
+                    allProducts1: state.allProducts2
+                };
+            } else {
+                return {
+                    ...state,
+                    searchOn: payload
+                };
+            }
+        case USER_DATA:
+            return {
+                ...state,
+                userData: payload,
+            };
+        case SET_OPEN_MODAL_LOGIN:
+            return {
+                ...state,
+                setOpen: payload,
+            };
         default:
-            return {...state};
+            return { ...state };
     }
 }
 

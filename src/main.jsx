@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       domain="dev-6u1rw8b065enk7nb.us.auth0.com"
       clientId="q8WshN0PeWFSr3lZlvXkBx0blXS5SwjZ"
       authorizationParams={{
-        redirect_uri: window.location.origin,
+        redirect_uri: `${window.location.origin}/#/home`,
       }}
     >
       <HashRouter>

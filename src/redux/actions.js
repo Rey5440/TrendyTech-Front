@@ -2,7 +2,7 @@ import axios from 'axios';
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 
-import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY } from './action-types';
+import { GET_ALL_PRODUCTS, SEARCH_BY_NAME, ORDER_BY_NAME, ORDER_BY_PRICE, FILTER_ALL, SHOW_ALERT, HIDE_ALERT, ADD_TO_CART, REMOVE_FROM_CART, INCREASE_QUANTITY, DECREASE_QUANTITY, SET_SEARCH_ON } from './action-types';
 
 export const getAllProducts = ()=>{
     return async function (dispatch) {
@@ -28,7 +28,6 @@ export const searchByName = (product) => {
             const foundProduct = await axios(
               `${VITE_BACKEND_URL}/products/?name=${product}`
             );
-            console.log(foundProduct.data)
             return dispatch({
                 type:SEARCH_BY_NAME,
                 payload: foundProduct.data
@@ -117,3 +116,25 @@ export const decreaseQuantity = (id) => {
         payload: id
     }
 }
+
+export const searchOnSwitch = (payload) => {
+    return {
+        type: SET_SEARCH_ON,
+        payload
+    }
+}
+export const getuserData = (payload) => {
+    console.log(payload);
+    return {
+      type: USER_DATA,
+      payload: payload,
+    };
+  };
+  
+  export const banUser = (payload) => {
+    console.log(payload);
+    return {
+      type: SET_OPEN_MODAL_LOGIN,
+      payload: payload,
+    };
+  };

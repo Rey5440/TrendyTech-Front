@@ -9,28 +9,16 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
-import { useAuth0 } from "@auth0/auth0-react";
-import autenticateAllUsers from "../../helpers/autenticateAllUsers";
-import { getAllProducts, orderByPrice } from "../../redux/actions";
+import { getAllProducts, orderByPrice} from "../../redux/actions";
 
 const Home = () => {
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
+  const allProductsSearch = useSelector((state) => state.allProductsSearch)
+  const searchOn = useSelector((state) => state.searchOn);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [orderBy, setOrderBy] = useState(false);
-
-
-  //-------------------------------//
-  const { user } = useAuth0();
-
-  useEffect(() => {
-    if (user && user.email) {
-      const result = autenticateAllUsers(user);
-      console.log(result);
-    }
-  }, [user]);
-  //-----------------------------//
 
   useEffect(() => {
     dispatch(orderByPrice(orderBy));
@@ -55,14 +43,24 @@ const Home = () => {
     window.scrollTo(0, 0);
   };
 
-  const indexOfLastProduct = currentPage * productsPerPage;
+/*   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProduct = allProducts1.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
 
-  const totalPages = Math.ceil(allProducts1.length / productsPerPage);
+  const totalPages = Math.ceil(allProducts1.length / productsPerPage); */
+  const productsToDisplay = searchOn ? allProductsSearch : allProducts1;
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProduct = productsToDisplay.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(productsToDisplay.length / productsPerPage);
 
   return (
     <div>
@@ -86,7 +84,7 @@ const Home = () => {
                 paddingTop: "4px",
               }}
             >
-             {<Filter />}
+              {<Filter />}
             </Grid>
             <Grid item xs={12} md={9} lg={9} xl={9}>
               <OrderBy orderBy={orderBy} setOrderBy={setOrderBy} />
@@ -109,8 +107,3 @@ const Home = () => {
 };
 
 export default Home;
-
-
-
-
-
