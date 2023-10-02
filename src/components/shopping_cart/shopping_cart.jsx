@@ -11,6 +11,7 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import "./shopping_cart.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../context-client/hooks/useAuth";
+import { useLocation } from "react-router-dom";
 
 initMercadoPago("TEST-185b7434-044a-4830-995d-95780e762ec5");
 const ShoppingCart = () => {
@@ -23,8 +24,35 @@ const ShoppingCart = () => {
     0
   );
 
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const collection_status = queryParams.get("collection_status");
+  const merchant_order_id = queryParams.get("merchant_order_id");
+
   const { user } = useAuth0();
   const { auth } = useAuth();
+
+  const putApproved = async () => {
+    let id = "";
+
+    if (user !== undefined) {
+      id = user.id;
+    } else if (auth !== undefined) {
+      id = auth.id;
+    }
+    const response = await axios.put(`${VITE_BACKEND_URL}/update/${id}`, {
+      status: collection_status,
+      ticket: merchant_order_id,
+    });
+
+    console.log(response);
+    return;
+  };
+
+  if (collection_status === "approved") {
+    putApproved();
+  }
 
   // Inicio de compra mp
   const handleBuy = async () => {
