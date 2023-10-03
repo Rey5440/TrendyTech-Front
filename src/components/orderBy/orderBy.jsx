@@ -6,15 +6,21 @@ import {
   MenuItem,
   Grid,
 } from "@mui/material";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { orderByPrice } from "../../redux/actions";
 
-const OrderBy = ({ orderBy, setOrderBy }) => {
-
+const OrderBy = () => {
+  const [orderBy, setOrderBy] = useState("");
   const searchOn = useSelector((state) => state.searchOn);
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(orderByPrice(orderBy));
+  }, [orderBy]);
 
   useEffect(()=> {
-    setOrderBy(false)
+    setOrderBy("")
   },[searchOn])
   //-----------ordenamiento--------------//
 
