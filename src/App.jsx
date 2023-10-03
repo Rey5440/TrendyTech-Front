@@ -23,6 +23,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import NotFound from "./views/page_not_found/not_found";
 import {getAllProducts} from "./redux/actions";
 import Cookies from "js-cookie";
+import ReviewAdmin from "./components/reviewAdmin/reviewAdmin";
 
 function App() {
   const dispatch = useDispatch()
@@ -73,6 +74,7 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/delete" element={<Delete />} />
           <Route path="/manageUsers" element={<ManageUsers />} />
+          <Route path="/reviewadmin" element={<ReviewAdmin />} />
         </Routes>
       </AuthProvider>
     </div>
