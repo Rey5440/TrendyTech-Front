@@ -27,6 +27,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
+
   // const [orderBy, setOrderBy] = useState(false);
   const auth = useAuth()
 
@@ -38,8 +39,8 @@ const Home = () => {
 
   // const [orderBy, setOrderBy] = useState("");
 
-
   const [orderBy, setOrderBy] = useState("asc");
+
 
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
