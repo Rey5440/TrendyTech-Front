@@ -6,8 +6,16 @@ import {
   MenuItem,
   Grid,
 } from "@mui/material";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const OrderBy = ({ orderBy, setOrderBy }) => {
+
+  const searchOn = useSelector((state) => state.searchOn);
+
+  useEffect(()=> {
+    setOrderBy(false)
+  },[searchOn])
   //-----------ordenamiento--------------//
 
   const handleChange = (event) => {

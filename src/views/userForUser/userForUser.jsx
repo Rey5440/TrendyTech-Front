@@ -21,7 +21,6 @@ const UserForUser = () => {
   const [userUpdated, setUserUpdated] = useState(false);
   const [imageUpdated, setImageUpdated] = useState(false);
   const dispatch = useDispatch();
-  console.log(userData);
   useEffect(() => {
     const fetchData = async () => {
       let emailToSend;
@@ -33,11 +32,8 @@ const UserForUser = () => {
 
       if (emailToSend) {
         try {
-          const result = await axios.post(
-            `${VITE_BACKEND_URL}/users/emailuser`,
-            {
-              email: emailToSend,
-            }
+          const result = await axios.get(
+            `${VITE_BACKEND_URL}/users/email/${emailToSend}`
           );
           setUserData(result.data);
         } catch (error) {

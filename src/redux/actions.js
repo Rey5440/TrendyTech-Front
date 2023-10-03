@@ -13,6 +13,8 @@ import {
   REMOVE_FROM_CART,
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
+  SET_SEARCH_ON,
+  SET_OPEN_MODAL_LOGIN,
   USER_DATA,
 } from "./action-types";
 
@@ -58,12 +60,6 @@ export const orderByName = () => {
     type: ORDER_BY_NAME,
   };
 };
-
-/* export const filterByColor = () => {
-    return {
-        type: FILTER_BY_COLOR
-    }
-} */
 
 export const filterAll = (payload) => {
   return function (dispatch) {
@@ -125,9 +121,22 @@ export const decreaseQuantity = (id) => {
   };
 };
 
+export const searchOnSwitch = (payload) => {
+  return {
+    type: SET_SEARCH_ON,
+    payload,
+  };
+};
 export const getuserData = (payload) => {
   return {
     type: USER_DATA,
+    payload: payload,
+  };
+};
+
+export const banUser = (payload) => {
+  return {
+    type: SET_OPEN_MODAL_LOGIN,
     payload: payload,
   };
 };

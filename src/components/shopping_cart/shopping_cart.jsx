@@ -1,6 +1,6 @@
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CartItem from "./cart_item";
 import Nav from "../../components/nav/nav";
 import Footer from "../../views/footer/footer";
@@ -12,10 +12,13 @@ import "./shopping_cart.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../context-client/hooks/useAuth";
 import { useLocation } from "react-router-dom";
+import { setAlert } from "../../redux/actions";
+import AlertTech from "../alert/alert";
 
 initMercadoPago("TEST-185b7434-044a-4830-995d-95780e762ec5");
 const ShoppingCart = () => {
   const cart = useSelector((state) => state.shoppingCart);
+  const alertState = useSelector((state) => state.alert);
   const [total, setTotal] = useState(0);
   const [preferenceId, setPreferenceId] = useState(null);
   const [button, setButton] = useState(false);
@@ -24,6 +27,7 @@ const ShoppingCart = () => {
     0
   );
 
+  const dispatch = useDispatch();
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
@@ -32,21 +36,46 @@ const ShoppingCart = () => {
 
   const { user } = useAuth0();
   const { auth } = useAuth();
+  const [client, setClient] = useState({});
+  const [stock, setStock] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let emailToSend;
+
+      if (auth && auth.email) {
+        emailToSend = auth.email;
+      } else if (user && user.email) {
+        emailToSend = user.email;
+      }
+
+      if (emailToSend) {
+        try {
+          const result = await axios.get(
+            `${VITE_BACKEND_URL}/users/email/${emailToSend}`
+          );
+          setClient(result.data);
+        } catch (error) {
+          console.error("Error al obtener datos del usuario", error);
+        }
+      }
+    };
+    fetchData();
+  }, [auth, user]);
 
   const putApproved = async () => {
-    let id = "";
+    cart.map(({stock}) => {
+      setStock(stock - 1)
+    })
+    console.log(stock);
+    const response = await axios.put(
+      `${VITE_BACKEND_URL}/orders/update/${client.id}`,
+      {
+        status: collection_status,
+        ticket: merchant_order_id,
+      }
+    );
 
-    if (user !== undefined) {
-      id = user.id;
-    } else if (auth !== undefined) {
-      id = auth.id;
-    }
-    const response = await axios.put(`${VITE_BACKEND_URL}/update/${id}`, {
-      status: collection_status,
-      ticket: merchant_order_id,
-    });
-
-    console.log(response);
     return;
   };
 
@@ -56,7 +85,16 @@ const ShoppingCart = () => {
 
   // Inicio de compra mp
   const handleBuy = async () => {
-    const id = await createPreference();
+    // Verifica si esta logueado
+    if (!client.id) {
+      dispatch(
+        setAlert("Debes estar logueado para efectuar la compra.", "warning")
+      );
+      return;
+    }
+
+    // Crea la preferencia de mercado pago
+    const id = await createPreference(cart);
     if (id) {
       setPreferenceId(id);
       await createNewOrder();
@@ -65,27 +103,19 @@ const ShoppingCart = () => {
   };
 
   const createNewOrder = async () => {
-    let id = "";
-
-    if (user) {
-      id = user.id;
-    } else if (auth) {
-      id = auth.id;
-    }
-
+   
     const obj = {
       products: cart,
-      userId: id,
+      userId: client.id,
       total: total,
     };
-    console.log(obj);
     const response = await axios.post(`${VITE_BACKEND_URL}/orders/create`, obj);
-    console.log(response);
     return;
   };
 
   const createPreference = async () => {
-    let productos = cart.map((product) => {
+    console.log(cart);
+    const productos = cart.map((product) => {
       return {
         id: product.id,
         title: product.name,
@@ -96,12 +126,21 @@ const ShoppingCart = () => {
     });
 
     try {
+      // Post a mercado pago
       const response = await axios.post(
         `${VITE_BACKEND_URL}/checkout/create_preference`,
         { productos }
       );
+
+      // Creacion de carrito ( order )
+      const ordenPost = await axios.post(`${VITE_BACKEND_URL}/orders/create`, {
+        products: cart,
+        userId: client.id,
+        total,
+      });
+
       const id = response.data;
-      return id; //id de compra solo eso
+      return id; //preference id
     } catch (error) {
       console.log(error);
     }
@@ -123,6 +162,9 @@ const ShoppingCart = () => {
   return (
     <div className="shopping-cart-container">
       <Nav />
+      {alertState.visible && (
+        <AlertTech message={alertState.message} type={alertState.type} />
+      )}
       {cart.length === 0 ? (
         <div className="empty-cart-container">
           <div className="empty-cart">
@@ -145,7 +187,7 @@ const ShoppingCart = () => {
                 <h2>Productos</h2>
               </div>
               {cart.map((product) => (
-                <div>
+                <div key={product.id}>
                   <CartItem key={product.id} product={product} />
                 </div>
               ))}

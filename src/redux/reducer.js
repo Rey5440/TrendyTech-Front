@@ -10,14 +10,20 @@ import {
   REMOVE_FROM_CART,
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
+  SET_SEARCH_ON,
   USER_DATA,
+  SET_OPEN_MODAL_LOGIN,
 } from "./action-types";
 
 const initialState = {
   allProducts1: [],
   allProducts2: [],
+  allProductsSearch: [],
+  allProductsSearch2: [],
+  searchOn: false,
   shoppingCart: [],
   userData: {},
+  setOpen: false,
   alert: {
     visible: false,
     message: "",
@@ -32,32 +38,30 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         allProducts1: payload,
         allProducts2: payload,
+        allProductsSearch: payload,
       };
     case SEARCH_BY_NAME:
       return {
         ...state,
-        allProducts1: payload,
+        allProductsSearch: payload,
+        allProductsSearch2: payload,
       };
     case ORDER_BY_PRICE:
       let productsByPrice = [...state.allProducts1];
+      let productsByPrice2 = [...state.allProductsSearch];
       if (payload === "desc") {
         productsByPrice = productsByPrice.sort((a, b) => a.price - b.price);
-        console.log(productsByPrice);
+        productsByPrice2 = productsByPrice2.sort((a, b) => a.price - b.price);
       }
       if (payload === "asc") {
         productsByPrice = productsByPrice.sort((a, b) => b.price - a.price);
-        console.log(productsByPrice);
+        productsByPrice2 = productsByPrice2.sort((a, b) => b.price - a.price);
       }
       return {
         ...state,
         allProducts1: productsByPrice,
+        allProductsSearch: productsByPrice2,
       };
-
-    /*             case FILTER_PRODUCTS :
-                return {
-                    ...state,
-                    allProducts1: payload
-                } */
     case ORDER_BY_NAME:
       let productsByName = state.allProducts1;
       if (payload === "a-z") {
@@ -74,10 +78,12 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         allProducts1: products,
       };
+
     case FILTER_ALL:
       return {
         ...state,
         allProducts1: payload,
+        allProductsSearch: payload,
       };
     case SHOW_ALERT:
       return {
@@ -153,10 +159,28 @@ const reducer = (state = initialState, { type, payload }) => {
           return product;
         }),
       };
+    case SET_SEARCH_ON:
+      if (payload === true) {
+        return {
+          ...state,
+          searchOn: payload,
+          allProducts1: state.allProducts2,
+        };
+      } else {
+        return {
+          ...state,
+          searchOn: payload,
+        };
+      }
     case USER_DATA:
       return {
         ...state,
         userData: payload,
+      };
+    case SET_OPEN_MODAL_LOGIN:
+      return {
+        ...state,
+        setOpen: payload,
       };
     default:
       return { ...state };

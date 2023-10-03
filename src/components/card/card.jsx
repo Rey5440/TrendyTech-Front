@@ -43,7 +43,7 @@ export default function CardTech({ images, id, name, price, brand }) {
               fontFamily: "Poppins",
             }}
           >
-            <h4>{name}</h4>
+            {name}
           </Typography>
 
           <Typography
@@ -57,7 +57,7 @@ export default function CardTech({ images, id, name, price, brand }) {
               color: "white",
             }}
           >
-            <h2>{formattedPrice}</h2>
+            {formattedPrice}
           </Typography>
         </Box>
       </NavLink>

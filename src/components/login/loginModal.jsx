@@ -8,7 +8,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import LoginButton from "../auth0/auth0Login";
 import UserProfile from "../auth0/auth0Profile";
-import {  useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setAlert } from "../../redux/actions";
 import "./loginModal.css";
 
 //----import del login del facha------//
@@ -19,9 +20,24 @@ import useAuth from "../../context-client/hooks/useAuth";
 import AlertTech from "../alert/alert";
 
 const LoginModal = () => {
-  const userData = useSelector(state => state.userData)
-  const [open, setOpen] = React.useState(false);
-  // const location = useLocation();
+  const [open, setOpen] = useState(false);
+  const userData = useSelector((state) => state.userData);
+  const isBanned = useSelector((state) => state.setOpen);
+  const alertState = useSelector((state) => state.alert);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isBanned) {
+      setOpen(true);
+      dispatch(
+        setAlert(
+          "Su cuenta ha sido desactivada por incumplir nuestros términos de uso.",
+          "warning"
+        )
+      );
+    }
+  }, [isBanned]);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -34,59 +50,41 @@ const LoginModal = () => {
   const [commonUser, setCommonUser] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmationAlert, setConfirmationAlert] = useState(null);
   const { auth, closeSession } = useAuth();
   const { setAuth } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getCommonUser = async () => {
-      if (auth.email) {
-        try {
-          const response = await axios.post(
-            `${VITE_BACKEND_URL}/users/emailuser`,
-            { email: auth.email }
-          );
-          setCommonUser(response.data);
-        } catch (error) {
-          console.log(error.message);
-        }
-      }
-    };
-    getCommonUser();
-  }, [auth]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const response = await axios.get(
+      `${VITE_BACKEND_URL}/users/email/${email}`
+    );
+    const user = await response.data;
+    console.log(user);
+    if (user && user.isDeleted === true) {
+      return dispatch(
+        setAlert(
+          "Su cuenta ha sido desactivada por incumplir nuestros términos de uso.",
+          "warning"
+        )
+      );
+    }
+    if (user && user.confirmated === false) {
+      return dispatch(setAlert("Su cuenta no ha sido confirmada.", "warning"));
+    }
     try {
       //Informacion requerida: email y password
       const { data } = await axios.post(`${VITE_BACKEND_URL}/users/login`, {
         email,
         password,
       });
-      if(data.isDeleted === true) {
-        return showAlert("warning", "Su cuenta ha sido desactivada por incumplir nuestros términos de uso.")
-      }
       localStorage.setItem("token", data.token);
-      console.log(data);
       setAuth(data);
       navigate("/home");
-      // setOpen(false) hay que ver cuando el usuario no esta loggeado
     } catch (error) {
-      console.log(error.response.data.msg);
-      showAlert("error", error.response.data.msg);
+      // setOpen(false) hay que ver cuando el usuario no esta loggeado
+      dispatch(setAlert(error.response.data.msg, "error"));
     }
-  };
-
-  const showAlert = (type, message) => {
-    // Mostrar la alerta
-    setConfirmationAlert({ type, message });
-
-    // Limpiar la alerta después de 3 segundos (3000 ms)
-    setTimeout(() => {
-      setConfirmationAlert(null);
-    }, 3000);
   };
 
   return (
@@ -97,7 +95,7 @@ const LoginModal = () => {
           color: "#ffffff",
         }}
         onClick={handleClickOpen}
-        >
+      >
         <AccountCircleIcon sx={{ fontSize: 40 }} />
       </IconButton>
       <Dialog
@@ -106,24 +104,21 @@ const LoginModal = () => {
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
-        >
+      >
+        {alertState.visible && (
+          <AlertTech message={alertState.message} type={alertState.type} />
+        )}
         {!auth.email && !userData.name && (
           <DialogTitle
-          id="alert-dialog-title"
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            fontSize: "25px",
-            fontFamily: "Poppins, sans-serif",
-            fontWeight: "bold",
-          }}
+            id="alert-dialog-title"
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              fontSize: "25px",
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: "bold",
+            }}
           >
-            {confirmationAlert && (
-              <AlertTech
-                message={confirmationAlert.message}
-                type={confirmationAlert.type}
-              />
-            )}
             {"Inicia sesión en TrendyTech"}
           </DialogTitle>
         )}
@@ -150,7 +145,8 @@ const LoginModal = () => {
             alignItems: "center",
           }}
         >
-          {(auth.email && !userData.name) || (!auth.email && userData.name) ? null : (
+          {(auth.email && !userData.name) ||
+          (!auth.email && userData.name) ? null : (
             <div className="divContainer_Form_Login">
               <form className="form_Login" onSubmit={handleSubmit}>
                 <div className="divContainer_input_login">
@@ -196,7 +192,8 @@ const LoginModal = () => {
             </div>
           )}
           {/* --------------- */}
-          {(auth.email && !userData.name) || (!auth.email && userData.name) ? null : (
+          {(auth.email && !userData.name) ||
+          (!auth.email && userData.name) ? null : (
             <DialogTitle
               id="alert-dialog-title"
               style={{
@@ -207,17 +204,14 @@ const LoginModal = () => {
                 fontWeight: "bold",
               }}
             >
-              {"Inicia con google"}
+              {"Continua con google"}
             </DialogTitle>
           )}
           {/* ----------------- */}
           <UserProfile />
           {userData.name || auth.email ? (
-            <NavLink to="/mi-perfil">
-              {/* ver que ruta es la del perfil */}
-              <NavLink to="/user">
-                <Button variant="contained">mi perfil</Button>
-              </NavLink>
+            <NavLink to="/user">
+              <Button variant="contained">mi perfil</Button>
             </NavLink>
           ) : null}
           {/* ------------- */}
