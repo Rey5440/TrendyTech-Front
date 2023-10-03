@@ -20,15 +20,21 @@ import { useDispatch, useSelector } from "react-redux";
 import autenticateAllUsers from "./helpers/autenticateAllUsers";
 import { getuserData, banUser } from "./redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
+import NotFound from "./views/page_not_found/not_found";
+import {getAllProducts} from "./redux/actions";
 import Cookies from "js-cookie";
-function App() {
 
+function App() {
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getAllProducts())
+  }, [])
 
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
   const { user } = useAuth0();
-  const dispatch = useDispatch()
+
   useEffect(() => {
     if (user && user.email) {
       const fetchData = async () => {
