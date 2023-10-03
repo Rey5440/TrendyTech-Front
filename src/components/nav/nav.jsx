@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../../redux/actions";
-import { Button, Box } from "@mui/material";
+import { Button, Box, Grid, Container } from "@mui/material";
 import SearchBar from "../searchBar/searchBar";
 import Trendy_Tech_Logo from "../../assets/Trendy-Tech logo recortado.png";
 import AppBar from "@mui/material/AppBar";
@@ -15,8 +14,6 @@ import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import LoginModal from "../login/loginModal";
-import autenticateAllUsers from "../../helpers/autenticateAllUsers";
-import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../context-client/hooks/useAuth";
 import axios from "axios";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
@@ -29,20 +26,18 @@ const Nav = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [admin, setAdmin] = useState(false);
-  const menuId = "primary-search-account-menu";
   const location = useLocation();
   const cart = useSelector((state) => state.shoppingCart);
   let totalProductsInCart = cart.reduce(
     (acc, product) => acc + product.quantity,
     0
   );
-  const { user } = useAuth0();
   const { auth } = useAuth();
-  useEffect(() => {
-    if (user && user.email) {
-      const result = autenticateAllUsers(user);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user && user.email) {
+  //     const result = autenticateAllUsers(user);
+  //   }
+  // }, [user]);
 
   const handleProductsButton = (event) => {
     // dispatch(getAllProducts());
@@ -52,7 +47,14 @@ const Nav = () => {
   //para hacer el rrenderizado condicional de la nav secundaria//
   const shouldShowNav = location.pathname === "/";
   //-------------------------//
-  const pathsWithNavAdmin = ["/admin", "/home", "/create", "/manageUsers", "/user", "/shopping-cart"];
+  const pathsWithNavAdmin = [
+    "/admin",
+    "/home",
+    "/create",
+    "/manageUsers",
+    "/user",
+    "/shopping-cart",
+  ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
   );
@@ -63,60 +65,84 @@ const Nav = () => {
 
   useEffect(() => {
     async function findAdmin() {
-      const { id } = auth;
-      const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
-      if (data && data.isAdmin === true) {
-        setAdmin(true);
-      } else {
-        setAdmin(false);
+      if (auth.email) {
+        try {
+          const { id } = auth;
+          const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
+          if (data && data.isAdmin === true) {
+            setAdmin(true);
+          } else {
+            setAdmin(false);
+          }
+        } catch (error) {
+          console.log(error.message);
+        }
       }
     }
     findAdmin();
   }, [auth, admin]);
-
   // const searchAdmin = async () => {
   // };
 
   return (
     <Box>
-      <AppBar position="static" color="warning">
-        <Toolbar
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+      <Grid
+        container
+        sx={{
+          backgroundColor: "#fd6f09",
+          alignItems: "center",
+          height: "120px",
+          maxHeight: "120px",
+        }}
+      >
+        <Grid
+          item
+          xs={5}
+          sm={4}
+          md={3}
+          lg={3}
+          xl={4}
+          sx={{ paddingLeft: "14px" }}
         >
           <NavLink to={"/"}>
-            <div className="Nav_LogoContainer">
-              <img
-                alt="Trendy Tech"
-                src={Trendy_Tech_Logo}
-                className="Nav_Logo"
-              />
-            </div>
+            <img
+              alt="Trendy Tech"
+              src={Trendy_Tech_Logo}
+              className="Nav_Logo"
+              style={{
+                maxWidth: "140px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            />
           </NavLink>
-
+        </Grid>
+        <Grid item xs={7} sm={8} md={6} lg={6} xl={4}>
           <SearchBar />
-          <Box>
-            <Box>
-              <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
-                <IconButton
-                  size="large"
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                  className="Nav_IconoCarrito"
-                >
-                  <Badge badgeContent={totalProductsInCart} color="error">
-                    <ShoppingCartIcon sx={{ fontSize: 30 }} />
-                  </Badge>
-                </IconButton>
-              </NavLink>
-            </Box>
-          </Box>
-          <LoginModal />
-        </Toolbar>
-      </AppBar>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={3}
+          lg={3}
+          xl={4}
+          sx={{ display: "flex", justifyContent: "end", paddingRight: "10px" }}
+        >
+          <NavLink to="/shopping-cart" className="Nav_IconoCarrito">
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={totalProductsInCart} color="error">
+                <ShoppingCartIcon sx={{ fontSize: 30 }} />
+              </Badge>
+            </IconButton>
+          </NavLink>
+          <LoginModal className="Nav_IconoPerfil" />
+        </Grid>
+      </Grid>
 
       <AppBar position="static" color="text">
         <Toolbar
@@ -175,7 +201,7 @@ const Nav = () => {
                   Productos
                 </Button>
               </NavLink>
-              <NavLink to="">
+              <NavLink to="/home">
                 <Button
                   variant="contained"
                   color="warning"
@@ -228,7 +254,7 @@ const Nav = () => {
                   Productos
                 </Button>
               </NavLink>
-              <NavLink to="">
+              <NavLink to="/">
                 <Button
                   variant="contained"
                   color="warning"

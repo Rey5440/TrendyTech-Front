@@ -8,7 +8,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import LoginButton from "../auth0/auth0Login";
 import UserProfile from "../auth0/auth0Profile";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useSelector, useDispatch } from "react-redux";
+import { setAlert } from "../../redux/actions";
 import "./loginModal.css";
 
 //----import del login del facha------//
@@ -19,10 +20,20 @@ import useAuth from "../../context-client/hooks/useAuth";
 import AlertTech from "../alert/alert";
 
 const LoginModal = () => {
-  const { isAuthenticated } = useAuth0();
+  const [open, setOpen] = useState(false);
+  const userData = useSelector((state) => state.userData);
+  const isBanned = useSelector((state) => state.setOpen);
+  const alertState = useSelector((state) => state.alert);
+  const dispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(false);
-  // const location = useLocation();
+  useEffect(() => {
+    
+    if (isBanned) {
+      setOpen(true);
+      dispatch(setAlert("Usted fue desabilitado", "warning"));
+    }
+  }, [isBanned]);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -35,32 +46,26 @@ const LoginModal = () => {
   const [commonUser, setCommonUser] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmationAlert, setConfirmationAlert] = useState(null);
   const { auth, closeSession } = useAuth();
   const { setAuth } = useAuth();
-
-  // console.log(auth);
-  // console.log(closeSession);
-  // console.log(isAuthenticated);
-
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const getCommonUser = async () => {
-      if (auth.email) {
-        try {
-          const response = await axios.post(
-            `${VITE_BACKEND_URL}/users/emailuser`,
-            { email: auth.email }
-          );
-          setCommonUser(response.data);
-        } catch (error) {
-          console.log(error.message);
-        }
-      }
-    };
-    getCommonUser();
-  }, [auth]);
+  // useEffect(() => {
+  //   const getCommonUser = async () => {
+  //     if (auth.email) {
+  //       try {
+  //         const response = await axios.post(
+  //           `${VITE_BACKEND_URL}/users/emailuser`,
+  //           { email: auth.email }
+  //         );
+  //         setCommonUser(response.data);
+  //       } catch (error) {
+  //         console.log(error.message);
+  //       }
+  //     }
+  //   };
+  //   getCommonUser();
+  // }, [auth]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -72,6 +77,7 @@ const LoginModal = () => {
         password,
       });
       localStorage.setItem("token", data.token);
+      console.log(data);
       setAuth(data);
       navigate("/home");
       // setOpen(false) hay que ver cuando el usuario no esta loggeado
@@ -81,24 +87,8 @@ const LoginModal = () => {
     }
   };
 
-  const showAlert = (type, message) => {
-    // Mostrar la alerta
-    setConfirmationAlert({ type, message });
-
-    // Limpiar la alerta después de 3 segundos (3000 ms)
-    setTimeout(() => {
-      setConfirmationAlert(null);
-    }, 3000);
-  };
-
   return (
     <div>
-      {confirmationAlert && (
-        <AlertTech
-          message={confirmationAlert.message}
-          type={confirmationAlert.type}
-        />
-      )}
       <IconButton
         variant="contained"
         sx={{
@@ -115,7 +105,10 @@ const LoginModal = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        {!auth.email && !isAuthenticated && (
+        {alertState.visible && (
+          <AlertTech message={alertState.message} type={alertState.type} />
+        )}
+        {!auth.email && !userData.name && (
           <DialogTitle
             id="alert-dialog-title"
             sx={{
@@ -152,8 +145,8 @@ const LoginModal = () => {
             alignItems: "center",
           }}
         >
-          {(auth.email && !isAuthenticated) ||
-          (!auth.email && isAuthenticated) ? null : (
+          {(auth.email && !userData.name) ||
+          (!auth.email && userData.name) ? null : (
             <div className="divContainer_Form_Login">
               <form className="form_Login" onSubmit={handleSubmit}>
                 <div className="divContainer_input_login">
@@ -199,8 +192,8 @@ const LoginModal = () => {
             </div>
           )}
           {/* --------------- */}
-          {(auth.email && !isAuthenticated) ||
-          (!auth.email && isAuthenticated) ? null : (
+          {(auth.email && !userData.name) ||
+          (!auth.email && userData.name) ? null : (
             <DialogTitle
               id="alert-dialog-title"
               style={{
@@ -211,25 +204,22 @@ const LoginModal = () => {
                 fontWeight: "bold",
               }}
             >
-              {"Inicia con google"}
+              {"Continua con google"}
             </DialogTitle>
           )}
           {/* ----------------- */}
           <UserProfile />
-          {isAuthenticated || auth.email ? (
-            <NavLink to="/mi-perfil">
-              {/* ver que ruta es la del perfil */}
-              <NavLink to="/user">
-                <Button variant="contained">mi perfil</Button>
-              </NavLink>
+          {userData.name || auth.email ? (
+            <NavLink to="/user">
+              <Button variant="contained">mi perfil</Button>
             </NavLink>
           ) : null}
           {/* ------------- */}
           {auth.email && (
             <NavLink to="/">
-            <Button sx={{ marginTop: "10px" }} onClick={closeSession}>
-              cerrar sesión
-            </Button>
+              <Button sx={{ marginTop: "10px" }} onClick={closeSession}>
+                cerrar sesión
+              </Button>
             </NavLink>
           )}
           {/* ------------- */}

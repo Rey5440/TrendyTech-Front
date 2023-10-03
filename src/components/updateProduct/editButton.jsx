@@ -1,4 +1,3 @@
-const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useState } from "react";
 import {
   Button,
@@ -11,14 +10,21 @@ import {
 import axios from "axios";
 import validationForm from "./validationUpdate";
 import AlertTech from "../alert/alert";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
+import Backdrop from "@mui/material/Backdrop";
+import Typography from "@mui/material/Typography";
+import Loader from "../loader/loader";
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+import "./editButton.css";
 
-const editButton = ({ product, updatePage }) => {
+const EditButton = ({ product, updatePage }) => {
   const [open, setOpen] = useState(false);
   const [editedProduct, setEditedProduct] = useState({
     ...product,
     name: product.name,
     price: product.price,
-    images: [product.images],
+    images: [],
     description: product.description,
     stock: product.stock,
     brand: product.brand,
@@ -27,12 +33,14 @@ const editButton = ({ product, updatePage }) => {
   });
   const [formErrors, setFormErrors] = useState({});
   const [confirmationAlert, setConfirmationAlert] = useState(null);
+  const [imageCloudinary, setImageCloudinary] = useState([]);
+  const [loadingImages, setLoadingImages] = useState(false);
+
+  console.log(imageCloudinary);
 
   const showAlert = (type, message) => {
-    // Mostrar la alerta
     setConfirmationAlert({ type, message });
 
-    // Limpiar la alerta después de 3 segundos (3000 ms)
     setTimeout(() => {
       setConfirmationAlert(null);
     }, 5000);
@@ -44,6 +52,52 @@ const editButton = ({ product, updatePage }) => {
 
   const handleClose = () => {
     setOpen(false);
+    setImageCloudinary([]);
+    setFormErrors({});
+  };
+
+  const handleChangeImg = async (event) => {
+    if (imageCloudinary.length >= 3) {
+      setFormErrors({ images: "Ya has alcanzado el límite de 3 imágenes." });
+      return;
+    }
+    if (imageCloudinary.length + event.target.files.length > 3) {
+      setFormErrors({
+        images: "Has excedido el límite de 3 imágenes. Intentalo de nuevo",
+      });
+      return;
+    }
+    setLoadingImages(true);
+    const files = event.target.files;
+    const imagesArray = Array.from(files);
+    const uploadImage = [];
+    const uploadPromises = imagesArray.map(async (img) => {
+      const data = new FormData();
+      data.append("file", img);
+      data.append("upload_preset", "trendyImg");
+      try {
+        const response = await axios.post(
+          "https://api.cloudinary.com/v1_1/dntrwijx5/image/upload",
+          data
+        );
+        uploadImage.push(response.data.secure_url);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+    await Promise.all(uploadPromises);
+
+    const combinedImages = [...editedProduct.images, ...uploadImage];
+
+    // Limitar a un máximo de 3 imágenes
+    if (combinedImages.length <= 3 || editedProduct.images <= 3) {
+      setImageCloudinary(combinedImages);
+      setEditedProduct({
+        ...editedProduct,
+        images: combinedImages,
+      });
+    }
+    setLoadingImages(false);
   };
 
   const handleSave = async () => {
@@ -65,7 +119,7 @@ const editButton = ({ product, updatePage }) => {
         setFormErrors({});
         setOpen(false);
         setConfirmationAlert(true);
-        showAlert("success", "Tu producto fue actualizado con exíto");
+        showAlert("success", "Tu producto fue actualizado con éxito");
       } catch (error) {
         console.log("Error al actualizar el producto", error);
       }
@@ -74,7 +128,6 @@ const editButton = ({ product, updatePage }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
     if (name === "price" || name === "stock") {
       if (!isNaN(value)) {
         setEditedProduct({
@@ -206,6 +259,72 @@ const editButton = ({ product, updatePage }) => {
           <hr
             style={{ backgroundColor: "#fc6933", width: "90%", height: "3px" }}
           />
+          <Typography variant="body2" color="textSecondary">
+            Puedes subir hasta 3 imágenes.
+          </Typography>
+          <Typography variant="body2" style={{ color: "red" }}>
+            {formErrors.images}
+          </Typography>
+          <label htmlFor="file-upload" className="custom-file-upload">
+            Cambiar imágenes
+          </label>
+
+          <input
+            id="file-upload"
+            type="file"
+            className="input-file"
+            multiple
+            accept="image/*"
+            onChange={handleChangeImg}
+          />
+          <ImageList
+            sx={{
+              width: 830,
+              height: 320,
+              display: "flex",
+              justifyContent: "center",
+            }}
+            cols={3}
+            rowHeight={164}
+          >
+            {imageCloudinary.length > 0
+              ? imageCloudinary.map((item) => (
+                  <ImageListItem key={item}>
+                    <img
+                      srcSet={`${item}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                      src={`${item}?w=164&h=164&fit=crop&auto=format`}
+                      alt={item}
+                      style={{ width: "250px", backgroundColor: "#AAB9CF" }}
+                      loading="lazy"
+                    />
+                  </ImageListItem>
+                ))
+              : product.images?.map((item) => (
+                  <ImageListItem key={item}>
+                    <img
+                      srcSet={`${item}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+                      src={`${item}?w=164&h=164&fit=crop&auto=format`}
+                      alt={item}
+                      style={{ width: "250px" }}
+                      loading="lazy"
+                    />
+                  </ImageListItem>
+                ))}
+          </ImageList>
+          {loadingImages && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "100%",
+              }}
+            >
+              <Backdrop open={true}>
+                <Loader />
+              </Backdrop>
+            </div>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -220,4 +339,4 @@ const editButton = ({ product, updatePage }) => {
   );
 };
 
-export default editButton;
+export default EditButton;

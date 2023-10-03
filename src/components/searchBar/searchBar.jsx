@@ -1,87 +1,95 @@
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { searchByName } from "../../redux/actions";
+import { useState, useEffect } from "react"; // Agrega useEffect a tus imports
+import { useDispatch, useSelector } from "react-redux";
+import { searchByName, searchOnSwitch } from "../../redux/actions";
 import "./searchBar.css";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { useNavigate } from "react-router-dom";
+import { Autocomplete, Button, Grid, Stack, TextField } from "@mui/material";
 
 const SearchBar = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState("");
   const dispatch = useDispatch();
+  const allProducts2 = useSelector((state) => state.allProducts2);
+  const searchOn = useSelector((state) => state.searchOn);
 
-  const handleInput = (e) => {
-    setProduct(e.target.value);
+  const handleInput = (event) => {
+    console.log(event.target.value);
+    setProduct(event.target.value);
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    setProduct("");
-    navigate("/home");
+  const handleSearch = (event) => {
+    event.preventDefault();
+    console.log(product);
+    
+    // Dispatch la acción para buscar por nombre
     dispatch(searchByName(product));
+
+    // Dispatch la acción para cambiar el estado de searchOn a true
+    dispatch(searchOnSwitch(true));
   };
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      handleSearch(e);
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      handleSearch(event);
     }
   };
 
-  const Search = styled("div")(({ theme }) => ({
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  }));
-
-  const SearchIconWrapper = styled("div")(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }));
-
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: "inherit",
-    "& .MuiInputBase-input": {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create("width"),
-      width: "100%",
-      [theme.breakpoints.up("md")]: {
-        width: "20ch",
-      },
-    },
-  }));
+  // Utiliza useEffect para observar cambios en el valor de searchOn
+  useEffect(() => {
+    if (!searchOn) {
+      setProduct(""); // Limpia el input si searchOn es false
+    }
+  }, [searchOn]); // Asegúrate de agregar searchOn como dependencia del useEffect
 
   return (
-    <div className="SearchBar_Container">
-      <input
-        placeholder="Buscar un producto"
-        className="SearchBar_Input"
-        onChange={handleInput}
-        value={product}
-        onKeyDown={handleKeyDown}
-      />
-      <button type="search" className="SearchBar_Button" onClick={handleSearch}>
-        <SearchIcon sx={{ fontSize: 30 }} className="SearchBar_ButtonIcon" />
-      </button>
-    </div>
+    <Grid
+      item
+      sx={{
+        display: "flex",
+      }}
+    >
+      <Stack
+        sx={{
+          width: "100%",
+          backgroundColor: "#ebebeb",
+          borderRadius: "6px",
+          border: "3px solid #e76000",
+        }}
+      >
+        <Autocomplete
+          freeSolo
+          id="free-solo-2-demo"
+          disableClearable
+          options={allProducts2.map((option) => option.name)}
+          value={product}  // <-- Asegúrate de establecer el value para que el input refleje el valor actual de product
+          onKeyDown={handleKeyDown}
+          onInputChange={(event, newValue) => {
+            setProduct(newValue);
+            
+            if (!newValue) {
+              dispatch(searchOnSwitch(false));
+              console.log('cambie a false')
+            }
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Busca un producto"
+              InputProps={{
+                ...params.InputProps,
+                type: "search",
+              }}
+            />
+          )}
+        />
+      </Stack>
+      <Button type="search" onClick={handleSearch}>
+        <SearchIcon sx={{ fontSize: 40 }} />
+      </Button>
+    </Grid>
   );
 };
 

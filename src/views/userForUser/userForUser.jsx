@@ -11,7 +11,7 @@ import FormDialog from "../../components/openForm/openForm";
 
 import Tooltip from "@mui/material/Tooltip";
 import { useDispatch } from "react-redux";
-import { setAlert } from "../../redux/actions";
+import { getuserData, setAlert } from "../../redux/actions";
 
 const UserForUser = () => {
   const { auth } = useAuth();
@@ -21,7 +21,6 @@ const UserForUser = () => {
   const [userUpdated, setUserUpdated] = useState(false);
   const [imageUpdated, setImageUpdated] = useState(false);
   const dispatch = useDispatch();
-  console.log(userData);
   useEffect(() => {
     const fetchData = async () => {
       let emailToSend;
@@ -92,8 +91,11 @@ const UserForUser = () => {
                   newImage: res.secure_url,
                 }
               );
+              console.log(backendResponse);
               setImageUpdated(!imageUpdated);
               dispatch(setAlert("La imagen se cambio con exito", "success"));
+              //---------actualizar imagen en el modal-----------//
+              dispatch(getuserData(backendResponse.data));
               // Manejar la respuesta de tu backend si es necesario
               console.log(backendResponse.data);
             } catch (backendError) {
