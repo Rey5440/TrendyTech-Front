@@ -1,7 +1,6 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
+import { CardMedia, Typography } from "@mui/material/";
 import { NavLink } from "react-router-dom";
 import { Box } from "@mui/system";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
@@ -16,13 +15,18 @@ export default function CardTech({ images, id, name, price, brand }) {
         height: "300px",
         padding: "4px",
         display: "flex",
+        justifyContent: "center",
         boxSizing: "content-box",
       }}
     >
       <NavLink to={`/detail/${id}`} style={{ textDecoration: "none" }}>
         <Box sx={{ height: "50%", width: "100%" }}>
           <CardMedia
-            sx={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+            sx={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+            }}
             component="img"
             image={images[0]}
             alt={name}
@@ -38,6 +42,7 @@ export default function CardTech({ images, id, name, price, brand }) {
         >
           <Typography
             sx={{
+          
               fontWeight: "bold",
               maxHeight: "80px",
               fontFamily: "Poppins",
@@ -45,20 +50,20 @@ export default function CardTech({ images, id, name, price, brand }) {
           >
             {name}
           </Typography>
-
-          <Typography
-            variant="subtitle2"
-            color="text.secondary"
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              backgroundColor: "#007bff",
-              borderRadius: "4px",
-              color: "white",
-            }}
-          >
-            {formattedPrice}
-          </Typography>
+            <Typography
+              variant="subtitle2"
+              color="text.secondary"
+              sx={{
+                display: "flex",                
+                justifyContent: "center",
+                backgroundColor: "#007bff",
+                borderRadius: "4px",
+                color: "white",
+              }}
+            >
+              {formattedPrice}
+            </Typography>
+         
         </Box>
       </NavLink>
     </Card>

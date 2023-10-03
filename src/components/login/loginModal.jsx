@@ -27,6 +27,7 @@ const LoginModal = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    
     if (isBanned) {
       setOpen(true);
       dispatch(

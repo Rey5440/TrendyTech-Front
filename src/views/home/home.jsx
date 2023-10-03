@@ -10,7 +10,7 @@ import Grid from "@mui/material/Grid";
 import { Container } from "@mui/material";
 import Loader from "../../components/loader/loader";
 import Footer from "../footer/footer";
-import { getAllProducts, orderByPrice } from "../../redux/actions";
+import { getAllProducts } from "../../redux/actions";
 import autenticateAllUsers from "../../helpers/autenticateAllUsers";
 import { getuserData, banUser } from "../../redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -33,7 +33,6 @@ const Home = () => {
   const merchant_order_id = queryParams.get("merchant_order_id");
 
   const [loading, setLoading] = useState(true);
-  const [orderBy, setOrderBy] = useState("desc");
 
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
@@ -67,11 +66,9 @@ const Home = () => {
   //-----------------------------------------------------------//
 
   useEffect(() => {
-    dispatch(orderByPrice(orderBy));
-  }, [orderBy]);
-
-  useEffect(() => {
-    dispatch(getAllProducts());
+    if (!allProductsSearch.length) {
+      dispatch(getAllProducts());
+    }
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -137,16 +134,14 @@ const Home = () => {
     console.log("respuesta put:", response);
     return;
   };
-  if (ready) {
-    console.log("cliente ready!", client);
-    console.log("collection", collection_status);
 
-    if (collection_status === "approved") {
+  useEffect(() => {
+    if (ready && collection_status === "approved") {
       if (client.id) {
         putApproved(client);
       }
     }
-  }
+  }, [ready]);
 
   return (
     <div>
@@ -173,7 +168,7 @@ const Home = () => {
               <Filter />
             </Grid>
             <Grid item xs={12} md={9} lg={9} xl={9}>
-              <OrderBy orderBy={orderBy} setOrderBy={setOrderBy} />
+              <OrderBy />
               <Cards currentProduct={currentProduct} />
             </Grid>
           </Grid>

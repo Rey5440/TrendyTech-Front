@@ -19,8 +19,6 @@ const ConfirmAccount = () => {
         const url = `${VITE_BACKEND_URL}/users/confirm/${id}`;
         const { data } = await axios.post(url);
 
-        console.log(data);
-
         setAccountConfirmated(true);
 
         showAlert(

@@ -7,20 +7,25 @@ import {
   Grid,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { orderByPrice } from "../../redux/actions";
 
-const OrderBy = ({ orderBy, setOrderBy }) => {
-const searchOn = useSelector((state) => state.searchOn);
-const [order, setOrder] = useState(orderBy);
+const OrderBy = () => {
+  const [orderBy, setOrderBy] = useState("");
+  const searchOn = useSelector((state) => state.searchOn);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    setOrderBy(false);
+    dispatch(orderByPrice(orderBy));
+  }, [orderBy]);
+
+  useEffect(() => {
+    setOrderBy("");
   }, [searchOn]);
   //-----------ordenamiento--------------//
 
   const handleChange = (event) => {
     setOrderBy(event.target.value);
-    setOrder(event.target.value);
   };
   //-------------------------------------//
   return (
@@ -34,7 +39,7 @@ const [order, setOrder] = useState(orderBy);
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={order}
+            value={orderBy}
             label="order"
             onChange={handleChange}
             color="warning"
