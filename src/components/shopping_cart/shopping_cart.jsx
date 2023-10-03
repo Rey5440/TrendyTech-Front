@@ -11,7 +11,7 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import "./shopping_cart.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../context-client/hooks/useAuth";
-import { useLocation } from "react-router-dom";
+
 import { setAlert } from "../../redux/actions";
 import AlertTech from "../alert/alert";
 
@@ -28,64 +28,38 @@ const ShoppingCart = () => {
   );
 
   const dispatch = useDispatch();
-  const location = useLocation();
-
-  const queryParams = new URLSearchParams(location.search);
-  const collection_status = queryParams.get("collection_status");
-  const merchant_order_id = queryParams.get("merchant_order_id");
 
   const { user } = useAuth0();
   const { auth } = useAuth();
   const [client, setClient] = useState({});
-  const [stock, setStock] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let emailToSend;
-
-      if (auth && auth.email) {
-        emailToSend = auth.email;
-      } else if (user && user.email) {
-        emailToSend = user.email;
+  const fetchData = async () => {
+    let email;
+    if (auth && auth.email) {
+      email = auth.email;
+    } else if (user && user.email) {
+      email = user.email;
+    }
+    if (email) {
+      try {
+        const result = await axios.get(
+          `${VITE_BACKEND_URL}/users/email/${email}`
+        );
+        setClient(result.data);
+      } catch (error) {
+        console.error("Error al obtener datos del usuario", error);
       }
-
-      if (emailToSend) {
-        try {
-          const result = await axios.get(
-            `${VITE_BACKEND_URL}/users/email/${emailToSend}`
-          );
-          setClient(result.data);
-        } catch (error) {
-          console.error("Error al obtener datos del usuario", error);
-        }
-      }
-    };
-    fetchData();
-  }, [auth, user]);
-
-  const putApproved = async () => {
-    cart.map(({stock}) => {
-      setStock(stock - 1)
-    })
-    console.log(stock);
-    const response = await axios.put(
-      `${VITE_BACKEND_URL}/orders/update/${client.id}`,
-      {
-        status: collection_status,
-        ticket: merchant_order_id,
-      }
-    );
-
-    return;
+    }
   };
 
-  if (collection_status === "approved") {
-    putApproved();
-  }
+  useEffect(() => {
+    fetchData();
+  }, [auth, user]);
 
   // Inicio de compra mp
   const handleBuy = async () => {
     // Verifica si esta logueado
+    console.log("Hay cliente para la compra", client);
     if (!client.id) {
       dispatch(
         setAlert("Debes estar logueado para efectuar la compra.", "warning")
@@ -103,18 +77,16 @@ const ShoppingCart = () => {
   };
 
   const createNewOrder = async () => {
-   
     const obj = {
       products: cart,
       userId: client.id,
-      total: total,
+      total,
     };
     const response = await axios.post(`${VITE_BACKEND_URL}/orders/create`, obj);
     return;
   };
 
   const createPreference = async () => {
-    console.log(cart);
     const productos = cart.map((product) => {
       return {
         id: product.id,
@@ -132,17 +104,10 @@ const ShoppingCart = () => {
         { productos }
       );
 
-      // Creacion de carrito ( order )
-      const ordenPost = await axios.post(`${VITE_BACKEND_URL}/orders/create`, {
-        products: cart,
-        userId: client.id,
-        total,
-      });
-
       const id = response.data;
       return id; //preference id
     } catch (error) {
-      console.log(error);
+      console.error("Error al crear la preferencia", error);
     }
   };
   // ! fin de compra mp

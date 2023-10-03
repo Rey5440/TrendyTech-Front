@@ -70,7 +70,6 @@ function App() {
           <Route path="/new-password/:token" element={<NewPassword />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
-          <Route path="/paymentstatus" element={<PaymentStatus />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/delete" element={<Delete />} />
           <Route path="/manageUsers" element={<ManageUsers />} />

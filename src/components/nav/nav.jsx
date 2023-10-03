@@ -50,6 +50,7 @@ const Nav = () => {
     "/user",
     "/shopping-cart",
     "/delete",
+    "/detail"
   ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
@@ -66,7 +67,6 @@ const Nav = () => {
         try {
           const { id } = auth;
           const { data } = await axios.get(`${VITE_BACKEND_URL}/users/${id}`);
-          console.log(data);
           if (data && data.isAdmin === true) {
             setAdmin(true);
           } else {

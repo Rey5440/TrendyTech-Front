@@ -6,38 +6,35 @@ import {
   MenuItem,
   Grid,
 } from "@mui/material";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 const OrderBy = ({ orderBy, setOrderBy }) => {
+const searchOn = useSelector((state) => state.searchOn);
+const [order, setOrder] = useState(orderBy);
 
-  const searchOn = useSelector((state) => state.searchOn);
-
-  useEffect(()=> {
-    setOrderBy(false)
-  },[searchOn])
+  useEffect(() => {
+    setOrderBy(false);
+  }, [searchOn]);
   //-----------ordenamiento--------------//
 
   const handleChange = (event) => {
     setOrderBy(event.target.value);
+    setOrder(event.target.value);
   };
   //-------------------------------------//
   return (
     <Grid container sx={{ padding: "6px" }}>
-      <Grid
-        item
-        xs={8}
-        sm={9}
-        md={9}
-        lx={9}
-      ></Grid>
+      <Grid item xs={8} sm={9} md={9} lx={9}></Grid>
       <Grid item xs={4} sm={3} md={3} lx={3}>
         <FormControl fullWidth variant="standard">
-          <InputLabel color="warning" id="demo-simple-select-label">ORDEN</InputLabel>
+          <InputLabel color="warning" id="demo-simple-select-label">
+            ORDEN
+          </InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={orderBy}
+            value={order}
             label="order"
             onChange={handleChange}
             color="warning"
