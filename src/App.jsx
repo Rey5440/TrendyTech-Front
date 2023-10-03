@@ -15,7 +15,49 @@ import Admin from "./views/admin/admin";
 import DeleteUser from "./components/deleteUser/deleteUser";
 import DeleteProduct from "./components/deleteProduct/deleteProduct";
 import ManageUsers from "./components/manageUsers/manageUsers";
+//----------------------//
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import autenticateAllUsers from "./helpers/autenticateAllUsers";
+import { getuserData, banUser } from "./redux/actions";
+import { useAuth0 } from "@auth0/auth0-react";
+import NotFound from "./views/page_not_found/not_found";
+import {getAllProducts} from "./redux/actions";
+
 function App() {
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(getAllProducts())
+  }, [])
+
+  //-------------autenticate user with cookies------------------//
+  const isBanned = useSelector((state) => state.setOpen);
+  // const [ignacioMagic, setIgnacioMagic] = useState({});
+  const { user } = useAuth0();
+  const [ignacioMagic, setIgnacioMagic] = useState({})
+
+
+  useEffect(() => {
+    if (user && user.email) {
+      const fetchData = async () => {
+        try {
+          const result = await autenticateAllUsers(user);
+          setIgnacioMagic(result);
+          if (result.isDeleted) {
+            dispatch(banUser(true));
+          } else {
+            ignacioMagic && dispatch(getuserData(result));
+            if (isBanned === true) dispatch(banUser(false));
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }
+  }, [user]);
+  //-----------------------------------------------------------//
+
   return (
     <div>
       <AuthProvider>
@@ -31,12 +73,11 @@ function App() {
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
           <Route path="/paymentStatus" element={<PaymentStatus />} />
-
-          <Route path="/admin" element={<Admin/>}/>
-          <Route path="/deleteuser" element={<DeleteUser/>}/>
-          <Route path="/deleteproduct" element={<DeleteProduct/>}/>
-          <Route path="/manageUsers" element={<ManageUsers/>}/>
-
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/deleteuser" element={<DeleteUser />} />
+          <Route path="/deleteproduct" element={<DeleteProduct />} />
+          <Route path="/manageUsers" element={<ManageUsers />} /> 
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
     </div>

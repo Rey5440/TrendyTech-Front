@@ -21,7 +21,6 @@ const UserForUser = () => {
   const [userUpdated, setUserUpdated] = useState(false);
   const [imageUpdated, setImageUpdated] = useState(false);
   const dispatch = useDispatch();
-  console.log(userData);
   useEffect(() => {
     const fetchData = async () => {
       let emailToSend;

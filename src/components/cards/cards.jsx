@@ -1,5 +1,4 @@
 import Card from "../card/card";
-import { Box } from "@mui/system";
 import Empty from "./emptyCards";
 import { Grid } from "@mui/material";
 const Cards = ({ currentProduct }) => {
@@ -14,7 +13,8 @@ const Cards = ({ currentProduct }) => {
             md={4}
             lg={3}
             xl={3}
-            sx={{padding: "8px" }}
+            sx={{ padding: "8px" }}
+            key={product.id}
           >
             <Card
               key={product.id}

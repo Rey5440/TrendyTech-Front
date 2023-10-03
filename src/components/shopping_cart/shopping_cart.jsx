@@ -12,7 +12,10 @@ import "./shopping_cart.css";
 
 initMercadoPago("TEST-185b7434-044a-4830-995d-95780e762ec5");
 const ShoppingCart = () => {
-  let cart = useSelector((state) => state.shoppingCart);
+  // state global cart y token
+  let { shoppingCart, userData }= useSelector((state) => state);
+  let cart = shoppingCart;
+  let token = userData.token;
   let [total, setTotal] = useState(0);
   let [preferenceId, setPreferenceId] = useState(null);
   let [button, setButton] = useState(false);
@@ -23,6 +26,14 @@ const ShoppingCart = () => {
 
   // Inicio de compra mp
   const handleBuy = async () => {
+
+    // Verifica si esta logueado
+    if (!token) {
+      window.location.href = "/";
+      return window.location.href;
+    }
+
+    // Crea la preferencia de mercado pago
     const id = await createPreference(cart);
     if (id) {
       setPreferenceId(id);
@@ -40,12 +51,22 @@ const ShoppingCart = () => {
       };
     });
     try {
+
+      // Post a mercado pago
       const response = await axios.post(
         `${VITE_BACKEND_URL}/checkout/create_preference`,
         { productos }
       );
+
+      // Creacion de carrito ( order )
+      const ordenPost = await axios.post(`${VITE_BACKEND_URL}/orders/create`,{
+        products:cart,
+        token,
+        total
+      });
+
       const id = response.data;
-      return id; //id de compra solo eso
+      return id; //preference id
     } catch (error) {
       console.log(error);
     }

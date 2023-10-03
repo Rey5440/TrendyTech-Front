@@ -8,22 +8,26 @@ const getToken = (user) => {
   return user;
 };
 
-const saveUserDataToCookie = (user) => {
+const saveUserDataToCookie = async (user) => {
   // Genera una clave única para cada usuario (por ejemplo, el ID de usuario)
   // Convierte el objeto userData a una cadena JSON
   const userData = JSON.stringify(user);
   try {
     // Guarda los datos en una cookie llamada "userData"
-    Cookies.set("ignacioMagic", userData, { expires: 1 });
+    const guardar = Cookies.set("ignacioMagic", userData, { expires: 1 });
+    const result = await getUserDataFromCookie(guardar);
+    return result;
     // console.log("Usuario creado"); // Puedes ajustar la duración de la cookie según tus necesidades
   } catch (error) {
     console.log(error);
   }
 };
-
-const getUser = async (user) => {
+ 
+const getUser = async (userToken) => {
   try {
-    const response = await axios.get(`http://localhost:3004/users/token/${user}`);
+    const response = await axios.get(
+      `http://localhost:3004/users/token/${userToken}`
+    );
     return response.data;
   } catch (error) {
     console.log(error);
@@ -33,28 +37,28 @@ const getUser = async (user) => {
 const postUser = async (user) => {
   try {
     const response = await axios.post("http://localhost:3004/users/auth", user);
-    saveUserDataToCookie(user.token);
+    const result = await saveUserDataToCookie(response.data.user.token);
+    return result;
   } catch (error) {
     console.log(error);
   }
 };
 
 // Función para obtener los datos del usuario desde la cookie
-const getUserDataFromCookie = async(user) => {
+const getUserDataFromCookie = async (user) => {
   // Genera la clave única para el usuario
   try {
     // Obtiene la cadena JSON de la cookie "userKey"
     const userDataJSON = Cookies.get("ignacioMagic");
-    console.log(userDataJSON);
     // Si la cookie existe, la parsea de JSON a un objeto
     if (userDataJSON) {
-      const user = JSON.parse(userDataJSON);
-      const tal = await getUser(user)
-      return tal;
-      console.log(tal);
+      const userToken = JSON.parse(userDataJSON);
+      const userData = await getUser(userToken);
+      return userData;
     } else if (user.email) {
       const userWithToken = getToken(user);
-      postUser(userWithToken);
+      const result = await postUser(userWithToken);
+      return result;
     }
   } catch (error) {
     console.log(error);
@@ -63,8 +67,8 @@ const getUserDataFromCookie = async(user) => {
   return null;
 };
 
-const autenticateAllUsers = (user) => {
- const result = getUserDataFromCookie(user);
+const autenticateAllUsers = async (user) => {
+  const result = await getUserDataFromCookie(user);
   // Función para guardar datos del usuario en una cookie
   return result;
 };
