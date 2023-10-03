@@ -21,7 +21,7 @@ const Home = () => {
   const searchOn = useSelector((state) => state.searchOn);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  const [orderBy, setOrderBy] = useState("");
+  const [orderBy, setOrderBy] = useState("asc");
 
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
@@ -49,7 +49,7 @@ const Home = () => {
   //-----------------------------------------------------------//
 
   useEffect(() => {
-    if (orderBy === "") dispatch(orderByPrice(orderBy));
+    dispatch(orderByPrice(orderBy));
   }, [orderBy]);
 
   useEffect(() => {
