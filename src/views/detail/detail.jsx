@@ -42,6 +42,7 @@ const Detail = () => {
         );
         const { data } = response;
         setProduct(data);
+        setImagePP(data.images[0]);
         setTimeout(() => {
           setLoading(false);
         }, 3000);
@@ -61,7 +62,7 @@ const Detail = () => {
     }
   }, [hasScrolled])
 
-  useEffect(() => { }, [imagePP]);
+  useEffect(() => {}, [imagePP]);
   // Cambiar la imagen principal cuando se haga clic en un botón de imagen
   const carousel = (event) => {
     setImagePP(product.images[event.target.value]);
@@ -125,13 +126,8 @@ const Detail = () => {
               <div>
                 {product.images &&
                   product.images.map((imag, index) => (
-                    <div className="imagen_container" key={index}>
-                      <button onClick={carousel} value={index} className="boton_imagen">
-                        <img
-                          src={imag}
-                          className="product_image"
-                        />
-                      </button>
+                    <div className="imagenBoton_container" key={index}>
+                      <button onClick={carousel} value={index} className="boton_imagen_detail" style={{ backgroundImage: `url(${imag})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
                     </div>
                   ))}
               </div>

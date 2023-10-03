@@ -33,7 +33,7 @@ const Create = () => {
     type: "",
   });
 
-  useEffect(() => {}, [form, error]);
+  useEffect(() => {console.log("imagenes en el form: ", form.images)}, [form, error]);
   useEffect(() => {}, [imageCloudinary]);
   // HANDLERS
   const handleChange = (event) => {
@@ -78,10 +78,16 @@ const Create = () => {
     // Limitar a un máximo de 3 imágenes
     if (uploadImage.length <= 3 || imagesArray.length <= 3) {
       setImageCloudinary(uploadImage);
-      setForm({
-        ...form,
-        images: uploadImage,
-      });
+      if (form.images.length >= 3) {
+        setForm({
+          ...form,
+        });
+      } else {
+        setForm({
+          ...form,
+          images: [...form.images, ...uploadImage],
+        });
+      }
       const errores = validation(form, imagesArray);
       setError(errores);
     } else {
@@ -273,9 +279,9 @@ const Create = () => {
         <div className={styles.divcontainer_images_form}>
           <h2 className={styles.title_images}>Imagenes seleccionadas</h2>
           <div className={styles.images_container}>
-            {imageCloudinary[0] ? (
+            {form.images[0] ? (
               <img
-                src={imageCloudinary[0]}
+                src={form.images[0]}
                 alt=""
                 loading="lazy"
                 className={styles.image}
@@ -285,9 +291,9 @@ const Create = () => {
             )}
           </div>
           <div className={styles.images_container}>
-            {imageCloudinary[1] ? (
+            {form.images[1] ? (
               <img
-                src={imageCloudinary[1]}
+                src={form.images[1]}
                 alt=""
                 loading="lazy"
                 className={styles.image}
@@ -297,9 +303,9 @@ const Create = () => {
             )}
           </div>
           <div className={styles.images_container}>
-            {imageCloudinary[2] ? (
+            {form.images[2] ? (
               <img
-                src={imageCloudinary[2]}
+                src={form.images[2]}
                 alt=""
                 loading="lazy"
                 className={styles.image}

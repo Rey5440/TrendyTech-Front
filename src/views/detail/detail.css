@@ -71,7 +71,7 @@
       object-fit: contain;
 }
 
-.imagen_container {
+.imagenBoton_container {
       width: 5rem;
       height: 5rem;
       display: flex;
@@ -124,12 +124,12 @@
       margin-bottom: 2rem;
 }
 
-.boton_imagen {
-      border: none;
-      background: none;
+.boton_imagen_detail {
       cursor: pointer;
-      height: 5rem;
-      width: 5rem;
+      height: 100%;
+      width: 100%;
+      border: none;
+      
 }
 
 .div_beneficios {
