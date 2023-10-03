@@ -27,7 +27,7 @@ const Home = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
-  const [orderBy, setOrderBy] = useState(false);
+  // const [orderBy, setOrderBy] = useState(false);
   const auth = useAuth()
 
   console.log(auth.auth.name)
@@ -38,6 +38,8 @@ const Home = () => {
 
   // const [orderBy, setOrderBy] = useState("");
 
+
+  const [orderBy, setOrderBy] = useState("asc");
 
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
@@ -65,7 +67,7 @@ const Home = () => {
   //-----------------------------------------------------------//
 
   useEffect(() => {
-    if (orderBy === "") dispatch(orderByPrice(orderBy));
+    dispatch(orderByPrice(orderBy));
   }, [orderBy]);
 
   useEffect(() => {
