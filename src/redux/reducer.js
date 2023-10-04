@@ -13,6 +13,8 @@ import {
   SET_SEARCH_ON,
   USER_DATA,
   SET_OPEN_MODAL_LOGIN,
+  SET_SHOW_DISCOUNTS_PRODUCTS,
+  SHOW_DISCOUNTS_PRODUCTS,
 } from "./action-types";
 
 const initialState = {
@@ -21,6 +23,8 @@ const initialState = {
   allProductsSearch: [],
   allProductsSearch2: [],
   searchOn: false,
+  discountsProducts: [],
+  setDiscounts: false,
   shoppingCart: [],
   userData: {},
   setOpen: false,
@@ -182,6 +186,18 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         setOpen: payload,
       };
+    case SHOW_DISCOUNTS_PRODUCTS:
+      const products = state.allProducts2.filter((product) => product.discount > 0)
+        return {
+          ...state,
+          discountsProducts: products,
+        };
+      
+    case SET_SHOW_DISCOUNTS_PRODUCTS:
+       return {
+         ...state,
+         setDiscounts: payload,
+       };
     default:
       return { ...state };
   }

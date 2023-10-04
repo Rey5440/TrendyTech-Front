@@ -76,7 +76,7 @@ const Footer = () => {
               sx={{ fontSize: 18 }}
             />
             <input
-              id="email"
+              id="emailFotter"
               type="email"
               value={inputEmail}
               placeholder="Ingrese su email..."

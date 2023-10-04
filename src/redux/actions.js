@@ -16,6 +16,8 @@ import {
   SET_SEARCH_ON,
   SET_OPEN_MODAL_LOGIN,
   USER_DATA,
+  SHOW_DISCOUNTS_PRODUCTS,
+  SET_SHOW_DISCOUNTS_PRODUCTS,
 } from "./action-types";
 
 export const getAllProducts = () => {
@@ -138,5 +140,19 @@ export const banUser = (payload) => {
   return {
     type: SET_OPEN_MODAL_LOGIN,
     payload: payload,
+  };
+};
+
+export const showDiscountsProducts = (payload) => {
+  return {
+    type: SHOW_DISCOUNTS_PRODUCTS,
+    payload,
+  };
+};
+
+export const setShowDiscountsProducts = (payload) => {
+  return {
+    type: SET_SHOW_DISCOUNTS_PRODUCTS,
+    payload,
   };
 };

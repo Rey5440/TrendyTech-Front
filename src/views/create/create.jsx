@@ -15,6 +15,7 @@ const Create = () => {
     imageFiles: "",
     description: "",
     stock: "",
+    discount: "",
     brand: "",
     color: "",
     type: "",
@@ -28,6 +29,7 @@ const Create = () => {
     images: [],
     description: "",
     stock: 0,
+    discount: 0,
     brand: "",
     color: "",
     type: "",
@@ -37,7 +39,11 @@ const Create = () => {
   useEffect(() => {}, [imageCloudinary]);
   // HANDLERS
   const handleChange = (event) => {
-    if (event.target.name == "price" || event.target.name == "stock") {
+    if (
+      event.target.name == "price" ||
+      event.target.name == "stock" ||
+      event.target.name == "discount"
+    ) {
       if (!isNaN(event.target.value)) {
         setForm({
           ...form,
@@ -98,6 +104,7 @@ const Create = () => {
       error.price.length > 0 ||
       error.description.length > 0 ||
       error.stock.length > 0 ||
+      error.discount.length > 0 ||
       error.brand.length > 0 ||
       error.color.length > 0 ||
       error.type.length > 0 ||
@@ -170,7 +177,19 @@ const Create = () => {
               {error.stock && <p className={styles.error}>{error.stock}</p>}
             </div>
           </div>
-
+          {/* DESCUENTO */}
+          <div className={styles.divlabel_input_create}>
+            <label>Descuento a aplicar:</label>
+            <input
+              maxLength="2"
+              type="text"
+              name="discount"
+              value={form.discount}
+              onChange={handleChange}
+              className={styles.input_create}
+            />
+            {error.discount && <p className={styles.error}>{error.discount}</p>}
+          </div>
           {/* DESCRIPCION */}
           <div className={styles.divlabel_input_create}>
             <label>Descripción</label>

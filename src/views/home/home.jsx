@@ -19,9 +19,11 @@ const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
   const allProductsSearch = useSelector((state) => state.allProductsSearch);
   const searchOn = useSelector((state) => state.searchOn);
+  const discountsProducts = useSelector((state) => state.discountsProducts);
+  const setDiscounts = useSelector((state) => state.setDiscounts);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-
+  
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
@@ -46,47 +48,51 @@ const Home = () => {
     }
   }, [user]);
   //-----------------------------------------------------------//
-
-
-
+  
+  
+  
   useEffect(() => {
     dispatch(getAllProducts());
     setTimeout(() => {
       setLoading(false);
     }, 2000);
   }, [dispatch]);
-
+  
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
-
+  
   useEffect(() => {
     setCurrentPage(1);
   }, [allProducts1]);
-
+  
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
   };
-
-  const productsToDisplay = searchOn ? allProductsSearch : allProducts1;
-
+  let productsToDisplay;
+  if (setDiscounts) {
+    productsToDisplay = discountsProducts;
+  } else {
+    productsToDisplay = searchOn ? allProductsSearch : allProducts1;
+    
+  }
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProduct = productsToDisplay.slice(
     indexOfFirstProduct,
     indexOfLastProduct
-  );
-
-  const totalPages = Math.ceil(productsToDisplay.length / productsPerPage);
-
-  return (
-    <div>
+    );
+    
+    const totalPages = Math.ceil(productsToDisplay.length / productsPerPage);
+    
+    return (
+      <div>
       <NavBar />
 
       {loading ? (
         <Loader />
-      ) : (
-        <Container
+        ) : (
+          <Container
           style={{
             width: "100%",
           }}

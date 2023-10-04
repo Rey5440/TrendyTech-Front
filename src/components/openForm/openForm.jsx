@@ -11,7 +11,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AlertTech from "../alert/alert";
-import { setAlert } from "../../redux/actions";
+import { getuserData, setAlert } from "../../redux/actions";
 
 export default function FormDialog({
   onClose,
@@ -40,11 +40,11 @@ export default function FormDialog({
         `${VITE_BACKEND_URL}/users/editname`,
         user
       );
-      console.log(user);
       if (response.status >= 200 && response.status < 400) {
         console.log("el nombre se cambio");
       }
       dispatch(setAlert("El nombre fue cambiado con exito", "success"));
+      dispatch(getuserData(response.data.data));
       onUserUpdate();
       onClose();
     } catch (error) {

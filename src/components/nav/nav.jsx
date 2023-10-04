@@ -20,6 +20,7 @@ import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import "./nav.css";
+import { setShowDiscountsProducts, showDiscountsProducts } from "../../redux/actions";
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -83,6 +84,11 @@ const Nav = () => {
   }, [auth, admin]);
   // const searchAdmin = async () => {
   // };
+
+  const handleDiscountsProducts = () => {
+    dispatch(showDiscountsProducts());
+    dispatch(setShowDiscountsProducts(true))
+  };
 
   return (
     <Box>
@@ -254,17 +260,18 @@ const Nav = () => {
                   Productos
                 </Button>
               </NavLink>
-              <NavLink to="/">
-                <Button
-                  variant="contained"
-                  color="warning"
-                  style={{ borderRadius: "50px", margin: "4px" }}
-                  // className="button_ingresar"
-                  endIcon={<LocalOfferIcon />}
-                >
-                  Descuentos
-                </Button>
-              </NavLink>
+              {/* <NavLink to="/home"> */}
+              <Button
+                onClick={handleDiscountsProducts}
+                variant="contained"
+                color="warning"
+                style={{ borderRadius: "50px", margin: "4px" }}
+                // className="button_ingresar"
+                endIcon={<LocalOfferIcon />}
+              >
+                Descuentos
+              </Button>
+              {/* </NavLink> */}
 
               <Button
                 variant="contained"
