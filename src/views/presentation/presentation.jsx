@@ -79,7 +79,7 @@ const Presentation = () => {
 
   useEffect(() => {
     dispatch(getAllProducts());
-  },[])
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -124,7 +124,7 @@ const Presentation = () => {
   };
   return (
     <>
-      <Nav  />
+      <Nav />
       <div className="div_container_presentation">
         <div className="div_image_carrusel">
           <img
@@ -137,8 +137,7 @@ const Presentation = () => {
             <div className="carousel_button_prev">
               <Button
                 startIcon={<ArrowBackIosNewIcon />}
-                onClick={previous}
-              ></Button>
+                onClick={previous}></Button>
             </div>
             <div className="carousel_button_next">
               <Button endIcon={<ArrowForwardIosIcon />} onClick={next}></Button>

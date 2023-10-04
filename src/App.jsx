@@ -21,15 +21,14 @@ import { useDispatch, useSelector } from "react-redux";
 import autenticateAllUsers from "./helpers/autenticateAllUsers";
 import { getuserData, banUser } from "./redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
+import FrequentQuestions from "./views/questions/questions";
 
 function App() {
-
-
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
   const { user } = useAuth0();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     if (user && user.email) {
       const fetchData = async () => {
@@ -70,6 +69,7 @@ function App() {
           <Route path="/deleteuser" element={<DeleteUser />} />
           <Route path="/deleteproduct" element={<DeleteProduct />} />
           <Route path="/manageUsers" element={<ManageUsers />} />
+          <Route path="/preguntas-frecuentes" element={<FrequentQuestions />} />
         </Routes>
       </AuthProvider>
     </div>

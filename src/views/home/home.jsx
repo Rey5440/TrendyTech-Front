@@ -47,8 +47,6 @@ const Home = () => {
   }, [user]);
   //-----------------------------------------------------------//
 
-
-
   useEffect(() => {
     dispatch(getAllProducts());
     setTimeout(() => {
@@ -89,8 +87,7 @@ const Home = () => {
         <Container
           style={{
             width: "100%",
-          }}
-        >
+          }}>
           <Grid container sx={{ paddingTop: "4px" }}>
             <Grid
               item
@@ -99,8 +96,7 @@ const Home = () => {
               lg={3}
               sx={{
                 paddingTop: "4px",
-              }}
-            >
+              }}>
               <Filter />
             </Grid>
             <Grid item xs={12} md={9} lg={9} xl={9}>
