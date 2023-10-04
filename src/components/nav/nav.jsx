@@ -18,6 +18,7 @@ import useAuth from "../../context-client/hooks/useAuth";
 import axios from "axios";
 import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import "./nav.css";
 
@@ -33,14 +34,8 @@ const Nav = () => {
     0
   );
   const { auth } = useAuth();
-  // useEffect(() => {
-  //   if (user && user.email) {
-  //     const result = autenticateAllUsers(user);
-  //   }
-  // }, [user]);
 
   const handleProductsButton = (event) => {
-    // dispatch(getAllProducts());
     navigate("/home");
   };
 
@@ -54,6 +49,8 @@ const Nav = () => {
     "/manageUsers",
     "/user",
     "/shopping-cart",
+    "/delete",
+    "/detail"
   ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
@@ -64,6 +61,7 @@ const Nav = () => {
   };
 
   useEffect(() => {
+    const { id } = auth;
     async function findAdmin() {
       if (auth.email) {
         try {
@@ -79,7 +77,9 @@ const Nav = () => {
         }
       }
     }
-    findAdmin();
+    if (id) {
+      findAdmin();
+    }
   }, [auth, admin]);
   // const searchAdmin = async () => {
   // };
@@ -154,6 +154,17 @@ const Nav = () => {
         >
           {admin && showNavAdmin ? (
             <div className="button_presentation">
+              <NavLink to={"/delete"}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  endIcon={<DeleteOutlineIcon />}
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                >
+                  Borrar
+                </Button>
+              </NavLink>
+
               <NavLink to={"/manageUsers"}>
                 <Button
                   variant="contained"
@@ -161,7 +172,7 @@ const Nav = () => {
                   endIcon={<AccountCircleIcon />}
                   style={{ borderRadius: "50px", margin: "4px" }}
                 >
-                  Users
+                  Usuarios
                 </Button>
               </NavLink>
               <NavLink to="/create">
@@ -223,7 +234,7 @@ const Nav = () => {
                 endIcon={<PermContactCalendarIcon />}
                 onClick={handleMoveToFooter}
               >
-                Contactenos
+                Contáctenos
               </Button>
             </div>
           ) : shouldShowNav ? (

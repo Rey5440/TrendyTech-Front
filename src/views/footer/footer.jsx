@@ -6,12 +6,16 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { NavLink } from "react-router-dom";
 import "./footer.css";
+import { useState } from "react";
 
 const Footer = () => {
+  const [inputEmail, setInputEmail] = useState("");
   const scroll = () => {
     window.scrollTo(0, 0);
   };
-
+  const handleInputEmail = (event) => { 
+  setInputEmail(event.target.value)
+}
   return (
     <footer className="foo">
       <div className="row">
@@ -21,7 +25,7 @@ const Footer = () => {
         </div>
         <div className="col">
           <h3>
-            Office{" "}
+            Office
             <div className="under">
               <span></span>
             </div>
@@ -33,7 +37,7 @@ const Footer = () => {
         </div>
         <div className="col">
           <h3>
-            Links{" "}
+            Links
             <div className="under">
               <span></span>
             </div>
@@ -54,9 +58,7 @@ const Footer = () => {
               style={{ textDecoration: "none" }}
               onClick={scroll}
             >
-              <li>
-              Novedades
-              </li>
+              <li>Novedades</li>
             </NavLink>
           </ul>
         </div>
@@ -74,10 +76,14 @@ const Footer = () => {
               sx={{ fontSize: 18 }}
             />
             <input
+              id="email"
               type="email"
+              value={inputEmail}
               placeholder="Ingrese su email..."
               required
               className="footer-input"
+              onChange={handleInputEmail}
+              autoComplete="true"
             />
             <button type="submit">
               <SendSharpIcon color="primary" sx={{ fontSize: 18 }} />

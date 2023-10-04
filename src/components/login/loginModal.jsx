@@ -30,7 +30,12 @@ const LoginModal = () => {
     
     if (isBanned) {
       setOpen(true);
-      dispatch(setAlert("Usted fue desabilitado", "warning"));
+      dispatch(
+        setAlert(
+          "Su cuenta ha sido desactivada por incumplir nuestros términos de uso.",
+          "warning"
+        )
+      );
     }
   }, [isBanned]);
 
@@ -50,26 +55,24 @@ const LoginModal = () => {
   const { setAuth } = useAuth();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const getCommonUser = async () => {
-  //     if (auth.email) {
-  //       try {
-  //         const response = await axios.post(
-  //           `${VITE_BACKEND_URL}/users/emailuser`,
-  //           { email: auth.email }
-  //         );
-  //         setCommonUser(response.data);
-  //       } catch (error) {
-  //         console.log(error.message);
-  //       }
-  //     }
-  //   };
-  //   getCommonUser();
-  // }, [auth]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const response = await axios.get(
+      `${VITE_BACKEND_URL}/users/email/${email}`
+    );
+    const user = await response.data;
+    console.log(user);
+    if (user && user.isDeleted === true) {
+      return dispatch(
+        setAlert(
+          "Su cuenta ha sido desactivada por incumplir nuestros términos de uso.",
+          "warning"
+        )
+      );
+    }
+    if (user && user.confirmated === false) {
+      return dispatch(setAlert("Su cuenta no ha sido confirmada.", "warning"));
+    }
     try {
       //Informacion requerida: email y password
       const { data } = await axios.post(`${VITE_BACKEND_URL}/users/login`, {
@@ -77,13 +80,11 @@ const LoginModal = () => {
         password,
       });
       localStorage.setItem("token", data.token);
-      console.log(data);
       setAuth(data);
       navigate("/home");
-      // setOpen(false) hay que ver cuando el usuario no esta loggeado
     } catch (error) {
-      console.log(error.response.data.msg);
-      showAlert("error", error.response.data.msg);
+      // setOpen(false) hay que ver cuando el usuario no esta loggeado
+      dispatch(setAlert(error.response.data.msg, "error"));
     }
   };
 
