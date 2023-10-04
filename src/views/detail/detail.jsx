@@ -6,19 +6,24 @@ import { Button } from "@mui/material";
 import Nav from "../../components/nav/nav";
 import LocalMallIcon from "@mui/icons-material/LocalMall";
 import "./detail.css";
-import { Box, Container } from "@mui/system";
 import { addToCart } from "../../redux/actions";
 import Loader from "../../components/loader/loader";
 import { useDispatch, useSelector } from "react-redux";
 import { setAlert } from "../../redux/actions";//---------> para el setAlert
 import AlertTech from '../../components/alert/alert'
 import Footer from "../footer/footer"
-
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
+import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
+import DetailCarousel from "./carrusel";
+import { toFormatPrice } from "../../helpers/toFormatPrice";
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [imagePP, setImagePP] = useState();
   const [loading, setLoading] = useState(true);
+  const shoppingCart = useSelector(state => state.shoppingCart);
+  const isProductInCart = shoppingCart.some(product => product.id === id);
 
   /* ---------para usar el alert------------- */
   const alertState = useSelector(state => state.alert)
@@ -29,7 +34,6 @@ const Detail = () => {
 
   // }
   const [hasScrolled, setHasScrolled] = useState(false);
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,6 +42,7 @@ const Detail = () => {
         );
         const { data } = response;
         setProduct(data);
+        setImagePP(data.images[0]);
         setTimeout(() => {
           setLoading(false);
         }, 3000);
@@ -51,8 +56,8 @@ const Detail = () => {
   }, [id]);
 
   useEffect(() => {
-    if(!hasScrolled){
-      window.scrollTo(0,0);
+    if (!hasScrolled) {
+      window.scrollTo(0, 0);
       setHasScrolled(true);
     }
   }, [hasScrolled])
@@ -67,86 +72,76 @@ const Detail = () => {
     dispatch(addToCart(product));
   }
 
+  const price = toFormatPrice(product.price);
+
   return (
     <div>
       <Nav />
-      {alertState.visible && 
+      {alertState.visible &&
         <AlertTech message={alertState.message} type={alertState.type} />
       }
       {loading ? (
         <Loader />
       ) : (
-        <Container sx={{ marginTop: "30px" }}>
+        <div className="div_detail">
           <div className="div_container_detail">
             <div className="div_derecha_detail">
-              <Box sx={{ padding: "10px", width: "100%" }}>
-                <hr />
-                <h1>{product.name}</h1>
-                <br />
-                <hr />
-                <h2>{product.description}</h2>
-                <hr />
-                <br />
-                <h2>Stock:{product.stock} u.</h2>
-                <hr />
-              </Box>
+              <div className="div_info">
+                <p className="nuevo">Nuevo</p>
+                <h2 className="nombre">{product.name}</h2>
+                <p className="descripcion">{product.description}</p>
+                <h2 className="precio">{price}</h2>
+              </div>
 
               <div className="div_price_button">
-                <h2 className="h2_price_detail">$ {product.price}.-</h2>
-
                 <Button
                   variant="contained"
                   className="button_agregar"
                   endIcon={<LocalMallIcon />}
                   onClick={handleAddToCart}
                 >
-                  Agregar
+                  Agregar al Carrito
                 </Button>
+                <p className="stock">{product.stock} unidades disponibles</p>
+              </div>
+
+              <div className="div_beneficios">
+                <p className="beneficio"><KeyboardReturnIcon /> Devolución gratis</p>
+                <p className="beneficio"><ShieldOutlinedIcon /> Compra protegida</p>
+                <p className="beneficio"><WorkspacePremiumOutlinedIcon /> 12 meses de garantía de fábrica</p>
               </div>
             </div>
 
-            <Container sx={{ display: "flex", width: "100%" }}>
-              {product.images && (
-                <img
-                  className="product_image_focus"
-                  src={imagePP || product.images[0]}
-                  alt={product.name}
-                />
-              )}
-              <Box
-                sx={{
-                  width: "20%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+            <div className="div_imagenes">
+              <div className="imgP_Container">
+                {product.images && (
+                  <div className="imagenPrincipal_container">
+                    <img
+                      className="imagenPrincipal"
+                      src={imagePP || product.images[0]}
+                      alt={product.name}
+                    />
+                  </div>
+                )}
+              </div>
+
+              <div>
                 {product.images &&
                   product.images.map((imag, index) => (
-                    <Button
-                      style={{
-                        backgroundImage: `url(${imag})`,
-                        backgroundRepeat: "no-repeat",
-                        backgroundPosition: "center",
-                        backgroundSize: "100%",
-                        backgroundColor: "white",
-                        width: "90%",
-                        height: "100%",
-                        margin: "6px",
-                      }}
-                      key={index}
-                      value={index}
-                      onClick={carousel}
-                    />
+                    <div className="imagenBoton_container" key={index}>
+                      <button onClick={carousel} value={index} className="boton_imagen_detail" style={{ backgroundImage: `url(${imag})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
+                    </div>
                   ))}
-              </Box>
-            </Container>
+              </div>
+            </div>
           </div>
-        </Container>
+          <h2 className="relacionados">Productos relacionados</h2>
+          <div className="div_carrusel">
+            <DetailCarousel product={product} />
+          </div>
+        </div>
       )}
-      <hr />
-      <Footer/>
+      <Footer />
     </div>
   );
 };

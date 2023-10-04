@@ -1,8 +1,5 @@
 
-const validate = (value) => {
-    const regex = /^[a-zA-Z0-9\sáéíóúÁÉÍÓÚüÜ.,()-]*$/;
-    return regex.test(value);
-};
+
 
 const validationForm = (form) => {
     const { name, price, description, stock, brand, color, type, } = form;
@@ -22,12 +19,10 @@ const validationForm = (form) => {
         error.name = "El nombre debe ser una cadena de caracteres";
     } else if (name.length == 0) {
         error.name = "El nombre no puede estar vacío";
-    } else if (name.length > 50) {
-        error.name = "El nombre no puede tener más de 50 caracteres";
-    } else if (!validate(name)) {
-        error.name = "El nombre contiene caracteres especiales no permitidos";
-    } else if (name.length <= 2) {
-        error.name = "El nombre no puedo contener menos de 2 caracteres"
+    } else if (name.length > 150) {
+        error.name = "El nombre no puede tener más de 150 caracteres";
+    }  else if (name.length <= 10) {
+        error.name = "El nombre no puedo contener menos de 10 caracteres"
     } else {
         error.name = "";
     }
@@ -39,8 +34,8 @@ const validationForm = (form) => {
         error.price = "El precio no puede ser negativo";
     } else if (price == 0) {
         error.price = "El precio no puede ser 0";
-    } else if (price > 800000) {
-        error.price = "El precio no puede ser mayor a 800000";
+    } else if (price > 1600000) {
+        error.price = "El precio no puede ser mayor a 1600000";
     } else if (price <= 100) {
         error.price = "El precio no puede ser menor a 100"
     } else {
@@ -54,9 +49,7 @@ const validationForm = (form) => {
         error.description = "La descripción no puede estar vacía";
     } else if (description.length > 2000) {
         error.description = "La descripción no puede tener más de 2000 caracteres";
-    } else if (!validate(description)) {
-        error.description = "La descripción contiene caracteres especiales no permitidos"
-    } else {
+    }  else {
         error.description = "";
     }
 
@@ -79,8 +72,6 @@ const validationForm = (form) => {
         error.brand = "La marca no puede estar vacío";
     } else if (brand.length <= 1) {
         error.brand = "La marca no puede tener menos de 1 caracter"
-    } else if (!validate(brand)) {
-        error.brand = "La marca contiene caracteres especiales no permitidos"
     } else {
         error.brand = "";
     }
@@ -92,11 +83,9 @@ const validationForm = (form) => {
         error.color = "El color no puede tener más de 15 caracteres";
     } else if (color.length == 0) {
         error.color = "El color no puede estar vacío";
-    } else if (color.length <= 1) {
+    } else if (color.length <= 2) {
         error.color = "El color no puede tener menos de 1 caracter";
-    } else if (!validate(color)) {
-        error.color = "El color contiene caracteres especiales no permitidos";
-    } else {
+    }  else {
         error.color = "";
     }
 
@@ -109,8 +98,6 @@ const validationForm = (form) => {
         error.type = "El tipo no puede estar vacío";
     } else if (type.length <= 1) {
         error.type = "El tipo no puede tener menos de un caracter"
-    } else if (!validate(type)) {
-        error.type = "El tipo contiene caracteres especiales no permitidos"
     } else {
         error.type = "";
     }

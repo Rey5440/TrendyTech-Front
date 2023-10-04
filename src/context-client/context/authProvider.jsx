@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
     const authenticateUser = async () => {
       /* leer el token */
       const token = localStorage.getItem("token");
-      // console.log(token)  //si rompe hay que descomentar
+      console.log(token)  //si rompe hay que descomentar
 
       //Si no hay token detenemos la ejecucion del codigo
       if (!token) {
@@ -36,15 +36,14 @@ const AuthProvider = ({ children }) => {
         },
       };
 
+      console.log(config);
       try {
-        const { data } = await axios(
+        const { data } = await axios.get(
           `${VITE_BACKEND_URL}/users/profile`,
           config
         );
-        setAuth(data);
-        /* dispatch(neptuno(data)) */
         console.log(data);
-        navigate("/home");
+        setAuth(data);
       } catch (error) {
         setAuth({});
       } finally {

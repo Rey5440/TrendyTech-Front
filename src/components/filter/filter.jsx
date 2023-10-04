@@ -136,7 +136,7 @@ const Filter = () => {
         md={12}
         lx={12}
         sx={{
-          padding: "2px 8px",
+          padding: "10px 8px",
         }}
       >
         <FormControl
@@ -178,7 +178,7 @@ const Filter = () => {
         md={12}
         lx={12}
         sx={{
-          padding: "2px 8px",
+          padding: "5px 8px",
         }}
       >
         <FormControl
