@@ -53,11 +53,6 @@ const reducer = (state = initialState, { type, payload }) => {
         allProducts1: productsByPrice,
       };
 
-    /*             case FILTER_PRODUCTS :
-                return {
-                    ...state,
-                    allProducts1: payload
-                } */
     case ORDER_BY_NAME:
       let productsByName = state.allProducts1;
       if (payload === "a-z") {
@@ -154,19 +149,16 @@ const reducer = (state = initialState, { type, payload }) => {
         }),
       };
     case ADD_TO_FAVORITES:
-      console.log("Agregando a favoritos:", payload);
       return {
         ...state,
-        favoriteProducts: [...state.favoriteProducts, payload],
+        favoriteProducts: payload,
       };
 
     case REMOVE_FROM_FAVORITES:
-      const updatedFavorites = state.favoriteProducts.filter(
-        (product) => product.id !== payload
-      );
+    
       return {
         ...state,
-        favoriteProducts: updatedFavorites,
+        favoriteProducts: payload,
       };
 
     default:

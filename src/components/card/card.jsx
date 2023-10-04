@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
 import { Box } from "@mui/system";
-import { useDispatch, useSelector } from "react-redux";
+ import { useDispatch } from "react-redux";
 import { addToFavorites, removeFromFavorites } from "../../redux/actions";
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 export default function CardTech({
   images,
@@ -16,48 +17,33 @@ export default function CardTech({
   brand,
   product,
   client,
+  isFavorite
 }) {
-  //const [isFavorite, setIsFavorite] = useState(false);
-  const dispatch = useDispatch();
-  const favoriteProducts = useSelector((state) => state.favoriteProducts);
-  const [favorite, setFavorite] = useState(false);
-  console.log(favorite);
-  console.log(favoriteProducts);
-  // useEffect(() => {
-  //   setIsFavorite(favoriteProducts.some((product) => product.id === id));
-  // }, [favoriteProducts, id]);
-  useEffect(() => {
-    if (favoriteProducts.length !== 0) {
-      const currentFavorite = favoriteProducts.filter(
-        (favoriteProduct) => favoriteProduct.id === product.id
-      );
-      console.log(currentFavorite);
-      setFavorite(currentFavorite);
-    }
-  }, [favoriteProducts, product]);
+   const dispatch = useDispatch();
 
   const handleAddToFavorites = () => {
-    if (!favorite) {
+    if (!isFavorite) {
       dispatch(addToFavorites(product, 1));
     } else {
-      // Si ya es favorito, eliminarlo de favoritos
-      dispatch(removeFromFavorites(id));
+      dispatch(removeFromFavorites(product, 1));
     }
   };
-  {
-  }
+  
   return (
     <Card sx={{ width: "100%", display: "grid", height: "300px" }}>
       <span
         role="button"
         onClick={handleAddToFavorites}
-        style={{ cursor: "pointer" }}>
-        {!favorite ? "★" : "☆"}
+        style={{ cursor: "pointer" }}
+      >
+        
+        {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
       </span>
       <Box sx={{ width: "100%", alignSelf: "flex-end" }}>
         <NavLink
           to={`/detail/${id}`}
-          style={{ width: "100%", textDecoration: "none" }}>
+          style={{ width: "100%", textDecoration: "none" }}
+        >
           <CardMedia
             sx={{ width: "100%" }}
             component="img"

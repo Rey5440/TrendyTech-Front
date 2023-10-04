@@ -1,14 +1,33 @@
 import Card from "../card/card";
 import { Box } from "@mui/system";
-import Empty from "./emptyCards";
-import { useEffect, useState } from "react";
 import useAuth from "../../context-client/hooks/useAuth";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const Cards = ({ currentProduct }) => {
   const [client, setClient] = useState({});
   const { auth } = useAuth();
   const { user } = useAuth0();
+
+  const favoriteProducts = useSelector((state) => state.favoriteProducts);
+  console.log("Esto es el estado global de cards",favoriteProducts);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3004/favorites/${1}`
+        );
+        const data = response.data.userFavorites;
+        setFavorites(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       let emailToSend;
@@ -35,6 +54,7 @@ const Cards = ({ currentProduct }) => {
 
     fetchData();
   }, [auth, user]);
+
   return (
     <Box
       sx={{
@@ -45,20 +65,29 @@ const Cards = ({ currentProduct }) => {
         marginLeft: "6%",
         rowGap: 3,
         gridTemplateColumns: "repeat(5, 1fr)",
-      }}>
+      }}
+    >
       {currentProduct.length ? (
-        currentProduct?.map((product) => (
-          <Card
-            key={product.id}
-            id={product.id}
-            name={product.name}
-            images={product.images} //ver si image es un array con imagenes
-            price={product.price}
-            brand={product.brand}
-            product={product}
-            client={client}
-          />
-        ))
+        currentProduct?.map((product) => {
+          
+          const isFavorite = favoriteProducts.some(
+            (favoriteProduct) => favoriteProduct.id === product.id
+          );
+
+          return (
+            <Card
+              key={product.id}
+              id={product.id}
+              name={product.name}
+              images={product.images}
+              price={product.price}
+              brand={product.brand}
+              product={product}
+              client={client}
+              isFavorite={isFavorite} // Pasa el estado de favorito como una prop
+            />
+          );
+        })
       ) : (
         <div></div>
       )}

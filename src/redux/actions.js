@@ -60,11 +60,6 @@ export const orderByName = () => {
   };
 };
 
-/* export const filterByColor = () => {
-    return {
-        type: FILTER_BY_COLOR
-    }
-} */
 
 export const filterAll = (payload) => {
   return function (dispatch) {
@@ -94,8 +89,7 @@ export const setAlert = (message, type) => {
   };
 };
 
-//http://localhost:3004/products/filter?color=1&type=1&brand=3&minPrice=100&maxPrice=100000
-// ejemplo de ruta pata filtro combinado
+
 
 export const addToCart = (product) => {
   console.log("producto añadido al carrito: ", product);
@@ -127,7 +121,6 @@ export const decreaseQuantity = (id) => {
 };
 
 export const addToFavorites = (product, userId) => {
-  //console.log("addToFavorites action called with productId:", productId);
   return async function (dispatch) {
     try {
       const getProduct = await axios.post(`http://localhost:3004/favorites/`, {
@@ -137,26 +130,30 @@ export const addToFavorites = (product, userId) => {
 
       dispatch({
         type: ADD_TO_FAVORITES,
-        payload: getProduct,
+        payload: getProduct.data.result,
       });
     } catch (error) {
       console.error("Error al agregar a favoritos:", error);
     }
   };
 };
-export const removeFromFavorites = (productId) => {
-  // console.log("removeFromFavorites action called with productId:", productId);
+
+export const removeFromFavorites = (product, userId) => {
+
   return async function (dispatch) {
     try {
-      await axios.delete(`http://localhost:3004/favorites/id-favorite`, {
-        data: { productId },
+      const result = await axios.post(`http://localhost:3004/favorites/delete/`, {
+        product,
+        userId
       });
       dispatch({
         type: REMOVE_FROM_FAVORITES,
-        payload: productId,
+        payload: result.data.result
       });
     } catch (error) {
       console.error("Error al quitar de favoritos:", error);
     }
   };
 };
+
+
