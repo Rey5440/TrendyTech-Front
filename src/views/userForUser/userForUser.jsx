@@ -12,6 +12,7 @@ import FormDialog from "../../components/openForm/openForm";
 import Tooltip from "@mui/material/Tooltip";
 import { useDispatch } from "react-redux";
 import { getuserData, setAlert } from "../../redux/actions";
+import Purchases from "../../components/purchases/purchases";
 
 const UserForUser = () => {
   const { auth } = useAuth();
@@ -159,6 +160,7 @@ const UserForUser = () => {
           userData={userData}
           onUserUpdate={() => setUserUpdated(!userUpdated)}
         />
+        <Purchases/>
         <Footer />
       </div>
     </div>
