@@ -99,7 +99,7 @@ const Detail = () => {
                     </h2>
                   </div>
                 ) : (
-                  <h2 className="precio">{price}</h2>
+                  <h2 className="precio">{toFormatPrice(product.price)}</h2>
                 )}
               </div>
 
