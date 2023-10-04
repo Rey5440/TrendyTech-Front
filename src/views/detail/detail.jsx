@@ -16,7 +16,7 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
 import DetailCarousel from "./carrusel";
-
+import { toFormatPrice } from "../../helpers/toFormatPrice";
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -42,6 +42,7 @@ const Detail = () => {
         );
         const { data } = response;
         setProduct(data);
+        setImagePP(data.images[0]);
         setTimeout(() => {
           setLoading(false);
         }, 3000);
@@ -61,7 +62,7 @@ const Detail = () => {
     }
   }, [hasScrolled])
 
-  useEffect(() => { }, [imagePP]);
+  useEffect(() => {}, [imagePP]);
   // Cambiar la imagen principal cuando se haga clic en un botón de imagen
   const carousel = (event) => {
     setImagePP(product.images[event.target.value]);
@@ -70,6 +71,8 @@ const Detail = () => {
   const handleAddToCart = () => {
     dispatch(addToCart(product));
   }
+
+  const price = toFormatPrice(product.price);
 
   return (
     <div>
@@ -87,7 +90,7 @@ const Detail = () => {
                 <p className="nuevo">Nuevo</p>
                 <h2 className="nombre">{product.name}</h2>
                 <p className="descripcion">{product.description}</p>
-                <h2 className="precio">${product.price}</h2>
+                <h2 className="precio">{price}</h2>
               </div>
 
               <div className="div_price_button">
@@ -125,13 +128,8 @@ const Detail = () => {
               <div>
                 {product.images &&
                   product.images.map((imag, index) => (
-                    <div className="imagen_container" key={index}>
-                      <button onClick={carousel} value={index} className="boton_imagen">
-                        <img
-                          src={imag}
-                          className="product_image"
-                        />
-                      </button>
+                    <div className="imagenBoton_container" key={index}>
+                      <button onClick={carousel} value={index} className="boton_imagen_detail" style={{ backgroundImage: `url(${imag})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
                     </div>
                   ))}
               </div>

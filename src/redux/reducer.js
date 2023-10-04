@@ -62,6 +62,7 @@ const reducer = (state = initialState, { type, payload }) => {
         allProducts1: productsByPrice,
         allProductsSearch: productsByPrice2,
       };
+      
     case ORDER_BY_NAME:
       let productsByName = state.allProducts1;
       if (payload === "a-z") {

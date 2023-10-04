@@ -95,6 +95,8 @@
       align-items: center;
       font-size: 25px;
       font-family: 'Poppins', sans-serif;
+      color: white;
+      text-shadow: 3px 4px 3px #707070;
 }
 
 .input_create {

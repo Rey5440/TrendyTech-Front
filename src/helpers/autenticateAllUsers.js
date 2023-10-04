@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 import generateToken from "./generateToken";
-
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const getToken = (user) => {
   const token = generateToken();
   user.token = token;
@@ -22,11 +22,11 @@ const saveUserDataToCookie = async (user) => {
     console.log(error);
   }
 };
- 
+
 const getUser = async (userToken) => {
   try {
     const response = await axios.get(
-      `http://localhost:3004/users/token/${userToken}`
+      `${VITE_BACKEND_URL}/users/token/${userToken}`
     );
     return response.data;
   } catch (error) {
@@ -36,8 +36,7 @@ const getUser = async (userToken) => {
 
 const postUser = async (user) => {
   try {
-    console.log("Esto es lo que mando al back", user);
-    const response = await axios.post("http://localhost:3004/users/auth", user);
+    const response = await axios.post(`${VITE_BACKEND_URL}/users/auth`, user);
     const result = await saveUserDataToCookie(response.data.user.token);
     console.log("Esto es lo que retorno");
     return result;

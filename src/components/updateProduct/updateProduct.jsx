@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import EditButton from "./editButton";
 import axios from "axios";
+import { toFormatPrice } from "../../helpers/toFormatPrice";
 
 const updateProduct = () => {
   const [allProducts, setAllProducts] = useState([]);
@@ -32,7 +33,7 @@ const updateProduct = () => {
   };
 
   return (
-    <TableContainer>
+    <TableContainer sx={{marginTop: '20px'}}>
       <Table>
         <TableHead style={{ backgroundColor: "lightgray" }}>
           <TableRow>
@@ -66,27 +67,34 @@ const updateProduct = () => {
           </TableRow>
         </TableHead>
         <TableBody fullWidth>
-          {allProducts.map((product) => (
-            <TableRow key={product.id}>
-              <TableCell>{product.name}</TableCell>
-              <TableCell>{product.price}</TableCell>
-              <TableCell>{product.stock}</TableCell>
-              <TableCell>{product.brand}</TableCell>
-              <TableCell>{product.type}</TableCell>
-              <TableCell>{product.color}</TableCell>
-              <TableCell>{product.description}</TableCell>
-              <TableCell>
-                <img
-                  src={product.images[0]}
-                  width="50px"
-                  alt="images de producto"
-                />
-              </TableCell>
-              <TableCell>
-                <EditButton product={{ ...product }} updatePage={updatePage} />
-              </TableCell>
-            </TableRow>
-          ))}
+          {allProducts.map((product) => {
+            const price = toFormatPrice(product.price);
+
+            return (
+              <TableRow key={product.id}>
+                <TableCell>{product.name}</TableCell>
+                <TableCell>{price}</TableCell>
+                <TableCell>{product.stock}</TableCell>
+                <TableCell>{product.brand}</TableCell>
+                <TableCell>{product.type}</TableCell>
+                <TableCell>{product.color}</TableCell>
+                <TableCell>{product.description}</TableCell>
+                <TableCell>
+                  <img
+                    src={product.images[0]}
+                    width="50px"
+                    alt="images de producto"
+                  />
+                </TableCell>
+                <TableCell>
+                  <EditButton
+                    product={{ ...product }}
+                    updatePage={updatePage}
+                  />
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

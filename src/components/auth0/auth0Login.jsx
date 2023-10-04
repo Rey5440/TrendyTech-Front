@@ -36,10 +36,7 @@ const LoginButton = () => {
           />
         </div>
       ) : (
-        <Button
-          onClick={handleLogout}
-          style={{ marginTop: "15px" }}
-        >
+        <Button onClick={handleLogout} style={{ marginTop: "15px" }}>
           Cerrar Sesión
         </Button>
       )}
