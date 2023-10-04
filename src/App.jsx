@@ -21,14 +21,14 @@ import autenticateAllUsers from "./helpers/autenticateAllUsers";
 import { getuserData, banUser } from "./redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import NotFound from "./views/page_not_found/not_found";
-import {getAllProducts} from "./redux/actions";
+import { getAllProducts } from "./redux/actions";
 import Cookies from "js-cookie";
 
 function App() {
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    dispatch(getAllProducts())
-  }, [])
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
 
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
@@ -41,11 +41,15 @@ function App() {
         try {
           const result = await autenticateAllUsers(user);
           setIgnacioMagic(result);
-          if (result.isDeleted) {
-            dispatch(banUser(true));// borra las cookies automaticamente si está baneado
+          if (result && result.isDeleted) {
+            dispatch(banUser(true)); // borra las cookies automaticamente si está baneado
           } else {
-            ignacioMagic && dispatch(getuserData(result));
-            if (isBanned === true) dispatch(banUser(false));
+            if (ignacioMagic) {
+              dispatch(getuserData(result));
+            }
+            if (isBanned === true) {
+              dispatch(banUser(false));
+            }
           }
         } catch (error) {
           console.log(error);

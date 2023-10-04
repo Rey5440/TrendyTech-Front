@@ -8,7 +8,6 @@ import { Autocomplete, Button, Grid, Stack, TextField } from "@mui/material";
 
 const SearchBar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [product, setProduct] = useState("");
   const dispatch = useDispatch();
   const allProducts2 = useSelector((state) => state.allProducts2);
