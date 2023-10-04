@@ -24,6 +24,7 @@ const EditButton = ({ product, updatePage }) => {
     ...product,
     name: product.name,
     price: product.price,
+    discount: product.discount,
     images: [],
     description: product.description,
     stock: product.stock,
@@ -138,7 +139,7 @@ const EditButton = ({ product, updatePage }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "price" || name === "stock") {
+    if (name === "price" || name === "stock" || name === "discount") {
       if (!isNaN(value)) {
         setEditedProduct({
           ...editedProduct,
@@ -199,6 +200,19 @@ const EditButton = ({ product, updatePage }) => {
             required
             error={!!formErrors.price}
             helperText={formErrors.price}
+          />
+          <hr
+            style={{ backgroundColor: "#fc6933", width: "80%", height: "2px" }}
+          />
+          <TextField
+            label="Descuento"
+            name="discount"
+            value={editedProduct.discount}
+            onChange={handleInputChange}
+            fullWidth
+            required
+            error={!!formErrors.discount}
+            helperText={formErrors.discount}
           />
           <hr
             style={{ backgroundColor: "#fc6933", width: "80%", height: "2px" }}

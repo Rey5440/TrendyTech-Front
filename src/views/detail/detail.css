@@ -161,3 +161,29 @@
       color: white;
       text-shadow: 3px 4px 3px #707070;
 }
+
+.div_price_discount_detail{
+      position: relative;
+}
+
+.price_discount_detail{
+      position: absolute;
+      top: -5px;
+      left: 15px;
+      color: rgb(254, 114, 13);
+      font-size: 40px;
+      font-family: 'Lato', sans-serif;
+}
+
+.percent_discount_price{
+      position: absolute;
+      top: 50px;
+      left: 180px; 
+      font-family: 'Lato', sans-serif;
+}
+
+.price_no_discount{
+      margin-top: 2.2rem;
+      margin-bottom: 1rem;
+      text-decoration: line-through;
+}

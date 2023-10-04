@@ -88,6 +88,7 @@ const Nav = () => {
   const handleDiscountsProducts = () => {
     dispatch(showDiscountsProducts());
     dispatch(setShowDiscountsProducts(true))
+    navigate("/home")
   };
 
   return (

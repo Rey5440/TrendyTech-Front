@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import { CardMedia, Typography } from "@mui/material/";
 import { NavLink } from "react-router-dom";
 import { Box } from "@mui/system";
-import { toFormatPrice, toAplicateDiscount } from "../../helpers/toFormatPrice";
+import { toFormatPrice} from "../../helpers/toFormatPrice";
 
 export default function CardTech({ images, id, name, price, discount }) {
   const [priceCommon, setPriceCommon] = useState("");
@@ -20,8 +20,7 @@ export default function CardTech({ images, id, name, price, discount }) {
 
   useEffect(() => {
     if (discount > 0) {
-      const priceWithDiscount = toAplicateDiscount(price, discount);
-      const formatPriceDiscount = toFormatPrice(priceWithDiscount);
+      const formatPriceDiscount = toFormatPrice(price, discount);
       setPriceDiscount(formatPriceDiscount);
       const formattedPrice = toFormatPrice(price);
       setPriceCommon(formattedPrice);

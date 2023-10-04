@@ -9,12 +9,12 @@ import "./detail.css";
 import { addToCart } from "../../redux/actions";
 import Loader from "../../components/loader/loader";
 import { useDispatch, useSelector } from "react-redux";
-import { setAlert } from "../../redux/actions";//---------> para el setAlert
-import AlertTech from '../../components/alert/alert'
-import Footer from "../footer/footer"
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
-import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
+import { setAlert } from "../../redux/actions"; //---------> para el setAlert
+import AlertTech from "../../components/alert/alert";
+import Footer from "../footer/footer";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
+import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
+import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOutlined";
 import DetailCarousel from "./carrusel";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
 const Detail = () => {
@@ -22,11 +22,11 @@ const Detail = () => {
   const [product, setProduct] = useState({});
   const [imagePP, setImagePP] = useState();
   const [loading, setLoading] = useState(true);
-  const shoppingCart = useSelector(state => state.shoppingCart);
-  const isProductInCart = shoppingCart.some(product => product.id === id);
+  const shoppingCart = useSelector((state) => state.shoppingCart);
+  const isProductInCart = shoppingCart.some((product) => product.id === id);
 
   /* ---------para usar el alert------------- */
-  const alertState = useSelector(state => state.alert)
+  const alertState = useSelector((state) => state.alert);
   const dispatch = useDispatch();
   /* ------------------------------------------ */
   // const handleAlert = () => {
@@ -37,9 +37,7 @@ const Detail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${VITE_BACKEND_URL}/products/${id}`
-        );
+        const response = await axios.get(`${VITE_BACKEND_URL}/products/${id}`);
         const { data } = response;
         setProduct(data);
         setImagePP(data.images[0]);
@@ -60,7 +58,7 @@ const Detail = () => {
       window.scrollTo(0, 0);
       setHasScrolled(true);
     }
-  }, [hasScrolled])
+  }, [hasScrolled]);
 
   useEffect(() => {}, [imagePP]);
   // Cambiar la imagen principal cuando se haga clic en un botón de imagen
@@ -70,16 +68,14 @@ const Detail = () => {
 
   const handleAddToCart = () => {
     dispatch(addToCart(product));
-  }
-
-  const price = toFormatPrice(product.price);
+  };
 
   return (
     <div>
       <Nav />
-      {alertState.visible &&
+      {alertState.visible && (
         <AlertTech message={alertState.message} type={alertState.type} />
-      }
+      )}
       {loading ? (
         <Loader />
       ) : (
@@ -90,7 +86,21 @@ const Detail = () => {
                 <p className="nuevo">Nuevo</p>
                 <h2 className="nombre">{product.name}</h2>
                 <p className="descripcion">{product.description}</p>
-                <h2 className="precio">{price}</h2>
+                {product.discount > 0 ? (
+                  <div className="div_price_discount_detail">
+                    <h2 className="price_discount_detail">
+                      {toFormatPrice(product.price, product.discount)}
+                    </h2>
+                    <h2 className="percent_discount_price">
+                      %{product.discount}
+                    </h2>
+                    <h2 className="price_no_discount">
+                      {toFormatPrice(product.price)}
+                    </h2>
+                  </div>
+                ) : (
+                  <h2 className="precio">{price}</h2>
+                )}
               </div>
 
               <div className="div_price_button">
@@ -106,9 +116,16 @@ const Detail = () => {
               </div>
 
               <div className="div_beneficios">
-                <p className="beneficio"><KeyboardReturnIcon /> Devolución gratis</p>
-                <p className="beneficio"><ShieldOutlinedIcon /> Compra protegida</p>
-                <p className="beneficio"><WorkspacePremiumOutlinedIcon /> 12 meses de garantía de fábrica</p>
+                <p className="beneficio">
+                  <KeyboardReturnIcon /> Devolución gratis
+                </p>
+                <p className="beneficio">
+                  <ShieldOutlinedIcon /> Compra protegida
+                </p>
+                <p className="beneficio">
+                  <WorkspacePremiumOutlinedIcon /> 12 meses de garantía de
+                  fábrica
+                </p>
               </div>
             </div>
 
@@ -129,7 +146,17 @@ const Detail = () => {
                 {product.images &&
                   product.images.map((imag, index) => (
                     <div className="imagenBoton_container" key={index}>
-                      <button onClick={carousel} value={index} className="boton_imagen_detail" style={{ backgroundImage: `url(${imag})`, backgroundSize: "cover", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
+                      <button
+                        onClick={carousel}
+                        value={index}
+                        className="boton_imagen_detail"
+                        style={{
+                          backgroundImage: `url(${imag})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      />
                     </div>
                   ))}
               </div>

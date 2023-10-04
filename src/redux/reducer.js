@@ -66,7 +66,7 @@ const reducer = (state = initialState, { type, payload }) => {
         allProducts1: productsByPrice,
         allProductsSearch: productsByPrice2,
       };
-      
+
     case ORDER_BY_NAME:
       let productsByName = state.allProducts1;
       if (payload === "a-z") {
@@ -178,7 +178,6 @@ const reducer = (state = initialState, { type, payload }) => {
         };
       }
     case USER_DATA:
-      console.log(payload);
       return {
         ...state,
         userData: payload,
@@ -189,17 +188,19 @@ const reducer = (state = initialState, { type, payload }) => {
         setOpen: payload,
       };
     case SHOW_DISCOUNTS_PRODUCTS:
-      const products = state.allProducts2.filter((product) => product.discount > 0)
-        return {
-          ...state,
-          discountsProducts: products,
-        };
-      
+      const products = state.allProducts2.filter(
+        (product) => product.discount > 0
+      );
+      return {
+        ...state,
+        discountsProducts: products,
+      };
+
     case SET_SHOW_DISCOUNTS_PRODUCTS:
-       return {
-         ...state,
-         setDiscounts: payload,
-       };
+      return {
+        ...state,
+        setDiscounts: payload,
+      };
     default:
       return { ...state };
   }

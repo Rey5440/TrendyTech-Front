@@ -33,7 +33,7 @@ const updateProduct = () => {
   };
 
   return (
-    <TableContainer sx={{marginTop: '20px'}}>
+    <TableContainer sx={{ marginTop: "20px" }}>
       <Table>
         <TableHead style={{ backgroundColor: "lightgray" }}>
           <TableRow>
@@ -42,6 +42,9 @@ const updateProduct = () => {
             </TableCell>
             <TableCell style={{ fontFamily: "Poppins", fontSize: "18px" }}>
               Precio
+            </TableCell>
+            <TableCell style={{ fontFamily: "Poppins", fontSize: "18px" }}>
+              Descuento
             </TableCell>
             <TableCell style={{ fontFamily: "Poppins", fontSize: "18px" }}>
               Stock
@@ -74,6 +77,7 @@ const updateProduct = () => {
               <TableRow key={product.id}>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{price}</TableCell>
+                <TableCell>{product.discount}</TableCell>
                 <TableCell>{product.stock}</TableCell>
                 <TableCell>{product.brand}</TableCell>
                 <TableCell>{product.type}</TableCell>
