@@ -11,18 +11,21 @@ import {
 } from "@mui/material";
 //import FavoriteIcon from "@mui/icons-material/Favorite";
 //import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { useSelector } from "react-redux";
+//import { useDispatch, useSelector } from "react-redux";
 import Footer from "../../views/footer/footer";
+//import { removeFromFavorites } from "../../redux/actions";
 
 const Favorites = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   console.log(favorites);
+  console.log("Esto es loading", loading);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     // Verificar si el usuario está autenticado
-    const user = getUser(); // Implementa esta función para obtener la información del usuario autenticado
+    const user = getUser();
 
     if (!user) {
       // Si el usuario no está autenticado, muestra un mensaje
@@ -75,6 +78,10 @@ const Favorites = () => {
     return <div>{error}</div>;
   }
 
+  // const handleRemoveFromFavorites = (product) => {
+  //   dispatch(removeFromFavorites(prouduct, 1));
+  // };
+
   return (
     <div>
       <Container>
@@ -96,6 +103,7 @@ const Favorites = () => {
             {favorites.map((product) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
                 <Card sx={{ height: "100%" }}>
+
                   <CardTech
                     id={product.id}
                     name={product.name}
@@ -105,7 +113,7 @@ const Favorites = () => {
                     isFavorite
                   />
                   <CardContent>
-                    {/* Aquí puedes agregar más detalles del producto si es necesario */}
+                    
                   </CardContent>
                 </Card>
               </Grid>
