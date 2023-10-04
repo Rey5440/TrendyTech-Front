@@ -1,6 +1,6 @@
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CartItem from "./cart_item";
 import Nav from "../../components/nav/nav";
 import Footer from "../../views/footer/footer";
@@ -9,39 +9,85 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import "./shopping_cart.css";
+import { useAuth0 } from "@auth0/auth0-react";
+import useAuth from "../../context-client/hooks/useAuth";
+
+import { setAlert } from "../../redux/actions";
+import AlertTech from "../alert/alert";
 
 initMercadoPago("TEST-185b7434-044a-4830-995d-95780e762ec5");
 const ShoppingCart = () => {
-  // state global cart y token
-  let { shoppingCart, userData }= useSelector((state) => state);
-  let cart = shoppingCart;
-  let token = userData.token;
-  let [total, setTotal] = useState(0);
-  let [preferenceId, setPreferenceId] = useState(null);
-  let [button, setButton] = useState(false);
-  let totalProductsInCart = cart.reduce(
+  const cart = useSelector((state) => state.shoppingCart);
+  const alertState = useSelector((state) => state.alert);
+  const [total, setTotal] = useState(0);
+  const [preferenceId, setPreferenceId] = useState(null);
+  const [button, setButton] = useState(false);
+  const totalProductsInCart = cart.reduce(
     (acc, product) => acc + product.quantity,
     0
   );
 
+  const dispatch = useDispatch();
+
+  const { user } = useAuth0();
+  const { auth } = useAuth();
+  const [client, setClient] = useState({});
+
+  const fetchData = async () => {
+    let email;
+    if (auth && auth.email) {
+      email = auth.email;
+    } else if (user && user.email) {
+      email = user.email;
+    }
+    if (email) {
+      try {
+        const result = await axios.get(
+          `${VITE_BACKEND_URL}/users/email/${email}`
+        );
+        setClient(result.data);
+      } catch (error) {
+        console.error("Error al obtener datos del usuario", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [auth, user]);
+
   // Inicio de compra mp
   const handleBuy = async () => {
-
     // Verifica si esta logueado
-    if (!token) {
-      window.location.href = "/";
-      return window.location.href;
+    console.log("Hay cliente para la compra", client);
+    if (!client.id) {
+      dispatch(
+        setAlert("Debes estar logueado para efectuar la compra.", "warning")
+      );
+      return;
     }
 
     // Crea la preferencia de mercado pago
     const id = await createPreference(cart);
     if (id) {
       setPreferenceId(id);
+      await createNewOrder();
     }
     setButton(true);
   };
-  const createPreference = async (cart) => {
-    let productos = cart.map((product) => {
+
+  const createNewOrder = async () => {
+    const obj = {
+      products: cart,
+      userId: client.id,
+      total,
+    };
+    const response = await axios.post(`${VITE_BACKEND_URL}/orders/create`, obj);
+    return;
+  };
+
+  const createPreference = async () => {
+    const productos = cart.map((product) => {
       return {
         id: product.id,
         title: product.name,
@@ -50,25 +96,18 @@ const ShoppingCart = () => {
         quantity: Number(product.quantity),
       };
     });
-    try {
 
+    try {
       // Post a mercado pago
       const response = await axios.post(
         `${VITE_BACKEND_URL}/checkout/create_preference`,
         { productos }
       );
 
-      // Creacion de carrito ( order )
-      const ordenPost = await axios.post(`${VITE_BACKEND_URL}/orders/create`,{
-        products:cart,
-        token,
-        total
-      });
-
       const id = response.data;
       return id; //preference id
     } catch (error) {
-      console.log(error);
+      console.error("Error al crear la preferencia", error);
     }
   };
   // ! fin de compra mp
@@ -88,6 +127,9 @@ const ShoppingCart = () => {
   return (
     <div className="shopping-cart-container">
       <Nav />
+      {alertState.visible && (
+        <AlertTech message={alertState.message} type={alertState.type} />
+      )}
       {cart.length === 0 ? (
         <div className="empty-cart-container">
           <div className="empty-cart">
@@ -110,7 +152,7 @@ const ShoppingCart = () => {
                 <h2>Productos</h2>
               </div>
               {cart.map((product) => (
-                <div>
+                <div key={product.id}>
                   <CartItem key={product.id} product={product} />
                 </div>
               ))}

@@ -16,7 +16,7 @@ import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
 import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
 import DetailCarousel from "./carrusel";
-
+import { toFormatPrice } from "../../helpers/toFormatPrice";
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -71,6 +71,8 @@ const Detail = () => {
     dispatch(addToCart(product));
   }
 
+  const price = toFormatPrice(product.price);
+
   return (
     <div>
       <Nav />
@@ -87,7 +89,7 @@ const Detail = () => {
                 <p className="nuevo">Nuevo</p>
                 <h2 className="nombre">{product.name}</h2>
                 <p className="descripcion">{product.description}</p>
-                <h2 className="precio">${product.price}</h2>
+                <h2 className="precio">{price}</h2>
               </div>
 
               <div className="div_price_button">

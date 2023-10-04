@@ -37,14 +37,11 @@ const AuthProvider = ({ children }) => {
       };
 
       try {
-        const { data } = await axios(
+        const { data } = await axios.get(
           `${VITE_BACKEND_URL}/users/profile`,
           config
         );
         setAuth(data);
-        /* dispatch(neptuno(data)) */
-        console.log(data);
-        navigate("/home");
       } catch (error) {
         setAuth({});
       } finally {
