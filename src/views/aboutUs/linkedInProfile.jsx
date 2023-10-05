@@ -1,10 +1,12 @@
 import React from "react";
 import imageA from "../../assets/foto imageA.jpg";
 import imageB from "../../assets/foto imageB.jpeg";
+import imageC from "../../assets/imageC.jpeg";
 import imageD from "../../assets/foto imageD.jpg";
 import imageE from "../../assets/foto imageE.jpg";
+import imageF from "../../assets/imageF.jpg";
 import imageG from "../../assets/foto imageG.jpg";
-import imageH from "../../assets/foto imageH.jpg";
+import imageH from "../../assets/imageH.jpg";
 import "./linkedInProfile.css";
 
 const linkedInProfiles = [
@@ -20,8 +22,8 @@ const linkedInProfiles = [
   },
   {
     name: "Facundo Gabriel Fernandez",
-    //image: imageC,
-    link: "https://www.linkedin.com/in/enlace-perfil-3",
+    image: imageC,
+    link: "https://www.linkedin.com/in/facundo-fernandez-19369926a",
   },
   {
     name: "Juan Cruz Loker Boc-ho",
@@ -35,8 +37,8 @@ const linkedInProfiles = [
   },
   {
     name: "Tomas Agustin Lona",
-    //image: imageF,
-    link: "https://www.linkedin.com/in/enlace-perfil-3",
+    image: imageF,
+    link: "https://github.com/NitsugaSamot",
   },
   {
     name: "Mateo Jeremias Pinto",
