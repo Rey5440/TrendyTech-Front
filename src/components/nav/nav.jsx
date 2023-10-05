@@ -22,7 +22,6 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import "./nav.css";
 import {
-  getAllProducts,
   initCart,
   setShowDiscountsProducts,
   showDiscountsProducts,
@@ -77,6 +76,7 @@ const Nav = () => {
     "/delete",
     "/detail",
     "/sobre-nosotros",
+    "/reviewadmin",
   ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
@@ -197,7 +197,7 @@ const Nav = () => {
                   Borrar
                 </Button>
               </NavLink>
-      
+
               <NavLink to="/create">
                 <Button
                   variant="contained"
@@ -220,6 +220,17 @@ const Nav = () => {
                   style={{ borderRadius: "50px", margin: "4px" }}
                 >
                   Editar
+                </Button>
+              </NavLink>
+
+              <NavLink to={"/reviewadmin"}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  endIcon={<AccountCircleIcon />}
+                  style={{ borderRadius: "50px", margin: "4px" }}
+                >
+                  Usuarios
                 </Button>
               </NavLink>
 

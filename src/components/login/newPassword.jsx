@@ -7,6 +7,7 @@ import axios from "axios";
 import Nav from "../nav/nav";
 import "./forgetPassword.css";
 import imageLogo from "../../assets/logo-trendy-negro.png";
+import { Button } from "@mui/material";
 const NewPassword = () => {
   const [password, setPassword] = useState("");
   const [validToken, setValidToken] = useState(false);
@@ -123,13 +124,17 @@ const NewPassword = () => {
               value="Crear nuevo password"
               className="button_form_ResetPassword"
             />
-            <div className="button_form_ResetPassword">
-              {passwordModified && (
+            {passwordModified ? (
+              <div className="button_form_ResetPassword">
                 <Link className="links_Login_and_reset" to="/home">
                   Inicia Sesión
                 </Link>
-              )}
-            </div>
+              </div>
+            ) : (
+              <Button disabled variant="contained">
+                Inicia Sesión
+              </Button>
+            )}
           </form>
         )}
 

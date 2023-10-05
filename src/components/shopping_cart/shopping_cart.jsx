@@ -1,4 +1,5 @@
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const VITE_MP_PUBLIC_KEY = import.meta.env.VITE_MP_PUBLIC_KEY;
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "./cart_item";
@@ -15,7 +16,7 @@ import { toFormatPrice } from "../../helpers/toFormatPrice";
 import { setAlert, initCart } from "../../redux/actions";
 import AlertTech from "../alert/alert";
 
-initMercadoPago("TEST-185b7434-044a-4830-995d-95780e762ec5");
+initMercadoPago(VITE_MP_PUBLIC_KEY);
 const ShoppingCart = () => {
   const cart = useSelector((state) => state.shoppingCart);
   console.log(cart);

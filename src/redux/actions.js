@@ -22,6 +22,7 @@ import {
 } from "./action-types";
 
 export const getAllProducts = () => {
+  console.log("dispatch");
   return async function (dispatch) {
     try {
       const all = await axios(`${VITE_BACKEND_URL}/products`);
