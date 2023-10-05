@@ -18,7 +18,7 @@ import useAuth from "../../context-client/hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { setAlert } from "../../redux/actions";
-
+import AlertTech from "../../components/alert/alert";
 const Home = () => {
   window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -26,6 +26,7 @@ const Home = () => {
   const searchOn = useSelector((state) => state.searchOn);
   const discountsProducts = useSelector((state) => state.discountsProducts);
   const setDiscounts = useSelector((state) => state.setDiscounts);
+  const alertState = useSelector((state) => state.alert);
   const dispatch = useDispatch();
 
   // Status de la orden y ticket
@@ -144,19 +145,22 @@ const Home = () => {
       if (client.id) {
         putApproved(client);
         axios.put(`${VITE_BACKEND_URL}/cart/close/${client.id}`);
-        dispatch(
-          setAlert(
-            "Su compra ha sido exitosa, puede verificar su email para mas detalles"
-          )
-        );
       }
+      dispatch(
+        setAlert(
+          "Su compra ha sido exitosa, puede verificar su email para mas detalles.",
+          "success"
+        )
+      );
     }
   }, [ready]);
 
   return (
     <div>
       <NavBar />
-
+      {alertState.visible && (
+        <AlertTech message={alertState.message} type={alertState.type} />
+      )}
       {loading ? (
         <Loader />
       ) : (
