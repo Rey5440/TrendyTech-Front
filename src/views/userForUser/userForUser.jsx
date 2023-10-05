@@ -89,7 +89,6 @@ const UserForUser = () => {
                   newImage: res.secure_url,
                 }
               );
-              console.log(backendResponse);
               setImageUpdated(!imageUpdated);
               dispatch(setAlert("La imagen se cambio con exito", "success"));
               //---------actualizar imagen en el modal-----------//

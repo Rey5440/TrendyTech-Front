@@ -25,6 +25,7 @@ import {getAllProducts} from "./redux/actions";
 import Cookies from "js-cookie";
 import ReviewAdmin from "./components/reviewAdmin/reviewAdmin";
 import Purchases from "./components/purchases/purchases";
+import Stars from "./components/stars/stars";
 
 function App() {
   const dispatch = useDispatch()
@@ -76,7 +77,7 @@ function App() {
           <Route path="/delete" element={<Delete />} />
           <Route path="/manageUsers" element={<ManageUsers />} />
           <Route path="/reviewadmin" element={<ReviewAdmin />} />
-          {/* <Route path="/purchases" element={<Purchases />} /> */}
+          {/* <Route path="/stars" element={<Stars />} /> */}
         </Routes>
       </AuthProvider>
     </div>
