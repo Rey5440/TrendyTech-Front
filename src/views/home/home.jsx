@@ -34,7 +34,7 @@ const Home = () => {
   const merchant_order_id = queryParams.get("merchant_order_id");
 
   const [loading, setLoading] = useState(true);
-  
+
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
@@ -73,14 +73,14 @@ const Home = () => {
       setLoading(false);
     }, 2000);
   }, [dispatch]);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
-  
+
   useEffect(() => {
     setCurrentPage(1);
   }, [allProducts1]);
-  
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
@@ -90,7 +90,6 @@ const Home = () => {
     productsToDisplay = discountsProducts;
   } else {
     productsToDisplay = searchOn ? allProductsSearch : allProducts1;
-    
   }
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -143,6 +142,12 @@ const Home = () => {
     if (ready && collection_status === "approved") {
       if (client.id) {
         putApproved(client);
+        axios.put(`${VITE_BACKEND_URL}/cart/close/${client.id}`);
+        dispatch(
+          setAlert(
+            "Su compra ha sido exitosa, puede verificar su email para mas detalles"
+          )
+        );
       }
     }
   }, [ready]);
@@ -153,8 +158,8 @@ const Home = () => {
 
       {loading ? (
         <Loader />
-        ) : (
-          <Container
+      ) : (
+        <Container
           style={{
             width: "100%",
           }}

@@ -15,6 +15,7 @@ import {
   SET_OPEN_MODAL_LOGIN,
   SET_SHOW_DISCOUNTS_PRODUCTS,
   SHOW_DISCOUNTS_PRODUCTS,
+  INIT_CART,
 } from "./action-types";
 
 const initialState = {
@@ -37,6 +38,12 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case INIT_CART:
+      return {
+        ...state,
+        shoppingCart: payload,
+      };
+
     case GET_ALL_PRODUCTS:
       return {
         ...state,
@@ -112,7 +119,6 @@ const reducer = (state = initialState, { type, payload }) => {
         (product) => product.id === payload.id
       );
       if (found) {
-        console.log("ya esta en el carrito");
         return {
           ...state,
           shoppingCart: state.shoppingCart,

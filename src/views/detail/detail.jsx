@@ -17,6 +17,9 @@ import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOutlined";
 import DetailCarousel from "./carrusel";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
+import { useAuth0 } from "@auth0/auth0-react";
+import useAuth from "../../context-client/hooks/useAuth";
+
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
@@ -28,11 +31,34 @@ const Detail = () => {
   /* ---------para usar el alert------------- */
   const alertState = useSelector((state) => state.alert);
   const dispatch = useDispatch();
-  /* ------------------------------------------ */
-  // const handleAlert = () => {
-  //   dispatch(setAlert("  HOLA CALENEEENIUSS   ", "success"));
 
-  // }
+  const user = useSelector((state) => state.userData);
+  const { auth } = useAuth();
+  const [userId, setUserId] = useState(false);
+
+  const identifyUser = () => {
+    let userAux;
+    if (auth && auth.id) {
+      userAux = auth.id;
+    } else if (user && user.id) {
+      userAux = user.id;
+    }
+    if (userAux) {
+      try {
+        setUserId(userAux);
+      } catch (error) {
+        console.error("Error al obtener datos del usuario", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!userId) {
+      identifyUser();
+    }
+    console.log("hay cliente", user);
+  }, [auth, user]);
+
   const [hasScrolled, setHasScrolled] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -67,7 +93,16 @@ const Detail = () => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart(product));
+    if (userId) {
+      dispatch(addToCart(product, userId));
+    } else if (!userId) {
+      dispatch(
+        setAlert(
+          "Debes estar logueado para agregar un producto al carrito",
+          "warning"
+        )
+      );
+    }
   };
 
   return (

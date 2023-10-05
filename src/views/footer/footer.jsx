@@ -13,9 +13,9 @@ const Footer = () => {
   const scroll = () => {
     window.scrollTo(0, 0);
   };
-  const handleInputEmail = (event) => { 
-  setInputEmail(event.target.value)
-}
+  const handleInputEmail = (event) => {
+    setInputEmail(event.target.value);
+  };
   return (
     <footer className="foo">
       <div className="row">
@@ -61,39 +61,6 @@ const Footer = () => {
               <li>Novedades</li>
             </NavLink>
           </ul>
-        </div>
-        <div className="col">
-          <h3>
-            Newsletter
-            <div className="under">
-              <span />
-            </div>
-          </h3>
-          <form>
-            <MarkunreadIcon
-              className="icono"
-              color="primary"
-              sx={{ fontSize: 18 }}
-            />
-            <input
-              id="emailFotter"
-              type="email"
-              value={inputEmail}
-              placeholder="Ingrese su email..."
-              required
-              className="footer-input"
-              onChange={handleInputEmail}
-              autoComplete="true"
-            />
-            <button type="submit">
-              <SendSharpIcon color="primary" sx={{ fontSize: 18 }} />
-            </button>
-          </form>
-          <div className="social">
-            <FacebookIcon />
-            <TwitterIcon />
-            <WhatsAppIcon />
-          </div>
         </div>
       </div>
       <hr />
