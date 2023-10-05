@@ -17,6 +17,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../context-client/hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { setAlert } from "../../redux/actions";
 
 const Home = () => {
   window.scrollTo(0, 0);
@@ -162,7 +163,8 @@ const Home = () => {
         <Container
           style={{
             width: "100%",
-          }}>
+          }}
+        >
           <Grid container sx={{ paddingTop: "4px" }}>
             <Grid
               item
