@@ -76,13 +76,15 @@ const Nav = () => {
     "/shopping-cart",
     "/delete",
     "/detail",
+    "/sobre-nosotros",
   ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
   );
 
-  const handleMoveToFooter = (event) => {
-    window.scrollTo(0, 1000); // Scroll down
+  const handleMoveToFooter = () => {
+    window.scrollTo(0, 0); // Scroll down
+    navigate("/sobre-nosotros");
   };
 
   useEffect(() => {
@@ -320,7 +322,7 @@ const Nav = () => {
                 endIcon={<PermContactCalendarIcon />}
                 onClick={handleMoveToFooter}
               >
-                Contactenos
+                Contáctenos
               </Button>
             </div>
           )}

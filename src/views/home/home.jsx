@@ -162,8 +162,7 @@ const Home = () => {
         <Container
           style={{
             width: "100%",
-          }}
-        >
+          }}>
           <Grid container sx={{ paddingTop: "4px" }}>
             <Grid
               item
