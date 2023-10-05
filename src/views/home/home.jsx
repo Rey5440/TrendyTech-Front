@@ -38,6 +38,7 @@ const Home = () => {
   const merchant_order_id = queryParams.get("merchant_order_id");
 
   const [loading, setLoading] = useState(true);
+// <<<<<<< HEAD
 
   // const [orderBy, setOrderBy] = useState(false);
   // const auth = useAuth()
@@ -54,6 +55,8 @@ const Home = () => {
 
 // =======
   // const [orderBy, setOrderBy] = useState("desc");
+// >>>>>>> Loker
+// =======
 // >>>>>>> Loker
 
   //-------------autenticate user with cookies------------------//
@@ -88,11 +91,17 @@ const Home = () => {
   //-----------------------------------------------------------//
 
   useEffect(() => {
-    dispatch(orderByPrice(orderBy));
-  }, [orderBy]);
+// <<<<<<< HEAD
+//     dispatch(orderByPrice(orderBy));
+//   }, [orderBy]);
 
-  useEffect(() => {
-    dispatch(getAllProducts());
+//   useEffect(() => {
+//     dispatch(getAllProducts());
+// =======
+    if (!allProductsSearch.length) {
+      dispatch(getAllProducts());
+    }
+// >>>>>>> Loker
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -158,16 +167,14 @@ const Home = () => {
     console.log("respuesta put:", response);
     return;
   };
-  if (ready) {
-    console.log("cliente ready!", client);
-    console.log("collection", collection_status);
 
-    if (collection_status === "approved") {
+  useEffect(() => {
+    if (ready && collection_status === "approved") {
       if (client.id) {
         putApproved(client);
       }
     }
-  }
+  }, [ready]);
 
   return (
     <div>

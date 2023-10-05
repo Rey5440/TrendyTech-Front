@@ -21,8 +21,8 @@ const SearchBar = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setProduct("");
-    location.pathname != "/home" ? navigate("/home") : null;
+    // setProduct("");
+    location.pathname !== "/home" ? navigate("/home") : null;
     dispatch(searchByName(product));
 
     // Dispatch la acción para cambiar el estado de searchOn a true
