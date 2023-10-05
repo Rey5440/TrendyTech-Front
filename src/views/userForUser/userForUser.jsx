@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
 import { useDispatch } from "react-redux";
 import { getuserData, setAlert } from "../../redux/actions";
+import imageLogo from "../../assets/logo-trendy-negro.png";
 
 const UserForUser = () => {
   const { auth, setAuth } = useAuth();
@@ -124,10 +125,7 @@ const UserForUser = () => {
           <h2>Edita tu perfil</h2>
           <div className="imageContainer">
             <img
-              src={
-                userData.image ||
-                "https://res.cloudinary.com/dntrwijx5/image/upload/v1695410025/imagenes/emnvfsjtizz9luh9ohpx.jpg"
-              }
+              src={userData.image || imageLogo}
               alt={userData.name}
               className="userImage"
             />

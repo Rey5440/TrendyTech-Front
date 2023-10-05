@@ -197,17 +197,7 @@ const Nav = () => {
                   Borrar
                 </Button>
               </NavLink>
-
-              <NavLink to={"/manageUsers"}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  endIcon={<AccountCircleIcon />}
-                  style={{ borderRadius: "50px", margin: "4px" }}
-                >
-                  Usuarios
-                </Button>
-              </NavLink>
+      
               <NavLink to="/create">
                 <Button
                   variant="contained"
