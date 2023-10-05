@@ -22,6 +22,7 @@ import autenticateAllUsers from "./helpers/autenticateAllUsers";
 import { getuserData, banUser } from "./redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import FrequentQuestions from "./views/questions/questions";
+import AboutUs from "./views/aboutUs/aboutUs";
 
 function App() {
   //-------------autenticate user with cookies------------------//
@@ -70,6 +71,7 @@ function App() {
           <Route path="/deleteproduct" element={<DeleteProduct />} />
           <Route path="/manageUsers" element={<ManageUsers />} />
           <Route path="/preguntas-frecuentes" element={<FrequentQuestions />} />
+          <Route path="/sobre-nosotros" element={<AboutUs />} />
         </Routes>
       </AuthProvider>
     </div>

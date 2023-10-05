@@ -5,7 +5,6 @@ import {
   ListItem,
   ListItemText,
   Collapse,
-  Button,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -71,18 +70,11 @@ const FrequentQuestions = () => {
             elevation={3}
             className="preguntas-frecuentes"
             id="preguntas-frecuentes">
-            <Button
-              variant="contained"
-              color="primary"
-              style={{
-                fontSize: "15px",
-                padding: "10px 15px",
-                backgroundColor: "#ed6c02",
-                color: "white",
-                border: "2px solid #ed6c02",
-              }}>
+            <Typography
+              variant="h4"
+              style={{ marginBottom: "20px", color: "black" }}>
               Preguntas Frecuentes
-            </Button>
+            </Typography>
             <List>
               {questionsAndAnswers.map((item, index) => (
                 <div key={index}>
