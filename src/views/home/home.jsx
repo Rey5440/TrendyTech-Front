@@ -68,9 +68,8 @@ const Home = () => {
   }, [user]);
   //-----------------------------------------------------------//
   useEffect(() => {
-    if (!allProductsSearch.length) {
-      dispatch(getAllProducts());
-    }
+    dispatch(getAllProducts());
+
     setTimeout(() => {
       setLoading(false);
     }, 2000);
