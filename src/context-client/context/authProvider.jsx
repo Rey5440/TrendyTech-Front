@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
     const authenticateUser = async () => {
       /* leer el token */
       const token = localStorage.getItem("token");
-      // console.log(token)  //si rompe hay que descomentar
+      console.log(token)  //si rompe hay que descomentar
 
       //Si no hay token detenemos la ejecucion del codigo
       if (!token) {
@@ -36,11 +36,13 @@ const AuthProvider = ({ children }) => {
         },
       };
 
+      console.log(config);
       try {
         const { data } = await axios.get(
           `${VITE_BACKEND_URL}/users/profile`,
           config
         );
+        console.log(data);
         setAuth(data);
       } catch (error) {
         setAuth({});

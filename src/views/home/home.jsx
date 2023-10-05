@@ -17,13 +17,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../context-client/hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-
+import { setAlert } from "../../redux/actions";
+import AlertTech from "../../components/alert/alert";
 const Home = () => {
   window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
   const allProductsSearch = useSelector((state) => state.allProductsSearch);
   const searchOn = useSelector((state) => state.searchOn);
-
+  const discountsProducts = useSelector((state) => state.discountsProducts);
+  const setDiscounts = useSelector((state) => state.setDiscounts);
+  const alertState = useSelector((state) => state.alert);
   const dispatch = useDispatch();
 
   // Status de la orden y ticket
@@ -64,7 +67,6 @@ const Home = () => {
     }
   }, [user]);
   //-----------------------------------------------------------//
-
   useEffect(() => {
     if (!allProductsSearch.length) {
       dispatch(getAllProducts());
@@ -85,9 +87,12 @@ const Home = () => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
   };
-
-  const productsToDisplay = searchOn ? allProductsSearch : allProducts1;
-
+  let productsToDisplay;
+  if (setDiscounts) {
+    productsToDisplay = discountsProducts;
+  } else {
+    productsToDisplay = searchOn ? allProductsSearch : allProducts1;
+  }
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProduct = productsToDisplay.slice(
@@ -139,14 +144,23 @@ const Home = () => {
     if (ready && collection_status === "approved") {
       if (client.id) {
         putApproved(client);
+        axios.put(`${VITE_BACKEND_URL}/cart/close/${client.id}`);
       }
+      dispatch(
+        setAlert(
+          "Su compra ha sido exitosa, puede verificar su email para mas detalles.",
+          "success"
+        )
+      );
     }
   }, [ready]);
 
   return (
     <div>
       <NavBar />
-
+      {alertState.visible && (
+        <AlertTech message={alertState.message} type={alertState.type} />
+      )}
       {loading ? (
         <Loader />
       ) : (

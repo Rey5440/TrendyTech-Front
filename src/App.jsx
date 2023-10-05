@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import PaymentStatus from "./components/paymentStatus/paymentStatus";
 import Home from "./views/home/home";
 import Detail from "./views/detail/detail";
 import Create from "./views/create/create";
@@ -26,36 +25,42 @@ import Cookies from "js-cookie";
 import ReviewAdmin from "./components/reviewAdmin/reviewAdmin";
 import Purchases from "./components/purchases/purchases";
 import Stars from "./components/stars/stars";
+import FrequentQuestions from "./views/questions/questions";
+import AboutUs from "./views/aboutUs/aboutUs";
 
 function App() {
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    dispatch(getAllProducts())
-  }, [])
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
 
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
   const { user } = useAuth0();
-
   useEffect(() => {
-    if (user && user.email) {
-      const fetchData = async () => {
-        try {
+    const fetchData = async () => {
+      try {
+        if (user && user.email) {
           const result = await autenticateAllUsers(user);
           setIgnacioMagic(result);
-          if (result.isDeleted) {
-            dispatch(banUser(true));// borra las cookies automaticamente si está baneado
+          if (result && result.isDeleted) {
+            dispatch(banUser(true)); // borra las cookies automaticamente si está baneado
           } else {
-            ignacioMagic && dispatch(getuserData(result));
-            if (isBanned === true) dispatch(banUser(false));
+            if (ignacioMagic) {
+              dispatch(getuserData(result));
+            }
+            if (isBanned === true) {
+              dispatch(banUser(false));
+            }
           }
-        } catch (error) {
-          console.log(error);
         }
-      };
-      fetchData();
-    }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
   }, [user]);
   //-----------------------------------------------------------//
 
@@ -78,6 +83,9 @@ function App() {
           <Route path="/manageUsers" element={<ManageUsers />} />
           <Route path="/reviewadmin" element={<ReviewAdmin />} />
           {/* <Route path="/stars" element={<Stars />} /> */}
+          <Route path="*" element={<NotFound />} />
+          <Route path="/preguntas-frecuentes" element={<FrequentQuestions />} />
+          <Route path="/sobre-nosotros" element={<AboutUs />} />
         </Routes>
       </AuthProvider>
     </div>

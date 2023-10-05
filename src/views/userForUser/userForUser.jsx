@@ -8,14 +8,16 @@ import { Edit as EditIcon } from "@mui/icons-material";
 import Nav from "../../components/nav/nav";
 import Footer from "../footer/footer";
 import FormDialog from "../../components/openForm/openForm";
-
+import { useSelector } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
 import { useDispatch } from "react-redux";
 import { getuserData, setAlert } from "../../redux/actions";
 import Purchases from "../../components/purchases/purchases";
+import imageLogo from "../../assets/logo-trendy-negro.png";
 
 const UserForUser = () => {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
+  const dataUser = useSelector((state) => state.userData);
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [userData, setUserData] = useState({}); //-------si algo tira error probar con null--------
   const [showEdit, setShowEdit] = useState(false);
@@ -89,10 +91,16 @@ const UserForUser = () => {
                   newImage: res.secure_url,
                 }
               );
+              console.log(backendResponse);
+              if (auth && auth.id) {
+                setAuth(backendResponse.data);
+              }
+              if (dataUser && dataUser.id) {
+                dispatch(getuserData(backendResponse.data));
+              }
               setImageUpdated(!imageUpdated);
               dispatch(setAlert("La imagen se cambio con exito", "success"));
               //---------actualizar imagen en el modal-----------//
-              dispatch(getuserData(backendResponse.data));
               // Manejar la respuesta de tu backend si es necesario
               console.log(backendResponse.data);
             } catch (backendError) {
@@ -118,10 +126,7 @@ const UserForUser = () => {
           <h2>Edita tu perfil</h2>
           <div className="imageContainer">
             <img
-              src={
-                userData.image ||
-                "https://res.cloudinary.com/dntrwijx5/image/upload/v1695410025/imagenes/emnvfsjtizz9luh9ohpx.jpg"
-              }
+              src={userData.image || imageLogo}
               alt={userData.name}
               className="userImage"
             />

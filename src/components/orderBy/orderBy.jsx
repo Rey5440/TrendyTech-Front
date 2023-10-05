@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { orderByPrice } from "../../redux/actions";
+import { orderByPrice, setShowDiscountsProducts } from "../../redux/actions";
 
 const OrderBy = () => {
   const [orderBy, setOrderBy] = useState("");
@@ -25,6 +25,7 @@ const OrderBy = () => {
   //-----------ordenamiento--------------//
 
   const handleChange = (event) => {
+    dispatch(setShowDiscountsProducts(false))
     setOrderBy(event.target.value);
   };
   //-------------------------------------//
@@ -46,7 +47,6 @@ const OrderBy = () => {
           >
             <MenuItem value={"asc"}>Mayor Precio</MenuItem>
             <MenuItem value={"desc"}>Menor precio</MenuItem>
-            <MenuItem value={"dest"}>Destacados</MenuItem>
           </Select>
         </FormControl>
       </Grid>

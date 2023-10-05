@@ -1,7 +1,12 @@
 import "./filter.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterAll, getAllProducts, searchOnSwitch } from "../../redux/actions";
+import {
+  filterAll,
+  getAllProducts,
+  searchOnSwitch,
+  setShowDiscountsProducts,
+} from "../../redux/actions";
 import Slider from "react-slider";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -14,8 +19,9 @@ const Filter = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
   const allProducts2 = useSelector((state) => state.allProducts2);
   const searchOn = useSelector((state) => state.searchOn); // Obtiene el estado global searchOn
-  const allProductsSearch = useSelector((state)=> state.allProductsSearch)
-  const allProductsSearch2 = useSelector((state)=> state.allProductsSearch2)
+  const allProductsSearch = useSelector((state) => state.allProductsSearch);
+  const allProductsSearch2 = useSelector((state) => state.allProductsSearch2);
+  const setDiscounts = useSelector((state) => state.setDiscounts);
 
   const getLowestPrice = (products) => {
     return Math.min(...products.map((product) => product.price));
@@ -29,7 +35,7 @@ const Filter = () => {
 
   useEffect(() => {
     if (searchOn) {
-  /*     const min = getLowestPrice(allProductsSearch2);
+      /*     const min = getLowestPrice(allProductsSearch2);
       const max = getHighestPrice(allProductsSearch2);
       setValues([min, max]); */
       setSelectedType("");
@@ -37,19 +43,21 @@ const Filter = () => {
     }
   }, [searchOn]);
 
-
-
   const [selectedType, setSelectedType] = useState("");
   const [selectedBrand, setSelectedBrand] = useState("");
 
-
+  useEffect(() => {
+    setDiscounts && setSelectedBrand("");
+    setDiscounts && setSelectedType("");
+  }, [setDiscounts]);
 
   const handleType = (event) => {
     const typeFilter = allProducts1.filter(
       (product) => product.type === event.target.value
     );
     dispatch(filterAll(typeFilter));
-    dispatch(searchOnSwitch(false))
+    dispatch(setShowDiscountsProducts(false));
+    dispatch(searchOnSwitch(false));
     const min = getLowestPrice(typeFilter);
     const max = getHighestPrice(typeFilter);
     setValues([min, max]);
@@ -61,7 +69,8 @@ const Filter = () => {
       (product) => product.brand === event.target.value
     );
     dispatch(filterAll(brandFilter));
-    dispatch(searchOnSwitch(false))
+    dispatch(setShowDiscountsProducts(false));
+    dispatch(searchOnSwitch(false));
     const min = getLowestPrice(brandFilter);
     const max = getHighestPrice(brandFilter);
     setValues([min, max]);
@@ -70,13 +79,15 @@ const Filter = () => {
 
   const handleClear = () => {
     dispatch(getAllProducts());
-    dispatch(searchOnSwitch(false))
+    dispatch(setShowDiscountsProducts(false));
+    dispatch(searchOnSwitch(false));
     setValues([MIN, MAX]);
     setSelectedType("");
     setSelectedBrand("");
   };
 
   const handleRange = (newValues) => {
+    dispatch(setShowDiscountsProducts(false));
     setValues(newValues);
     let filterPrice = allProducts2.filter(
       (product) =>
@@ -95,13 +106,14 @@ const Filter = () => {
       filterPrice = filterPriceBrand;
     }
     if (searchOn) {
-      
-    const filterPriceSearch = filterPrice.filter(product => 
-        allProductsSearch2.find(searchProduct => searchProduct.id === product.id)
+      const filterPriceSearch = filterPrice.filter((product) =>
+        allProductsSearch2.find(
+          (searchProduct) => searchProduct.id === product.id
+        )
       );
-      filterPrice = filterPriceSearch
+      filterPrice = filterPriceSearch;
     }
-    
+
     dispatch(filterAll(filterPrice));
   };
 

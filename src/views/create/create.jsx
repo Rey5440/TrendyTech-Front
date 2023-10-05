@@ -15,6 +15,7 @@ const Create = () => {
     imageFiles: "",
     description: "",
     stock: "",
+    discount: "",
     brand: "",
     color: "",
     type: "",
@@ -28,6 +29,7 @@ const Create = () => {
     images: [],
     description: "",
     stock: 0,
+    discount: 0,
     brand: "",
     color: "",
     type: "",
@@ -37,7 +39,11 @@ const Create = () => {
   useEffect(() => {}, [imageCloudinary]);
   // HANDLERS
   const handleChange = (event) => {
-    if (event.target.name == "price" || event.target.name == "stock") {
+    if (
+      event.target.name == "price" ||
+      event.target.name == "stock" ||
+      event.target.name == "discount"
+    ) {
       if (!isNaN(event.target.value)) {
         setForm({
           ...form,
@@ -78,10 +84,16 @@ const Create = () => {
     // Limitar a un máximo de 3 imágenes
     if (uploadImage.length <= 3 || imagesArray.length <= 3) {
       setImageCloudinary(uploadImage);
-      setForm({
-        ...form,
-        images: uploadImage,
-      });
+      if (form.images.length >= 3) {
+        setForm({
+          ...form,
+        });
+      } else {
+        setForm({
+          ...form,
+          images: [...form.images, ...uploadImage],
+        });
+      }
       const errores = validation(form, imagesArray);
       setError(errores);
     } else {
@@ -98,6 +110,7 @@ const Create = () => {
       error.price.length > 0 ||
       error.description.length > 0 ||
       error.stock.length > 0 ||
+      error.discount.length > 0 ||
       error.brand.length > 0 ||
       error.color.length > 0 ||
       error.type.length > 0 ||
@@ -170,7 +183,19 @@ const Create = () => {
               {error.stock && <p className={styles.error}>{error.stock}</p>}
             </div>
           </div>
-
+          {/* DESCUENTO */}
+          <div className={styles.divlabel_input_create}>
+            <label>Descuento a aplicar:</label>
+            <input
+              maxLength="2"
+              type="text"
+              name="discount"
+              value={form.discount}
+              onChange={handleChange}
+              className={styles.input_create}
+            />
+            {error.discount && <p className={styles.error}>{error.discount}</p>}
+          </div>
           {/* DESCRIPCION */}
           <div className={styles.divlabel_input_create}>
             <label>Descripción</label>
@@ -273,9 +298,9 @@ const Create = () => {
         <div className={styles.divcontainer_images_form}>
           <h2 className={styles.title_images}>Imagenes seleccionadas</h2>
           <div className={styles.images_container}>
-            {imageCloudinary[0] ? (
+            {form.images[0] ? (
               <img
-                src={imageCloudinary[0]}
+                src={form.images[0]}
                 alt=""
                 loading="lazy"
                 className={styles.image}
@@ -285,9 +310,9 @@ const Create = () => {
             )}
           </div>
           <div className={styles.images_container}>
-            {imageCloudinary[1] ? (
+            {form.images[1] ? (
               <img
-                src={imageCloudinary[1]}
+                src={form.images[1]}
                 alt=""
                 loading="lazy"
                 className={styles.image}
@@ -297,9 +322,9 @@ const Create = () => {
             )}
           </div>
           <div className={styles.images_container}>
-            {imageCloudinary[2] ? (
+            {form.images[2] ? (
               <img
-                src={imageCloudinary[2]}
+                src={form.images[2]}
                 alt=""
                 loading="lazy"
                 className={styles.image}

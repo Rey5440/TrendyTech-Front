@@ -21,22 +21,47 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import "./nav.css";
+import {
+  getAllProducts,
+  initCart,
+  setShowDiscountsProducts,
+  showDiscountsProducts,
+} from "../../redux/actions";
 
 const Nav = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [totalProductsInCart, setTotalProductsInCart] = useState(0);
   const [admin, setAdmin] = useState(false);
   const location = useLocation();
   const cart = useSelector((state) => state.shoppingCart);
-  let totalProductsInCart = cart.reduce(
-    (acc, product) => acc + product.quantity,
-    0
-  );
+  const [onlyOneDispatch, setOnlyOneDispatch] = useState(false);
+  const userForId = useSelector((state) => state.userData);
+  const discountsProducts = useSelector((state) => state.discountsProducts);
   const { auth } = useAuth();
 
+  useEffect(() => {
+    let id;
+    if (auth && auth.id) {
+      id = auth.id;
+    }
+    if (userForId && userForId.id) {
+      id = userForId.id;
+    }
+
+    if (!onlyOneDispatch) {
+      dispatch(initCart(id));
+      setOnlyOneDispatch(true);
+    }
+    const total = cart.reduce((acc, product) => acc + product.quantity, 0);
+    setTotalProductsInCart(total);
+  }, [cart]);
+
   const handleProductsButton = (event) => {
-    navigate("/home");
+    if (discountsProducts.length > 0) {
+      dispatch(setShowDiscountsProducts(false));
+      navigate("/home");
+    }
   };
 
   //para hacer el rrenderizado condicional de la nav secundaria//
@@ -50,14 +75,16 @@ const Nav = () => {
     "/user",
     "/shopping-cart",
     "/delete",
-    "/detail"
+    "/detail",
+    "/sobre-nosotros",
   ];
   const showNavAdmin = pathsWithNavAdmin.some((path) =>
     location.pathname.startsWith(path)
   );
 
-  const handleMoveToFooter = (event) => {
-    window.scrollTo(0, 1000); // Scroll down
+  const handleMoveToFooter = () => {
+    window.scrollTo(0, 0); // Scroll down
+    navigate("/sobre-nosotros");
   };
 
   useEffect(() => {
@@ -83,6 +110,12 @@ const Nav = () => {
   }, [auth, admin]);
   // const searchAdmin = async () => {
   // };
+
+  const handleDiscountsProducts = () => {
+    dispatch(showDiscountsProducts());
+    dispatch(setShowDiscountsProducts(true));
+    navigate("/home");
+  };
 
   return (
     <Box>
@@ -164,17 +197,7 @@ const Nav = () => {
                   Borrar
                 </Button>
               </NavLink>
-
-              <NavLink to={"/manageUsers"}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  endIcon={<AccountCircleIcon />}
-                  style={{ borderRadius: "50px", margin: "4px" }}
-                >
-                  Usuarios
-                </Button>
-              </NavLink>
+      
               <NavLink to="/create">
                 <Button
                   variant="contained"
@@ -219,6 +242,7 @@ const Nav = () => {
                   style={{ borderRadius: "50px", margin: "4px" }}
                   // className="button_ingresar"
                   endIcon={<LocalOfferIcon />}
+                  onClick={handleDiscountsProducts}
                 >
                   Descuentos
                 </Button>
@@ -265,17 +289,18 @@ const Nav = () => {
                   Productos
                 </Button>
               </NavLink>
-              <NavLink to="/">
-                <Button
-                  variant="contained"
-                  color="warning"
-                  style={{ borderRadius: "50px", margin: "4px" }}
-                  // className="button_ingresar"
-                  endIcon={<LocalOfferIcon />}
-                >
-                  Descuentos
-                </Button>
-              </NavLink>
+              {/* <NavLink to="/home"> */}
+              <Button
+                onClick={handleDiscountsProducts}
+                variant="contained"
+                color="warning"
+                style={{ borderRadius: "50px", margin: "4px" }}
+                // className="button_ingresar"
+                endIcon={<LocalOfferIcon />}
+              >
+                Descuentos
+              </Button>
+              {/* </NavLink> */}
 
               <Button
                 variant="contained"
@@ -287,7 +312,7 @@ const Nav = () => {
                 endIcon={<PermContactCalendarIcon />}
                 onClick={handleMoveToFooter}
               >
-                Contactenos
+                Contáctenos
               </Button>
             </div>
           )}

@@ -9,43 +9,68 @@ import "./detail.css";
 import { addToCart } from "../../redux/actions";
 import Loader from "../../components/loader/loader";
 import { useDispatch, useSelector } from "react-redux";
-import { setAlert } from "../../redux/actions";//---------> para el setAlert
-import AlertTech from '../../components/alert/alert'
-import Footer from "../footer/footer"
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-import ShieldOutlinedIcon from '@mui/icons-material/ShieldOutlined';
-import WorkspacePremiumOutlinedIcon from '@mui/icons-material/WorkspacePremiumOutlined';
+import { setAlert } from "../../redux/actions"; //---------> para el setAlert
+import AlertTech from "../../components/alert/alert";
+import Footer from "../footer/footer";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
+import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
+import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOutlined";
 import DetailCarousel from "./carrusel";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
 import Stars from "../../components/stars/stars";
 import ReviewsDetail from "../../components/reviewsDetail/reviewsDetail";
+import { useAuth0 } from "@auth0/auth0-react";
+import useAuth from "../../context-client/hooks/useAuth";
+
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState({});
   const [imagePP, setImagePP] = useState();
   const [loading, setLoading] = useState(true);
   const shoppingCart = useSelector(state => state.shoppingCart);
-  const isProductInCart = shoppingCart.some(product => product.id === id);
   const [revData, setRevData] = useState([]);
   const [userData, setUserData] = useState([])
+  const isProductInCart = shoppingCart.some((product) => product.id === id);
 
   /* ---------para usar el alert------------- */
-  const alertState = useSelector(state => state.alert)
+  const alertState = useSelector((state) => state.alert);
   const dispatch = useDispatch();
-  /* ------------------------------------------ */
-  // const handleAlert = () => {
-  //   dispatch(setAlert("  HOLA CALENEEENIUSS   ", "success"));
 
-  // }
+  const user = useSelector((state) => state.userData);
+  const { auth } = useAuth();
+  const [userId, setUserId] = useState(false);
+
+  const identifyUser = () => {
+    let userAux;
+    if (auth && auth.id) {
+      userAux = auth.id;
+    } else if (user && user.id) {
+      userAux = user.id;
+    }
+    if (userAux) {
+      try {
+        setUserId(userAux);
+      } catch (error) {
+        console.error("Error al obtener datos del usuario", error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (!userId) {
+      identifyUser();
+    }
+    console.log("hay cliente", user);
+  }, [auth, user]);
+
   const [hasScrolled, setHasScrolled] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${VITE_BACKEND_URL}/products/${id}`
-        );
+        const response = await axios.get(`${VITE_BACKEND_URL}/products/${id}`);
         const { data } = response;
         setProduct(data);
+        setImagePP(data.images[0]);
         setTimeout(() => {
           setLoading(false);
         }, 3000);
@@ -80,26 +105,33 @@ const Detail = () => {
       window.scrollTo(0, 0);
       setHasScrolled(true);
     }
-  }, [hasScrolled])
+  }, [hasScrolled]);
 
-  useEffect(() => { }, [imagePP]);
+  useEffect(() => {}, [imagePP]);
   // Cambiar la imagen principal cuando se haga clic en un botón de imagen
   const carousel = (event) => {
     setImagePP(product.images[event.target.value]);
   };
 
   const handleAddToCart = () => {
-    dispatch(addToCart(product));
-  }
-
-  const price = toFormatPrice(product.price);
+    if (userId) {
+      dispatch(addToCart(product, userId));
+    } else if (!userId) {
+      dispatch(
+        setAlert(
+          "Debes estar logueado para agregar un producto al carrito",
+          "warning"
+        )
+      );
+    }
+  };
 
   return (
     <div>
       <Nav />
-      {alertState.visible &&
+      {alertState.visible && (
         <AlertTech message={alertState.message} type={alertState.type} />
-      }
+      )}
       {loading ? (
         <Loader />
       ) : (
@@ -111,7 +143,21 @@ const Detail = () => {
                 <h2 className="nombre">{product.name}</h2>
                 <Stars revData={revData}/>  {/* <------------ promerio de estrellas */}
                 <p className="descripcion">{product.description}</p>
-                <h2 className="precio">{price}</h2>
+                {product.discount > 0 ? (
+                  <div className="div_price_discount_detail">
+                    <h2 className="price_discount_detail">
+                      {toFormatPrice(product.price, product.discount)}
+                    </h2>
+                    <h2 className="percent_discount_price">
+                      %{product.discount}
+                    </h2>
+                    <h2 className="price_no_discount">
+                      {toFormatPrice(product.price)}
+                    </h2>
+                  </div>
+                ) : (
+                  <h2 className="precio">{toFormatPrice(product.price)}</h2>
+                )}
               </div>
 
               <div className="div_price_button">
@@ -127,9 +173,16 @@ const Detail = () => {
               </div>
 
               <div className="div_beneficios">
-                <p className="beneficio"><KeyboardReturnIcon /> Devolución gratis</p>
-                <p className="beneficio"><ShieldOutlinedIcon /> Compra protegida</p>
-                <p className="beneficio"><WorkspacePremiumOutlinedIcon /> 12 meses de garantía de fábrica</p>
+                <p className="beneficio">
+                  <KeyboardReturnIcon /> Devolución gratis
+                </p>
+                <p className="beneficio">
+                  <ShieldOutlinedIcon /> Compra protegida
+                </p>
+                <p className="beneficio">
+                  <WorkspacePremiumOutlinedIcon /> 12 meses de garantía de
+                  fábrica
+                </p>
               </div>
             </div>
 
@@ -149,13 +202,18 @@ const Detail = () => {
               <div>
                 {product.images &&
                   product.images.map((imag, index) => (
-                    <div className="imagen_container" key={index}>
-                      <button onClick={carousel} value={index} className="boton_imagen">
-                        <img
-                          src={imag}
-                          className="product_image"
-                        />
-                      </button>
+                    <div className="imagenBoton_container" key={index}>
+                      <button
+                        onClick={carousel}
+                        value={index}
+                        className="boton_imagen_detail"
+                        style={{
+                          backgroundImage: `url(${imag})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      />
                     </div>
                   ))}
               </div>
