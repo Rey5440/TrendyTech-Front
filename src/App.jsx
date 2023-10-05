@@ -20,11 +20,11 @@ import autenticateAllUsers from "./helpers/autenticateAllUsers";
 import { getuserData, banUser } from "./redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import NotFound from "./views/page_not_found/not_found";
-import { getAllProducts } from "./redux/actions";
-
-
-  
-
+import {getAllProducts} from "./redux/actions";
+import Cookies from "js-cookie";
+import ReviewAdmin from "./components/reviewAdmin/reviewAdmin";
+import Purchases from "./components/purchases/purchases";
+import Stars from "./components/stars/stars";
 import FrequentQuestions from "./views/questions/questions";
 import AboutUs from "./views/aboutUs/aboutUs";
 
@@ -81,6 +81,8 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/delete" element={<Delete />} />
           <Route path="/manageUsers" element={<ManageUsers />} />
+          <Route path="/reviewadmin" element={<ReviewAdmin />} />
+          {/* <Route path="/stars" element={<Stars />} /> */}
           <Route path="*" element={<NotFound />} />
           <Route path="/preguntas-frecuentes" element={<FrequentQuestions />} />
           <Route path="/sobre-nosotros" element={<AboutUs />} />
