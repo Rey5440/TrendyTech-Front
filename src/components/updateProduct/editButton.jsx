@@ -24,6 +24,7 @@ const EditButton = ({ product, updatePage }) => {
     ...product,
     name: product.name,
     price: product.price,
+    discount: product.discount,
     images: [],
     description: product.description,
     stock: product.stock,
@@ -36,7 +37,7 @@ const EditButton = ({ product, updatePage }) => {
   const [imageCloudinary, setImageCloudinary] = useState([]);
   const [loadingImages, setLoadingImages] = useState(false);
 
-  console.log(imageCloudinary);
+  console.log("ASI CARAGA EL ESTADO LOCAL DE CLOUDY", imageCloudinary);
 
   const showAlert = (type, message) => {
     setConfirmationAlert({ type, message });
@@ -87,8 +88,13 @@ const EditButton = ({ product, updatePage }) => {
     });
     await Promise.all(uploadPromises);
 
-    const combinedImages = [...editedProduct.images, ...uploadImage];
+    console.log("ASI ESTA EL EDITEDPRODUCT",editedProduct);
 
+    console.log("Esto es lo que te devuelve cloudynari", uploadImage);
+
+    const combinedImages = [...imageCloudinary, ...uploadImage];
+
+    console.log("ESTO ES LO QUE SE GUARDA COMBINADO", combinedImages);
     // Limitar a un máximo de 3 imágenes
     if (combinedImages.length <= 3 || editedProduct.images <= 3) {
       setImageCloudinary(combinedImages);
@@ -107,28 +113,33 @@ const EditButton = ({ product, updatePage }) => {
     if (Object.values(errors).some((error) => error !== "")) {
       setFormErrors(errors);
       console.log(errors);
-    } else {
-      // Si no hay errores, enviar la solicitud al servidor
-      try {
-        const response = await axios.put(
-          `${VITE_BACKEND_URL}/products/update`,
-          editedProduct
-        );
-        const { data } = response;
-        updatePage(data);
-        setFormErrors({});
-        setOpen(false);
-        setConfirmationAlert(true);
-        showAlert("success", "Tu producto fue actualizado con éxito");
-      } catch (error) {
-        console.log("Error al actualizar el producto", error);
-      }
+    } else if (imageCloudinary.length === 0) {
+      editedProduct.images = product.images
+    }
+    console.log("Aca loco mira", editedProduct.images);
+    // Si no hay errores, enviar la solicitud al servidor
+    try {
+      const response = await axios.put(
+        `${VITE_BACKEND_URL}/products/update`,
+        editedProduct
+      );
+      const { data } = response;
+      updatePage(data);
+      setFormErrors({});
+      setOpen(false);
+      setConfirmationAlert(true);
+      showAlert("success", "Tu producto fue actualizado con éxito");
+      console.log("ASI QUEDA TU COMPONENTE CLODY", imageCloudinary);
+      setImageCloudinary([])
+      console.log("QUEDO ASÍ DESPUES DE TU CAMBIO", imageCloudinary);
+    } catch (error) {
+      console.log("Error al actualizar el producto", error);
     }
   };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    if (name === "price" || name === "stock") {
+    if (name === "price" || name === "stock" || name === "discount") {
       if (!isNaN(value)) {
         setEditedProduct({
           ...editedProduct,
@@ -189,6 +200,19 @@ const EditButton = ({ product, updatePage }) => {
             required
             error={!!formErrors.price}
             helperText={formErrors.price}
+          />
+          <hr
+            style={{ backgroundColor: "#fc6933", width: "80%", height: "2px" }}
+          />
+          <TextField
+            label="Descuento"
+            name="discount"
+            value={editedProduct.discount}
+            onChange={handleInputChange}
+            fullWidth
+            required
+            error={!!formErrors.discount}
+            helperText={formErrors.discount}
           />
           <hr
             style={{ backgroundColor: "#fc6933", width: "80%", height: "2px" }}

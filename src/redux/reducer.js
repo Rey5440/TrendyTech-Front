@@ -13,6 +13,9 @@ import {
   SET_SEARCH_ON,
   USER_DATA,
   SET_OPEN_MODAL_LOGIN,
+  SET_SHOW_DISCOUNTS_PRODUCTS,
+  SHOW_DISCOUNTS_PRODUCTS,
+  INIT_CART,
 } from "./action-types";
 
 const initialState = {
@@ -21,6 +24,8 @@ const initialState = {
   allProductsSearch: [],
   allProductsSearch2: [],
   searchOn: false,
+  discountsProducts: [],
+  setDiscounts: false,
   shoppingCart: [],
   userData: {},
   setOpen: false,
@@ -33,6 +38,12 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case INIT_CART:
+      return {
+        ...state,
+        shoppingCart: payload,
+      };
+
     case GET_ALL_PRODUCTS:
       return {
         ...state,
@@ -62,7 +73,7 @@ const reducer = (state = initialState, { type, payload }) => {
         allProducts1: productsByPrice,
         allProductsSearch: productsByPrice2,
       };
-      
+
     case ORDER_BY_NAME:
       let productsByName = state.allProducts1;
       if (payload === "a-z") {
@@ -108,7 +119,6 @@ const reducer = (state = initialState, { type, payload }) => {
         (product) => product.id === payload.id
       );
       if (found) {
-        console.log("ya esta en el carrito");
         return {
           ...state,
           shoppingCart: state.shoppingCart,
@@ -182,6 +192,20 @@ const reducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         setOpen: payload,
+      };
+    case SHOW_DISCOUNTS_PRODUCTS:
+      const products = state.allProducts2.filter(
+        (product) => product.discount > 0
+      );
+      return {
+        ...state,
+        discountsProducts: products,
+      };
+
+    case SET_SHOW_DISCOUNTS_PRODUCTS:
+      return {
+        ...state,
+        setDiscounts: payload,
       };
     default:
       return { ...state };

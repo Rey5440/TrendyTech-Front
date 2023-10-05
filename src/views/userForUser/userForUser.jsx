@@ -8,13 +8,14 @@ import { Edit as EditIcon } from "@mui/icons-material";
 import Nav from "../../components/nav/nav";
 import Footer from "../footer/footer";
 import FormDialog from "../../components/openForm/openForm";
-
+import { useSelector } from "react-redux";
 import Tooltip from "@mui/material/Tooltip";
 import { useDispatch } from "react-redux";
 import { getuserData, setAlert } from "../../redux/actions";
 
 const UserForUser = () => {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
+  const dataUser = useSelector((state) => state.userData);
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const [userData, setUserData] = useState({}); //-------si algo tira error probar con null--------
   const [showEdit, setShowEdit] = useState(false);
@@ -89,10 +90,15 @@ const UserForUser = () => {
                 }
               );
               console.log(backendResponse);
+              if (auth && auth.id) {
+                setAuth(backendResponse.data);
+              }
+              if (dataUser && dataUser.id) {
+                dispatch(getuserData(backendResponse.data));
+              }
               setImageUpdated(!imageUpdated);
               dispatch(setAlert("La imagen se cambio con exito", "success"));
               //---------actualizar imagen en el modal-----------//
-              dispatch(getuserData(backendResponse.data));
               // Manejar la respuesta de tu backend si es necesario
               console.log(backendResponse.data);
             } catch (backendError) {

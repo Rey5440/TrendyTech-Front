@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import PaymentStatus from "./components/paymentStatus/paymentStatus";
 import Home from "./views/home/home";
 import Detail from "./views/detail/detail";
 import Create from "./views/create/create";
@@ -22,9 +21,15 @@ import { getuserData, banUser } from "./redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import NotFound from "./views/page_not_found/not_found";
 import { getAllProducts } from "./redux/actions";
-import Cookies from "js-cookie";
+
+
+  
+
+import FrequentQuestions from "./views/questions/questions";
+import AboutUs from "./views/aboutUs/aboutUs";
 
 function App() {
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllProducts());
@@ -34,11 +39,10 @@ function App() {
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
   const { user } = useAuth0();
-
   useEffect(() => {
-    if (user && user.email) {
-      const fetchData = async () => {
-        try {
+    const fetchData = async () => {
+      try {
+        if (user && user.email) {
           const result = await autenticateAllUsers(user);
           setIgnacioMagic(result);
           if (result && result.isDeleted) {
@@ -51,12 +55,12 @@ function App() {
               dispatch(banUser(false));
             }
           }
-        } catch (error) {
-          console.log(error);
         }
-      };
-      fetchData();
-    }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
   }, [user]);
   //-----------------------------------------------------------//
 
@@ -77,6 +81,9 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/delete" element={<Delete />} />
           <Route path="/manageUsers" element={<ManageUsers />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/preguntas-frecuentes" element={<FrequentQuestions />} />
+          <Route path="/sobre-nosotros" element={<AboutUs />} />
         </Routes>
       </AuthProvider>
     </div>

@@ -23,7 +23,8 @@ const Home = () => {
   const allProducts1 = useSelector((state) => state.allProducts1);
   const allProductsSearch = useSelector((state) => state.allProductsSearch);
   const searchOn = useSelector((state) => state.searchOn);
-
+  const discountsProducts = useSelector((state) => state.discountsProducts);
+  const setDiscounts = useSelector((state) => state.setDiscounts);
   const dispatch = useDispatch();
 
   // Status de la orden y ticket
@@ -64,7 +65,6 @@ const Home = () => {
     }
   }, [user]);
   //-----------------------------------------------------------//
-
   useEffect(() => {
     if (!allProductsSearch.length) {
       dispatch(getAllProducts());
@@ -85,9 +85,12 @@ const Home = () => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
   };
-
-  const productsToDisplay = searchOn ? allProductsSearch : allProducts1;
-
+  let productsToDisplay;
+  if (setDiscounts) {
+    productsToDisplay = discountsProducts;
+  } else {
+    productsToDisplay = searchOn ? allProductsSearch : allProducts1;
+  }
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProduct = productsToDisplay.slice(
@@ -139,6 +142,12 @@ const Home = () => {
     if (ready && collection_status === "approved") {
       if (client.id) {
         putApproved(client);
+        axios.put(`${VITE_BACKEND_URL}/cart/close/${client.id}`);
+        dispatch(
+          setAlert(
+            "Su compra ha sido exitosa, puede verificar su email para mas detalles"
+          )
+        );
       }
     }
   }, [ready]);
@@ -153,8 +162,7 @@ const Home = () => {
         <Container
           style={{
             width: "100%",
-          }}
-        >
+          }}>
           <Grid container sx={{ paddingTop: "4px" }}>
             <Grid
               item

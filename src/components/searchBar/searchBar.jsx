@@ -1,7 +1,7 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react"; // Agrega useEffect a tus imports
 import { useDispatch, useSelector } from "react-redux";
-import { searchByName, searchOnSwitch } from "../../redux/actions";
+import { searchByName, searchOnSwitch, setShowDiscountsProducts } from "../../redux/actions";
 import "./searchBar.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Autocomplete, Button, Grid, Stack, TextField } from "@mui/material";
@@ -25,7 +25,9 @@ const SearchBar = () => {
     dispatch(searchByName(product));
 
     // Dispatch la acción para cambiar el estado de searchOn a true
+    dispatch(setShowDiscountsProducts(false))
     dispatch(searchOnSwitch(true));
+
   };
 
   const handleKeyDown = (event) => {

@@ -22,6 +22,7 @@ const Cards = ({ currentProduct }) => {
               name={product.name}
               images={product.images}
               price={product.price}
+              discount={product.discount}
               brand={product.brand}
             />
           </Grid>
