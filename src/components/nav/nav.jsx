@@ -230,7 +230,7 @@ const Nav = () => {
                   endIcon={<AccountCircleIcon />}
                   style={{ borderRadius: "50px", margin: "4px" }}
                 >
-                  Usuarios
+                  Reseñas
                 </Button>
               </NavLink>
 
