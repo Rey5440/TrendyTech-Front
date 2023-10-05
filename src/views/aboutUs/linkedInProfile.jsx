@@ -1,8 +1,10 @@
 import React from "react";
 import imageA from "../../assets/foto imageA.jpg";
-import imageB from "../../assets/foto imageB.jpeg";
+import imageB from "../../assets/foto imageB.jpg";
+import imageC from "../../assets/foto imageC.jpg";
 import imageD from "../../assets/foto imageD.jpg";
 import imageE from "../../assets/foto imageE.jpg";
+import imageF from "../../assets/foto imageF.jpg";
 import imageG from "../../assets/foto imageG.jpg";
 import imageH from "../../assets/foto imageH.jpg";
 import "./linkedInProfile.css";
@@ -20,8 +22,8 @@ const linkedInProfiles = [
   },
   {
     name: "Facundo Gabriel Fernandez",
-    //image: imageC,
-    link: "https://www.linkedin.com/in/enlace-perfil-3",
+    image: imageC,
+    link: "https://www.linkedin.com/in/facundo-fernandez-19369926a",
   },
   {
     name: "Juan Cruz Loker Boc-ho",
@@ -35,8 +37,8 @@ const linkedInProfiles = [
   },
   {
     name: "Tomas Agustin Lona",
-    //image: imageF,
-    link: "https://www.linkedin.com/in/enlace-perfil-3",
+    image: imageF,
+    link: "https://github.com/NitsugaSamot",
   },
   {
     name: "Mateo Jeremias Pinto",
@@ -54,15 +56,14 @@ const LinkedInProfile = () => {
   const circleStyles = {
     width: "200px",
     height: "200px",
-    borderRadius: "70%", // Hace que el contenedor sea un círculo
-    border: "3px solid #ed6c02", // Borde naranja
-    overflow: "hidden", // Oculta cualquier contenido fuera del círculo
+    border: "3px solid #ed6c02",
+    overflow: "hidden",
   };
 
   const imageStyles = {
     width: "100%",
     height: "100%",
-    objectFit: "cover", // Ajusta la imagen al tamaño del círculo
+    objectFit: "cover",
   };
 
   const profileStyles = {

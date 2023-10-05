@@ -7,20 +7,20 @@ import { Paper, Typography, List, ListItem, ListItemText } from "@mui/material";
 const styles = {
   container: {
     textAlign: "center",
-    padding: "16px", // Puedes ajustar esto según tus preferencias
+    padding: "16px",
     fontfamily: '"Poppins", sans-serif',
   },
 
   logo: {
     maxWidth: "100%",
-    marginBottom: "16px", // Puedes ajustar esto según tus preferencias
+    marginBottom: "16px",
   },
   title: {
     fontSize: "30px",
-    marginBottom: "16px", // Puedes ajustar esto según tus preferencias
+    marginBottom: "16px",
   },
   paper: {
-    padding: "16px", // Puedes ajustar esto según tus preferencias
+    padding: "16px",
   },
   text: { fontSize: "18px" },
   textAlign: "justify",
@@ -31,8 +31,7 @@ const AboutUs = () => {
     <div>
       <NavBar />
       <div className="linkedin-profiles">
-        <LinkedInProfile /> {/* Coloca tu componente de imagen aquí */}
-        {/* Agrega los otros componentes de imagen de LinkedIn aquí */}
+        <LinkedInProfile />
       </div>
 
       <div style={styles.container}>
