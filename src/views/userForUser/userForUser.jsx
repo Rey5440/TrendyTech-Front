@@ -8,10 +8,10 @@ import { Edit as EditIcon } from "@mui/icons-material";
 import Nav from "../../components/nav/nav";
 import Footer from "../footer/footer";
 import FormDialog from "../../components/openForm/openForm";
-
 import Tooltip from "@mui/material/Tooltip";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getuserData, setAlert } from "../../redux/actions";
+import Cards from "../../components/cards/cards";
 
 const UserForUser = () => {
   const { auth } = useAuth();
@@ -20,6 +20,8 @@ const UserForUser = () => {
   const [showEdit, setShowEdit] = useState(false);
   const [userUpdated, setUserUpdated] = useState(false);
   const [imageUpdated, setImageUpdated] = useState(false);
+  const favoriteProducts = useSelector((state) => state.favoriteProducts);
+
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
@@ -45,9 +47,6 @@ const UserForUser = () => {
     fetchData();
   }, [auth, user, userUpdated, imageUpdated]);
 
-  /*     const handleEditImage = () => {
-            console.log('cambiar imagen')
-        } */
   const handleEditName = () => {
     setShowEdit(true);
   };
@@ -153,6 +152,7 @@ const UserForUser = () => {
           <h3>{userData.email}</h3>
           {/* ACA VA LA LISTA DE PRODUCTOS COMPRADOS */}
         </div>
+        <Cards currentProduct={favoriteProducts} auth={auth} />
         <FormDialog
           onClose={onClose}
           showEdit={showEdit}

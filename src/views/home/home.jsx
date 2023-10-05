@@ -34,7 +34,7 @@ const Home = () => {
   const merchant_order_id = queryParams.get("merchant_order_id");
 
   const [loading, setLoading] = useState(true);
-  
+
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
@@ -73,14 +73,14 @@ const Home = () => {
       setLoading(false);
     }, 2000);
   }, [dispatch]);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
-  
+
   useEffect(() => {
     setCurrentPage(1);
   }, [allProducts1]);
-  
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
@@ -90,7 +90,6 @@ const Home = () => {
     productsToDisplay = discountsProducts;
   } else {
     productsToDisplay = searchOn ? allProductsSearch : allProducts1;
-    
   }
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -153,8 +152,8 @@ const Home = () => {
 
       {loading ? (
         <Loader />
-        ) : (
-          <Container
+      ) : (
+        <Container
           style={{
             width: "100%",
           }}
@@ -173,7 +172,7 @@ const Home = () => {
             </Grid>
             <Grid item xs={12} md={9} lg={9} xl={9}>
               <OrderBy />
-              <Cards currentProduct={currentProduct} />
+              <Cards currentProduct={currentProduct} auth={auth} />
             </Grid>
           </Grid>
         </Container>

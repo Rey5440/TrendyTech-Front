@@ -4,11 +4,27 @@ import Card from "@mui/material/Card";
 import { CardMedia, Typography } from "@mui/material/";
 import { NavLink } from "react-router-dom";
 import { Box } from "@mui/system";
-import { toFormatPrice} from "../../helpers/toFormatPrice";
+import { toFormatPrice } from "../../helpers/toFormatPrice";
 
-export default function CardTech({ images, id, name, price, discount }) {
+//favorito----------------------
+import { useDispatch, useSelector } from "react-redux";
+import { addToFavorites, removeFromFavorites } from "../../redux/actions/";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+//---------------------------
+export default function CardTech({
+  images,
+  id,
+  name,
+  price,
+  discount,
+  product,
+  isFavorite,
+  auth,
+}) {
   const [priceCommon, setPriceCommon] = useState("");
   const [priceDiscount, setPriceDiscount] = useState("");
+  const userData = useSelector((state) => state.userData);
 
   //------formateamos el precio con puntos y comas----/
   // if (discount > 0) {
@@ -30,6 +46,35 @@ export default function CardTech({ images, id, name, price, discount }) {
     }
   }, []);
 
+  //--------Nuevo Favoritos---------------//
+  const dispatch = useDispatch();
+
+  const handleAddToFavorites = () => {
+    let userId;
+
+    if (auth && auth.id) {
+      userId = auth.id;
+    } else if (userData && userData.id) {
+      userId = userData.id;
+    }
+
+    console.log(
+      "Este es el usuario que se manda cuando quiere meter o sacar",
+      userId
+    );
+    console.log(isFavorite);
+
+    if (userId) {
+      if (!isFavorite) {
+        dispatch(addToFavorites(product, userId));
+      } else {
+        dispatch(removeFromFavorites(product, userId));
+      }
+    } else {
+      console.log("Usted no está logueado");
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -40,6 +85,13 @@ export default function CardTech({ images, id, name, price, discount }) {
         boxSizing: "content-box",
       }}
     >
+      <span
+        role="button"
+        onClick={handleAddToFavorites}
+        style={{ cursor: "pointer" }}
+      >
+        {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+      </span>
       <NavLink to={`/detail/${id}`} style={{ textDecoration: "none" }}>
         <Box sx={{ height: "50%", width: "100%" }}>
           <CardMedia
