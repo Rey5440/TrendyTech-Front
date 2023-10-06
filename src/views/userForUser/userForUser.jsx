@@ -13,11 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getuserData, setAlert } from "../../redux/actions";
 import Cards from "../../components/cards/cards";
 import { Button, Collapse } from "@mui/material";
+import Purchases from "../../components/purchases/purchases";
+import imageLogo from "../../assets/logo-trendy-negro.png";
 
 const UserForUser = () => {
-  const { auth } = useAuth();
+  const { auth, setAuth } = useAuth();
+  const dataUser = useSelector((state) => state.userData);
   const { user } = useAuth0();
-  const [userData, setUserData] = useState({}); 
+  const [userData, setUserData] = useState({}); //-------si algo tira error probar con null--------
   const [showEdit, setShowEdit] = useState(false);
   const [userUpdated, setUserUpdated] = useState(false);
   const [imageUpdated, setImageUpdated] = useState(false);
@@ -96,10 +99,15 @@ const UserForUser = () => {
                 }
               );
               console.log(backendResponse);
+              if (auth && auth.id) {
+                setAuth(backendResponse.data);
+              }
+              if (dataUser && dataUser.id) {
+                dispatch(getuserData(backendResponse.data));
+              }
               setImageUpdated(!imageUpdated);
               dispatch(setAlert("La imagen se cambio con exito", "success"));
               //---------actualizar imagen en el modal-----------//
-              dispatch(getuserData(backendResponse.data));
               // Manejar la respuesta de tu backend si es necesario
             } catch (backendError) {
               console.error("Error sending data to backend:", backendError);
@@ -124,10 +132,7 @@ const UserForUser = () => {
           <h2>Edita tu perfil</h2>
           <div className="imageContainer">
             <img
-              src={
-                userData.image ||
-                "https://res.cloudinary.com/dntrwijx5/image/upload/v1695410025/imagenes/emnvfsjtizz9luh9ohpx.jpg"
-              }
+              src={userData.image || imageLogo}
               alt={userData.name}
               className="userImage"
             />
@@ -171,6 +176,7 @@ const UserForUser = () => {
           userData={userData}
           onUserUpdate={() => setUserUpdated(!userUpdated)}
         />
+        <Purchases/>
         <Footer />
       </div>
     </div>

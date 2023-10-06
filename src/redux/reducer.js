@@ -17,7 +17,8 @@ import {
   SHOW_DISCOUNTS_PRODUCTS,
   ADD_TO_FAVORITES,
   REMOVE_FROM_FAVORITES,
-  GET_FAVORITES_USER
+  GET_FAVORITES_USER,
+  INIT_CART
 } from "./action-types";
 
 const initialState = {
@@ -41,6 +42,12 @@ const initialState = {
 
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case INIT_CART:
+      return {
+        ...state,
+        shoppingCart: payload,
+      };
+
     case GET_ALL_PRODUCTS:
       return {
         ...state,
@@ -116,7 +123,6 @@ const reducer = (state = initialState, { type, payload }) => {
         (product) => product.id === payload.id
       );
       if (found) {
-        console.log("ya esta en el carrito");
         return {
           ...state,
           shoppingCart: state.shoppingCart,

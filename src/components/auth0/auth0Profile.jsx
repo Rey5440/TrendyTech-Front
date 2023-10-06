@@ -31,6 +31,7 @@ export const UserProfile = () => {
               border: "3px solid #007bff",
               marginTop: "10px",
               marginBottom: "10px",
+              maxWidth: '100px'
             }}
           />
         </div>
