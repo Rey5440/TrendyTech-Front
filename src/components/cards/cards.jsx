@@ -13,6 +13,7 @@ const Cards = ({ currentProduct, auth }) => {
   //-----Favoritos-----------
   const favoriteProducts = useSelector((state) => state.favoriteProducts);
   const userData = useSelector((state) => state.userData);
+
   const dispatch = useDispatch();
 
   useEffect(() => {

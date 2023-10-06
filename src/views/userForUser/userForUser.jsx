@@ -12,15 +12,23 @@ import Tooltip from "@mui/material/Tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { getuserData, setAlert } from "../../redux/actions";
 import Cards from "../../components/cards/cards";
+import { Button, Collapse } from "@mui/material";
 
 const UserForUser = () => {
   const { auth } = useAuth();
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [userData, setUserData] = useState({}); //-------si algo tira error probar con null--------
+  const { user } = useAuth0();
+  const [userData, setUserData] = useState({}); 
   const [showEdit, setShowEdit] = useState(false);
   const [userUpdated, setUserUpdated] = useState(false);
   const [imageUpdated, setImageUpdated] = useState(false);
+
+  //*-----------Favoritos----------------
   const favoriteProducts = useSelector((state) => state.favoriteProducts);
+  const [showFavorites, setFavarites] = useState(false);
+
+  const toggleFavorites = () => {
+    setFavarites(!showFavorites);
+  };
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -93,7 +101,6 @@ const UserForUser = () => {
               //---------actualizar imagen en el modal-----------//
               dispatch(getuserData(backendResponse.data));
               // Manejar la respuesta de tu backend si es necesario
-              console.log(backendResponse.data);
             } catch (backendError) {
               console.error("Error sending data to backend:", backendError);
             }
@@ -150,9 +157,14 @@ const UserForUser = () => {
             </Tooltip>
           </div>
           <h3>{userData.email}</h3>
-          {/* ACA VA LA LISTA DE PRODUCTOS COMPRADOS */}
         </div>
-        <Cards currentProduct={favoriteProducts} auth={auth} />
+        <h2>Tus Favoritos</h2>
+        <Button onClick={toggleFavorites}>
+          {showFavorites ? "Ocultar Favoritos" : "Mostrar Favoritos"}
+        </Button>
+        <Collapse in={showFavorites} sx={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
+          <Cards currentProduct={favoriteProducts} auth={auth} />
+        </Collapse>
         <FormDialog
           onClose={onClose}
           showEdit={showEdit}
