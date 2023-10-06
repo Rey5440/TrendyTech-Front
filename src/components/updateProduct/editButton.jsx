@@ -37,8 +37,6 @@ const EditButton = ({ product, updatePage }) => {
   const [imageCloudinary, setImageCloudinary] = useState([]);
   const [loadingImages, setLoadingImages] = useState(false);
 
-  console.log("ASI CARAGA EL ESTADO LOCAL DE CLOUDY", imageCloudinary);
-
   const showAlert = (type, message) => {
     setConfirmationAlert({ type, message });
 
@@ -88,13 +86,8 @@ const EditButton = ({ product, updatePage }) => {
     });
     await Promise.all(uploadPromises);
 
-    console.log("ASI ESTA EL EDITEDPRODUCT",editedProduct);
-
-    console.log("Esto es lo que te devuelve cloudynari", uploadImage);
-
     const combinedImages = [...imageCloudinary, ...uploadImage];
 
-    console.log("ESTO ES LO QUE SE GUARDA COMBINADO", combinedImages);
     // Limitar a un máximo de 3 imágenes
     if (combinedImages.length <= 3 || editedProduct.images <= 3) {
       setImageCloudinary(combinedImages);
@@ -112,11 +105,9 @@ const EditButton = ({ product, updatePage }) => {
     // Verificar si hay errores
     if (Object.values(errors).some((error) => error !== "")) {
       setFormErrors(errors);
-      console.log(errors);
     } else if (imageCloudinary.length === 0) {
-      editedProduct.images = product.images
+      editedProduct.images = product.images;
     }
-    console.log("Aca loco mira", editedProduct.images);
     // Si no hay errores, enviar la solicitud al servidor
     try {
       const response = await axios.put(
@@ -129,9 +120,7 @@ const EditButton = ({ product, updatePage }) => {
       setOpen(false);
       setConfirmationAlert(true);
       showAlert("success", "Tu producto fue actualizado con éxito");
-      console.log("ASI QUEDA TU COMPONENTE CLODY", imageCloudinary);
-      setImageCloudinary([])
-      console.log("QUEDO ASÍ DESPUES DE TU CAMBIO", imageCloudinary);
+      setImageCloudinary([]);
     } catch (error) {
       console.log("Error al actualizar el producto", error);
     }

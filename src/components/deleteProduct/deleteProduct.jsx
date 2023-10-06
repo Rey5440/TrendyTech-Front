@@ -10,14 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
+import { useDispatch } from "react-redux";
+import { getAllProducts } from "../../redux/actions";
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const DeleteProduct = () => {
   const [products, setProducts] = useState([]);
   const [update, setUpdate] = useState(false);
-
+  const dispatch = useDispatch();
   const handleDelete = async (event) => {
     try {
+      dispatch(getAllProducts());
       const deleteToggle = await axios.put(
         `${VITE_BACKEND_URL}/products/delete`,
         { productId: event.target.value }

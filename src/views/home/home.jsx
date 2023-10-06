@@ -17,7 +17,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../context-client/hooks/useAuth";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-
+import { setAlert } from "../../redux/actions";
+import AlertTech from "../../components/alert/alert";
 const Home = () => {
   window.scrollTo(0, 0);
   const allProducts1 = useSelector((state) => state.allProducts1);
@@ -25,6 +26,7 @@ const Home = () => {
   const searchOn = useSelector((state) => state.searchOn);
   const discountsProducts = useSelector((state) => state.discountsProducts);
   const setDiscounts = useSelector((state) => state.setDiscounts);
+  const alertState = useSelector((state) => state.alert);
   const dispatch = useDispatch();
 
   // Status de la orden y ticket
@@ -34,7 +36,7 @@ const Home = () => {
   const merchant_order_id = queryParams.get("merchant_order_id");
 
   const [loading, setLoading] = useState(true);
-  
+
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
@@ -66,21 +68,20 @@ const Home = () => {
   }, [user]);
   //-----------------------------------------------------------//
   useEffect(() => {
-    if (!allProductsSearch.length) {
-      dispatch(getAllProducts());
-    }
+    dispatch(getAllProducts());
+
     setTimeout(() => {
       setLoading(false);
     }, 2000);
   }, [dispatch]);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
-  
+
   useEffect(() => {
     setCurrentPage(1);
   }, [allProducts1]);
-  
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
@@ -90,7 +91,6 @@ const Home = () => {
     productsToDisplay = discountsProducts;
   } else {
     productsToDisplay = searchOn ? allProductsSearch : allProducts1;
-    
   }
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -143,18 +143,27 @@ const Home = () => {
     if (ready && collection_status === "approved") {
       if (client.id) {
         putApproved(client);
+        axios.put(`${VITE_BACKEND_URL}/cart/close/${client.id}`);
       }
+      dispatch(
+        setAlert(
+          "Su compra ha sido exitosa, puede verificar su email para mas detalles.",
+          "success"
+        )
+      );
     }
   }, [ready]);
 
   return (
     <div>
       <NavBar />
-
+      {alertState.visible && (
+        <AlertTech message={alertState.message} type={alertState.type} />
+      )}
       {loading ? (
         <Loader />
-        ) : (
-          <Container
+      ) : (
+        <Container
           style={{
             width: "100%",
           }}
@@ -173,7 +182,7 @@ const Home = () => {
             </Grid>
             <Grid item xs={12} md={9} lg={9} xl={9}>
               <OrderBy />
-              <Cards currentProduct={currentProduct} />
+              <Cards currentProduct={currentProduct} auth={auth} />
             </Grid>
           </Grid>
         </Container>

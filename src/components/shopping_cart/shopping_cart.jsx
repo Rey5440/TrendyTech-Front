@@ -1,4 +1,5 @@
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const VITE_MP_PUBLIC_KEY = import.meta.env.VITE_MP_PUBLIC_KEY;
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "./cart_item";
@@ -11,13 +12,14 @@ import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import "./shopping_cart.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import useAuth from "../../context-client/hooks/useAuth";
-
-import { setAlert } from "../../redux/actions";
+import { toFormatPrice } from "../../helpers/toFormatPrice";
+import { setAlert, initCart } from "../../redux/actions";
 import AlertTech from "../alert/alert";
 
-initMercadoPago("TEST-185b7434-044a-4830-995d-95780e762ec5");
+initMercadoPago(VITE_MP_PUBLIC_KEY);
 const ShoppingCart = () => {
   const cart = useSelector((state) => state.shoppingCart);
+  console.log(cart);
   const alertState = useSelector((state) => state.alert);
   const [total, setTotal] = useState(0);
   const [preferenceId, setPreferenceId] = useState(null);
@@ -28,17 +30,22 @@ const ShoppingCart = () => {
   );
 
   const dispatch = useDispatch();
-
+  const userForId = useSelector((state) => state.userData);
   const { user } = useAuth0();
   const { auth } = useAuth();
   const [client, setClient] = useState({});
 
   const fetchData = async () => {
+    let id;
     let email;
-    if (auth && auth.email) {
+    if (auth && auth.email && auth.id) {
       email = auth.email;
+      id = auth.id;
     } else if (user && user.email) {
       email = user.email;
+    }
+    if (userForId && userForId.id) {
+      id = userForId.id;
     }
     if (email) {
       try {
@@ -46,6 +53,8 @@ const ShoppingCart = () => {
           `${VITE_BACKEND_URL}/users/email/${email}`
         );
         setClient(result.data);
+
+        dispatch(initCart(id));
       } catch (error) {
         console.error("Error al obtener datos del usuario", error);
       }
@@ -153,7 +162,11 @@ const ShoppingCart = () => {
               </div>
               {cart.map((product) => (
                 <div key={product.id}>
-                  <CartItem key={product.id} product={product} />
+                  <CartItem
+                    key={product.id}
+                    product={product}
+                    userId={client.id}
+                  />
                 </div>
               ))}
             </div>
@@ -167,7 +180,7 @@ const ShoppingCart = () => {
                     <div className="cart-summary-total-container">
                       <div className="cart-summary-total-detail">
                         <p>Producto</p>
-                        <p>${total}</p>
+                        <p>{toFormatPrice(total)}</p>
                       </div>
                       <div className="cart-summary-total-detail">
                         <p>Envío</p>
@@ -175,7 +188,7 @@ const ShoppingCart = () => {
                       </div>
                       <div className="cart-summary-total-detail">
                         <h2>Total</h2>
-                        <h2>${total}</h2>
+                        <h2>{toFormatPrice(total)}</h2>
                       </div>
                       <div className="cart-summary-total-button">
                         <button
@@ -197,7 +210,7 @@ const ShoppingCart = () => {
                     <div className="cart-summary-total-container">
                       <div className="cart-summary-total-detail">
                         <p>Productos ({totalProductsInCart})</p>
-                        <p>${total}</p>
+                        <p>{toFormatPrice(total)}</p>
                       </div>
                       <div className="cart-summary-total-detail">
                         <p>Envío</p>
@@ -205,7 +218,7 @@ const ShoppingCart = () => {
                       </div>
                       <div className="cart-summary-total-detail">
                         <h2>Total</h2>
-                        <h2>${total}</h2>
+                        <h2>{toFormatPrice(total)}</h2>
                       </div>
                       <div className="cart-summary-total-button">
                         <button

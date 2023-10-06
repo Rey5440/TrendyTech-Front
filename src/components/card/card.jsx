@@ -2,21 +2,35 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import { CardMedia, Typography } from "@mui/material/";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Box } from "@mui/system";
-import { toFormatPrice} from "../../helpers/toFormatPrice";
+import { toFormatPrice } from "../../helpers/toFormatPrice";
 
-export default function CardTech({ images, id, name, price, discount }) {
+//favorito----------------------
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavorites,
+  removeFromFavorites,
+  setAlert,
+} from "../../redux/actions/";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import AlertTech from "../alert/alert";
+//---------------------------
+export default function CardTech({
+  images,
+  id,
+  name,
+  price,
+  discount,
+  product,
+  isFavorite,
+  auth,
+}) {
   const [priceCommon, setPriceCommon] = useState("");
   const [priceDiscount, setPriceDiscount] = useState("");
-
-  //------formateamos el precio con puntos y comas----/
-  // if (discount > 0) {
-  //   const priceWithDiscount = toAplicateDiscount(price, discount);
-  //  const formattedPriceDiscount = toFormatPrice(priceWithDiscount);
-  // } else {
-  //   return formattedPrice;
-  // }
+  const userData = useSelector((state) => state.userData);
+  const alertState = useSelector((state) => state.alert);
 
   useEffect(() => {
     if (discount > 0) {
@@ -30,6 +44,30 @@ export default function CardTech({ images, id, name, price, discount }) {
     }
   }, []);
 
+  //--------Nuevo Favoritos---------------//
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const handleAddToFavorites = () => {
+    let userId;
+
+    if (auth && auth.id) {
+      userId = auth.id;
+    } else if (userData && userData.id) {
+      userId = userData.id;
+    }
+
+    if (userId) {
+      if (!isFavorite) {
+        dispatch(addToFavorites(product, userId));
+      } else {
+        dispatch(removeFromFavorites(product, userId));
+      }
+    } else {
+      dispatch(setAlert("Usted no está logueado", "error"));
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -40,6 +78,24 @@ export default function CardTech({ images, id, name, price, discount }) {
         boxSizing: "content-box",
       }}
     >
+      {alertState.visible && (
+        <AlertTech message={alertState.message} type={alertState.type} />
+      )}
+
+      <span
+        role="button"
+        onClick={handleAddToFavorites}
+        style={{ cursor: "pointer" }}
+      >
+        {location.pathname !== "/" ? (
+          isFavorite ? (
+            <FavoriteIcon color="error" />
+          ) : (
+            <FavoriteBorderIcon />
+          )
+        ) : null}
+      </span>
+
       <NavLink to={`/detail/${id}`} style={{ textDecoration: "none" }}>
         <Box sx={{ height: "50%", width: "100%" }}>
           <CardMedia

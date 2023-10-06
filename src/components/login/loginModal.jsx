@@ -9,8 +9,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import LoginButton from "../auth0/auth0Login";
 import UserProfile from "../auth0/auth0Profile";
 import { useSelector, useDispatch } from "react-redux";
-import { setAlert } from "../../redux/actions";
+import { initCart, setAlert } from "../../redux/actions";
 import "./loginModal.css";
+import imageLogo from "../../assets/logo-trendy-negro.png";
 
 //----import del login del facha------//
 import { useState, useEffect } from "react";
@@ -27,7 +28,6 @@ const LoginModal = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    
     if (isBanned) {
       setOpen(true);
       dispatch(
@@ -48,7 +48,6 @@ const LoginModal = () => {
   };
 
   //--------del login del facha---------//
-  const [commonUser, setCommonUser] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { auth, closeSession } = useAuth();
@@ -81,6 +80,7 @@ const LoginModal = () => {
       });
       localStorage.setItem("token", data.token);
       setAuth(data);
+      dispatch(initCart(user.id));
       navigate("/home");
     } catch (error) {
       // setOpen(false) hay que ver cuando el usuario no esta loggeado
@@ -129,10 +129,7 @@ const LoginModal = () => {
             <hr className="hr_login" />
             <img
               className="img_common_user"
-              src={
-                commonUser.image ||
-                "https://img.panamericana.pe/noticia/2014/09/640-1410205121176.jpg.webp"
-              }
+              src={auth.image || imageLogo}
               alt="mi foto"
             />
           </div>
