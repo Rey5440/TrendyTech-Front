@@ -1,12 +1,23 @@
 const regexUrl = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
 const regexImg = /.(jpg|jpeg|png|gif|bmp|svg)$/i;
 const validationForm = (form, imageFil) => {
-  const { name, price, description, stock, brand, color, type, images } = form;
+  const {
+    name,
+    price,
+    description,
+    stock,
+    discount,
+    brand,
+    color,
+    type,
+    images,
+  } = form;
   const error = {
     name: "",
     price: "",
     description: "",
     stock: "",
+    discount: "",
     brand: "",
     color: "",
     type: "",
@@ -36,6 +47,19 @@ const validationForm = (form, imageFil) => {
     error.price = "El precio no puede ser mayor a 1 millón";
   } else {
     error.price = "";
+  }
+
+  // Validacion de descuento
+  if (typeof discount !== "number") {
+    error.discount = "El descuento a aplicar debe ser un número";
+  } else if (discount === "") {
+    error.discount = "Debes especificar un numero entre 0 y 90%";
+  } else if (discount < 0) {
+    error.discount = "El descuento a aplicar no puede ser menor a 0";
+  } else if (discount > 90) {
+    error.discount = "El descuento a aplicar no puede ser mayor al 90%";
+  } else {
+    error.discount = "";
   }
 
   // Validacion de descripcion

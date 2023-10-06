@@ -4,8 +4,10 @@ import { Link, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import AlertTech from "../alert/alert";
 import axios from "axios";
-import "./forgetPassword.css"
-
+import Nav from "../nav/nav";
+import "./forgetPassword.css";
+import imageLogo from "../../assets/logo-trendy-negro.png";
+import { Button } from "@mui/material";
 const NewPassword = () => {
   const [password, setPassword] = useState("");
   const [validToken, setValidToken] = useState(false);
@@ -20,8 +22,6 @@ const NewPassword = () => {
       try {
         await axios(`${VITE_BACKEND_URL}/users/reset-password/${token}`);
         setValidToken(true);
-
-
       } catch (error) {
         showAlert("error", error.response.data.msg);
       }
@@ -85,9 +85,8 @@ const NewPassword = () => {
 
   return (
     <>
-      <div className="">
-        <h3 className="h1_ResetPassword">Cambia tu contraseña</h3>
-
+      <Nav />
+      <div className="divContainer_ResetPassword">
         {confirmationAlert && (
           <AlertTech
             message={confirmationAlert.message}
@@ -95,19 +94,18 @@ const NewPassword = () => {
           />
         )}
 
-        <div className="columna">
-          <NavLink to="/home">
-            {/* <img src={imageLogo} alt="logo-home" className='logoRegister' />   */}
-          </NavLink>
-        </div>
-
         {validToken && (
-          <form action="" className="form_ResetPassword" onSubmit={handleSubmit}>
-            <div className="div_input_ResetPasswor">
+          <form
+            action=""
+            className="form_ResetPassword"
+            onSubmit={handleSubmit}
+          >
+            <h3 className="h1_ResetPassword">Cambia tu contraseña</h3>
+            <div className="div_input_ResetPassword">
+              <label className="label" htmlFor="password">
+                Nueva contraseña
+              </label>
               <div className="div_input_ResetPassword">
-                <label className="label" htmlFor="password">
-                  Nueva contraseña
-                </label>
                 <input
                   id="password"
                   type="password"
@@ -126,14 +124,26 @@ const NewPassword = () => {
               value="Crear nuevo password"
               className="button_form_ResetPassword"
             />
+            {passwordModified ? (
+              <div className="button_form_ResetPassword">
+                <Link className="links_Login_and_reset" to="/home">
+                  Inicia Sesión
+                </Link>
+              </div>
+            ) : (
+              <Button disabled variant="contained">
+                Inicia Sesión
+              </Button>
+            )}
           </form>
         )}
 
-        {passwordModified && (
-          <Link className="linksRegister" to="/home">
-            Inicia Sesión
-          </Link>
-        )}
+        <NavLink
+          to="/home"
+          style={{ display: "flex", justifyContent: "center" }}
+        >
+          <img src={imageLogo} alt="logo-home" className="logo_footer_login" />
+        </NavLink>
       </div>
     </>
   );

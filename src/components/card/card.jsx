@@ -1,13 +1,72 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import { CardMedia, Typography } from "@mui/material/";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Box } from "@mui/system";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
 
-export default function CardTech({ images, id, name, price, brand }) {
-  //------formateamos el precio con puntos y comas----/
-  const formattedPrice = toFormatPrice(price);
+//favorito----------------------
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToFavorites,
+  removeFromFavorites,
+  setAlert,
+} from "../../redux/actions/";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import AlertTech from "../alert/alert";
+//---------------------------
+export default function CardTech({
+  images,
+  id,
+  name,
+  price,
+  discount,
+  product,
+  isFavorite,
+  auth,
+}) {
+  const [priceCommon, setPriceCommon] = useState("");
+  const [priceDiscount, setPriceDiscount] = useState("");
+  const userData = useSelector((state) => state.userData);
+  const alertState = useSelector((state) => state.alert);
+
+  useEffect(() => {
+    if (discount > 0) {
+      const formatPriceDiscount = toFormatPrice(price, discount);
+      setPriceDiscount(formatPriceDiscount);
+      const formattedPrice = toFormatPrice(price);
+      setPriceCommon(formattedPrice);
+    } else {
+      const formattedPrice = toFormatPrice(price);
+      setPriceCommon(formattedPrice);
+    }
+  }, []);
+
+  //--------Nuevo Favoritos---------------//
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  const handleAddToFavorites = () => {
+    let userId;
+
+    if (auth && auth.id) {
+      userId = auth.id;
+    } else if (userData && userData.id) {
+      userId = userData.id;
+    }
+
+    if (userId) {
+      if (!isFavorite) {
+        dispatch(addToFavorites(product, userId));
+      } else {
+        dispatch(removeFromFavorites(product, userId));
+      }
+    } else {
+      dispatch(setAlert("Usted no está logueado", "error"));
+    }
+  };
 
   return (
     <Card
@@ -19,6 +78,24 @@ export default function CardTech({ images, id, name, price, brand }) {
         boxSizing: "content-box",
       }}
     >
+      {alertState.visible && (
+        <AlertTech message={alertState.message} type={alertState.type} />
+      )}
+
+      <span
+        role="button"
+        onClick={handleAddToFavorites}
+        style={{ cursor: "pointer" }}
+      >
+        {location.pathname !== "/" ? (
+          isFavorite ? (
+            <FavoriteIcon color="error" />
+          ) : (
+            <FavoriteBorderIcon />
+          )
+        ) : null}
+      </span>
+
       <NavLink to={`/detail/${id}`} style={{ textDecoration: "none" }}>
         <Box sx={{ height: "50%", width: "100%" }}>
           <CardMedia
@@ -42,7 +119,6 @@ export default function CardTech({ images, id, name, price, brand }) {
         >
           <Typography
             sx={{
-          
               fontWeight: "bold",
               maxHeight: "80px",
               fontFamily: "Poppins",
@@ -50,20 +126,107 @@ export default function CardTech({ images, id, name, price, brand }) {
           >
             {name}
           </Typography>
-            <Typography
-              variant="subtitle2"
-              color="text.secondary"
+          {priceDiscount ? (
+            <Box
               sx={{
-                display: "flex",                
+                display: "flex",
                 justifyContent: "center",
-                backgroundColor: "#007bff",
-                borderRadius: "4px",
-                color: "white",
+                backgroundColor: "white",
+                paddingTop: "4px",
+                position: "relative",
               }}
             >
-              {formattedPrice}
-            </Typography>
-         
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                sx={{
+                  position: "absolute",
+                  top: "-65%",
+                  right: "-0%",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "end",
+                  alignSelf: "center",
+                  width: "120px",
+                  height: "40px",
+                  borderRadius: "25px",
+                  backgroundColor: "#ffffff",
+                  color: "#fd6f09",
+                }}
+              >
+                {priceDiscount}
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                sx={{
+                  position: "absolute",
+                  top: "15%",
+                  right: "0%",
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignSelf: "center",
+                  width: "45px",
+                  height: "45px",
+                  borderRadius: "25px",
+                  backgroundColor: "white",
+                  color: "#fd6f09",
+                }}
+              >
+                %{discount}
+              </Typography>
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignSelf: "center",
+                  width: "120px",
+                  height: "40px",
+                  backgroundColor: "#007bff",
+                  borderRadius: "4px",
+                  color: "#d2d2d2",
+                  textDecoration: "line-through",
+                }}
+              >
+                {priceCommon}
+              </Typography>
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                backgroundColor: "white",
+                paddingTop: "4px",
+              }}
+            >
+              <Typography
+                variant="subtitle2"
+                color="text.secondary"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignSelf: "center",
+                  width: "120px",
+                  height: "40px",
+                  backgroundColor: "#007bff",
+                  borderRadius: "4px",
+                  color: "white",
+                }}
+              >
+                {priceCommon}
+              </Typography>
+            </Box>
+          )}
         </Box>
       </NavLink>
     </Card>

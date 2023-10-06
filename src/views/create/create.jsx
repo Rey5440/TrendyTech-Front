@@ -6,19 +6,14 @@ import validation from "./validation.js";
 import Footer from "../footer/footer.jsx";
 import axios from "axios";
 import styles from "./create.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { setAlert } from "../../redux/actions";
+import AlertTech from "../../components/alert/alert";
+
 const Create = () => {
+  const alertState = useSelector((state) => state.alert);
   const navigate = useNavigate();
-  const [error, setError] = useState({
-    name: "",
-    price: "",
-    images: "",
-    imageFiles: "",
-    description: "",
-    stock: "",
-    brand: "",
-    color: "",
-    type: "",
-  });
+  const [error, setError] = useState({});
   const [imageCloudinary, setImageCloudinary] = useState([]);
   const [imageError, setImageError] = useState({});
   // const [loading, setLoading] = useState(false);
@@ -28,6 +23,7 @@ const Create = () => {
     images: [],
     description: "",
     stock: 0,
+    discount: 0,
     brand: "",
     color: "",
     type: "",
@@ -37,7 +33,11 @@ const Create = () => {
   useEffect(() => {}, [imageCloudinary]);
   // HANDLERS
   const handleChange = (event) => {
-    if (event.target.name == "price" || event.target.name == "stock") {
+    if (
+      event.target.name == "price" ||
+      event.target.name == "stock" ||
+      event.target.name == "discount"
+    ) {
       if (!isNaN(event.target.value)) {
         setForm({
           ...form,
@@ -54,6 +54,8 @@ const Create = () => {
     const errores = validation(form);
     setError(errores);
   };
+
+  const dispatch = useDispatch();
 
   const handleChangeImg = async (event) => {
     const files = event.target.files;
@@ -78,10 +80,16 @@ const Create = () => {
     // Limitar a un máximo de 3 imágenes
     if (uploadImage.length <= 3 || imagesArray.length <= 3) {
       setImageCloudinary(uploadImage);
-      setForm({
-        ...form,
-        images: uploadImage,
-      });
+      if (form.images.length >= 3) {
+        setForm({
+          ...form,
+        });
+      } else {
+        setForm({
+          ...form,
+          images: [...form.images, ...uploadImage],
+        });
+      }
       const errores = validation(form, imagesArray);
       setError(errores);
     } else {
@@ -98,10 +106,11 @@ const Create = () => {
       error.price.length > 0 ||
       error.description.length > 0 ||
       error.stock.length > 0 ||
+      error.discount.length > 0 ||
       error.brand.length > 0 ||
       error.color.length > 0 ||
       error.type.length > 0 ||
-      error.image.length > 0 ||
+      error.images.length > 0 ||
       error.imageFiles.length > 0
     ) {
       return setError({
@@ -119,9 +128,23 @@ const Create = () => {
     }
   };
 
+  const handleDeleteImg = (event) => {
+    const { src, alt } = event.target;
+
+    const result = form.images.filter((image) => {
+      return image !== src;
+    });
+    // console.log(result);
+    setForm({ ...form, images: result });
+    dispatch(setAlert(`Ha eliminado la imagen ${alt}`, "warning"));
+  };
+
   return (
     <div className={styles.divcontainer}>
       <Nav />
+      {alertState.visible && (
+        <AlertTech message={alertState.message} type={alertState.type} />
+      )}
       <div className={styles.title_container}>
         <h1>Crear un producto</h1>
       </div>
@@ -170,7 +193,19 @@ const Create = () => {
               {error.stock && <p className={styles.error}>{error.stock}</p>}
             </div>
           </div>
-
+          {/* DESCUENTO */}
+          <div className={styles.divlabel_input_create}>
+            <label>Descuento a aplicar:</label>
+            <input
+              maxLength="2"
+              type="text"
+              name="discount"
+              value={form.discount}
+              onChange={handleChange}
+              className={styles.input_create}
+            />
+            {error.discount && <p className={styles.error}>{error.discount}</p>}
+          </div>
           {/* DESCRIPCION */}
           <div className={styles.divlabel_input_create}>
             <label>Descripción</label>
@@ -240,8 +275,8 @@ const Create = () => {
                 className={styles.input_create_files}
               />
               <div className={styles.error_images_container}>
-                {Array.isArray(error.image) &&
-                  error.image.map((img, index) => (
+                {Array.isArray(error.images) &&
+                  error.images.map((img, index) => (
                     <span className={styles.error} key={index}>
                       {img}
                     </span>
@@ -255,7 +290,16 @@ const Create = () => {
               </div>
             </div>
 
-            {!error.imageFiles.length > 0 ? (
+            {!error.name &&
+            !error.price &&
+            !error.description &&
+            !error.stock &&
+            !error.discount &&
+            !error.brand &&
+            !error.color &&
+            !error.type &&
+            !error.images &&
+            !error.imageFiles ? (
               <button type="submit" className={styles.buttonsubmit_create}>
                 Enviar
               </button>
@@ -273,41 +317,45 @@ const Create = () => {
         <div className={styles.divcontainer_images_form}>
           <h2 className={styles.title_images}>Imagenes seleccionadas</h2>
           <div className={styles.images_container}>
-            {imageCloudinary[0] ? (
+            {form.images[0] ? (
               <img
-                src={imageCloudinary[0]}
-                alt=""
+                src={form.images[0]}
+                onClick={handleDeleteImg}
+                alt="Principal"
                 loading="lazy"
                 className={styles.image}
               />
             ) : (
-              <span className={styles.imagen_ph}>Imagen 1</span>
+              <span className={styles.imagen_ph}>Imagen Principal</span>
             )}
           </div>
           <div className={styles.images_container}>
-            {imageCloudinary[1] ? (
+            {form.images[1] ? (
               <img
-                src={imageCloudinary[1]}
-                alt=""
+                src={form.images[1]}
+                onClick={handleDeleteImg}
+                alt="Secundaria"
                 loading="lazy"
                 className={styles.image}
               />
             ) : (
-              <span className={styles.imagen_ph}>Imagen 2</span>
+              <span className={styles.imagen_ph}>Imagen Secundaria</span>
             )}
           </div>
           <div className={styles.images_container}>
-            {imageCloudinary[2] ? (
+            {form.images[2] ? (
               <img
-                src={imageCloudinary[2]}
-                alt=""
+                src={form.images[2]}
+                onClick={handleDeleteImg}
+                alt="Extra"
                 loading="lazy"
                 className={styles.image}
               />
             ) : (
-              <span className={styles.imagen_ph}>Imagen 3</span>
+              <span className={styles.imagen_ph}>Imagen Extra</span>
             )}
           </div>
+          <h4 style={{color: 'orangered', backgroundColor: 'white', borderRadius: '5px', padding: '5px' }}>*Elimina clickeando la imagen*</h4>
         </div>
       </div>
       <Footer />

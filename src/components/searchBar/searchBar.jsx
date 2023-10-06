@@ -1,16 +1,13 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react"; // Agrega useEffect a tus imports
 import { useDispatch, useSelector } from "react-redux";
-import { searchByName, searchOnSwitch } from "../../redux/actions";
+import { searchByName, searchOnSwitch, setShowDiscountsProducts } from "../../redux/actions";
 import "./searchBar.css";
-import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Autocomplete, Button, Grid, Stack, TextField } from "@mui/material";
 
 const SearchBar = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [product, setProduct] = useState("");
   const dispatch = useDispatch();
   const allProducts2 = useSelector((state) => state.allProducts2);
@@ -23,12 +20,14 @@ const SearchBar = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setProduct("");
-    location.pathname != "/home" ? navigate("/home") : null;
+    // setProduct("");
+    location.pathname !== "/home" ? navigate("/home") : null;
     dispatch(searchByName(product));
 
     // Dispatch la acción para cambiar el estado de searchOn a true
+    dispatch(setShowDiscountsProducts(false))
     dispatch(searchOnSwitch(true));
+
   };
 
   const handleKeyDown = (event) => {
@@ -64,14 +63,14 @@ const SearchBar = () => {
           id="free-solo-2-demo"
           disableClearable
           options={allProducts2.map((option) => option.name)}
-          value={product}  // <-- Asegúrate de establecer el value para que el input refleje el valor actual de product
+          value={product} // <-- Asegúrate de establecer el value para que el input refleje el valor actual de product
           onKeyDown={handleKeyDown}
           onInputChange={(event, newValue) => {
             setProduct(newValue);
-            
+
             if (!newValue) {
               dispatch(searchOnSwitch(false));
-              console.log('cambie a false')
+              console.log("cambie a false");
             }
           }}
           renderInput={(params) => (

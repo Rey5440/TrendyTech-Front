@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import axios from "axios";
 import generateToken from "./generateToken";
-
+const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const getToken = (user) => {
   const token = generateToken();
   user.token = token;
@@ -22,11 +22,11 @@ const saveUserDataToCookie = async (user) => {
     console.log(error);
   }
 };
- 
+
 const getUser = async (userToken) => {
   try {
     const response = await axios.get(
-      `http://localhost:3004/users/token/${userToken}`
+      `${VITE_BACKEND_URL}/users/token/${userToken}`
     );
     return response.data;
   } catch (error) {
@@ -36,8 +36,9 @@ const getUser = async (userToken) => {
 
 const postUser = async (user) => {
   try {
-    const response = await axios.post("http://localhost:3004/users/auth", user);
+    const response = await axios.post(`${VITE_BACKEND_URL}/users/auth`, user);
     const result = await saveUserDataToCookie(response.data.user.token);
+    console.log("Esto es lo que retorno");
     return result;
   } catch (error) {
     console.log(error);
@@ -51,13 +52,17 @@ const getUserDataFromCookie = async (user) => {
     // Obtiene la cadena JSON de la cookie "userKey"
     const userDataJSON = Cookies.get("ignacioMagic");
     // Si la cookie existe, la parsea de JSON a un objeto
+    console.log("1 primer paso", userDataJSON);
+
     if (userDataJSON) {
       const userToken = JSON.parse(userDataJSON);
       const userData = await getUser(userToken);
       return userData;
     } else if (user.email) {
       const userWithToken = getToken(user);
+      console.log("Segundo paso si no existe cokies", userWithToken);
       const result = await postUser(userWithToken);
+      console.log("Esto es lo que retorno del post linea 67", result);
       return result;
     }
   } catch (error) {
@@ -70,6 +75,7 @@ const getUserDataFromCookie = async (user) => {
 const autenticateAllUsers = async (user) => {
   const result = await getUserDataFromCookie(user);
   // Función para guardar datos del usuario en una cookie
+  console.log("Esto mando a app", result);
   return result;
 };
 

@@ -9,8 +9,9 @@ import DialogTitle from "@mui/material/DialogTitle";
 import LoginButton from "../auth0/auth0Login";
 import UserProfile from "../auth0/auth0Profile";
 import { useSelector, useDispatch } from "react-redux";
-import { setAlert } from "../../redux/actions";
+import { initCart, setAlert } from "../../redux/actions";
 import "./loginModal.css";
+import imageLogo from "../../assets/logo-trendy-negro.png";
 
 //----import del login del facha------//
 import { useState, useEffect } from "react";
@@ -27,10 +28,14 @@ const LoginModal = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    
     if (isBanned) {
       setOpen(true);
-      dispatch(setAlert("Usted fue desabilitado", "warning"));
+      dispatch(
+        setAlert(
+          "Su cuenta ha sido desactivada por incumplir nuestros términos de uso.",
+          "warning"
+        )
+      );
     }
   }, [isBanned]);
 
@@ -43,33 +48,30 @@ const LoginModal = () => {
   };
 
   //--------del login del facha---------//
-  const [commonUser, setCommonUser] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { auth, closeSession } = useAuth();
   const { setAuth } = useAuth();
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const getCommonUser = async () => {
-  //     if (auth.email) {
-  //       try {
-  //         const response = await axios.post(
-  //           `${VITE_BACKEND_URL}/users/emailuser`,
-  //           { email: auth.email }
-  //         );
-  //         setCommonUser(response.data);
-  //       } catch (error) {
-  //         console.log(error.message);
-  //       }
-  //     }
-  //   };
-  //   getCommonUser();
-  // }, [auth]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const response = await axios.get(
+      `${VITE_BACKEND_URL}/users/email/${email}`
+    );
+    const user = await response.data;
+    console.log(user);
+    if (user && user.isDeleted === true) {
+      return dispatch(
+        setAlert(
+          "Su cuenta ha sido desactivada por incumplir nuestros términos de uso.",
+          "warning"
+        )
+      );
+    }
+    if (user && user.confirmated === false) {
+      return dispatch(setAlert("Su cuenta no ha sido confirmada.", "warning"));
+    }
     try {
       //Informacion requerida: email y password
       const { data } = await axios.post(`${VITE_BACKEND_URL}/users/login`, {
@@ -77,13 +79,12 @@ const LoginModal = () => {
         password,
       });
       localStorage.setItem("token", data.token);
-      console.log(data);
       setAuth(data);
+      dispatch(initCart(user.id));
       navigate("/home");
-      // setOpen(false) hay que ver cuando el usuario no esta loggeado
     } catch (error) {
-      console.log(error.response.data.msg);
-      showAlert("error", error.response.data.msg);
+      // setOpen(false) hay que ver cuando el usuario no esta loggeado
+      dispatch(setAlert(error.response.data.msg, "error"));
     }
   };
 
@@ -128,10 +129,7 @@ const LoginModal = () => {
             <hr className="hr_login" />
             <img
               className="img_common_user"
-              src={
-                commonUser.image ||
-                "https://img.panamericana.pe/noticia/2014/09/640-1410205121176.jpg.webp"
-              }
+              src={auth.image || imageLogo}
               alt="mi foto"
             />
           </div>

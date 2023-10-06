@@ -8,18 +8,31 @@ import { Edit as EditIcon } from "@mui/icons-material";
 import Nav from "../../components/nav/nav";
 import Footer from "../footer/footer";
 import FormDialog from "../../components/openForm/openForm";
-
 import Tooltip from "@mui/material/Tooltip";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getuserData, setAlert } from "../../redux/actions";
+import Cards from "../../components/cards/cards";
+import { Button, Collapse } from "@mui/material";
+import Purchases from "../../components/purchases/purchases";
+import imageLogo from "../../assets/logo-trendy-negro.png";
 
 const UserForUser = () => {
-  const { auth } = useAuth();
-  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const { auth, setAuth } = useAuth();
+  const dataUser = useSelector((state) => state.userData);
+  const { user } = useAuth0();
   const [userData, setUserData] = useState({}); //-------si algo tira error probar con null--------
   const [showEdit, setShowEdit] = useState(false);
   const [userUpdated, setUserUpdated] = useState(false);
   const [imageUpdated, setImageUpdated] = useState(false);
+
+  //*-----------Favoritos----------------
+  const favoriteProducts = useSelector((state) => state.favoriteProducts);
+  const [showFavorites, setFavarites] = useState(false);
+
+  const toggleFavorites = () => {
+    setFavarites(!showFavorites);
+  };
+
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
@@ -32,11 +45,8 @@ const UserForUser = () => {
 
       if (emailToSend) {
         try {
-          const result = await axios.post(
-            `${VITE_BACKEND_URL}/users/emailuser`,
-            {
-              email: emailToSend,
-            }
+          const result = await axios.get(
+            `${VITE_BACKEND_URL}/users/email/${emailToSend}`
           );
           setUserData(result.data);
         } catch (error) {
@@ -48,9 +58,6 @@ const UserForUser = () => {
     fetchData();
   }, [auth, user, userUpdated, imageUpdated]);
 
-  /*     const handleEditImage = () => {
-            console.log('cambiar imagen')
-        } */
   const handleEditName = () => {
     setShowEdit(true);
   };
@@ -92,12 +99,16 @@ const UserForUser = () => {
                 }
               );
               console.log(backendResponse);
+              if (auth && auth.id) {
+                setAuth(backendResponse.data);
+              }
+              if (dataUser && dataUser.id) {
+                dispatch(getuserData(backendResponse.data));
+              }
               setImageUpdated(!imageUpdated);
               dispatch(setAlert("La imagen se cambio con exito", "success"));
               //---------actualizar imagen en el modal-----------//
-              dispatch(getuserData(backendResponse.data));
               // Manejar la respuesta de tu backend si es necesario
-              console.log(backendResponse.data);
             } catch (backendError) {
               console.error("Error sending data to backend:", backendError);
             }
@@ -121,10 +132,7 @@ const UserForUser = () => {
           <h2>Edita tu perfil</h2>
           <div className="imageContainer">
             <img
-              src={
-                userData.image ||
-                "https://res.cloudinary.com/dntrwijx5/image/upload/v1695410025/imagenes/emnvfsjtizz9luh9ohpx.jpg"
-              }
+              src={userData.image || imageLogo}
               alt={userData.name}
               className="userImage"
             />
@@ -154,14 +162,21 @@ const UserForUser = () => {
             </Tooltip>
           </div>
           <h3>{userData.email}</h3>
-          {/* ACA VA LA LISTA DE PRODUCTOS COMPRADOS */}
         </div>
+        <h2>Tus Favoritos</h2>
+        <Button onClick={toggleFavorites}>
+          {showFavorites ? "Ocultar Favoritos" : "Mostrar Favoritos"}
+        </Button>
+        <Collapse in={showFavorites} sx={{ width: '100%', maxWidth: '800px', margin: '0 auto' }}>
+          <Cards currentProduct={favoriteProducts} auth={auth} />
+        </Collapse>
         <FormDialog
           onClose={onClose}
           showEdit={showEdit}
           userData={userData}
           onUserUpdate={() => setUserUpdated(!userUpdated)}
         />
+        <Purchases/>
         <Footer />
       </div>
     </div>

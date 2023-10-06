@@ -11,7 +11,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AlertTech from "../alert/alert";
-import { setAlert } from "../../redux/actions";
+import { getuserData, setAlert } from "../../redux/actions";
+import useAuth from "../../context-client/hooks/useAuth";
 
 export default function FormDialog({
   onClose,
@@ -34,16 +35,29 @@ export default function FormDialog({
     }));
   };
 
+  const { setAuth, auth } = useAuth();
+  const dataUser = useSelector((state) => state.userData);
+
   const handleSubmit = async () => {
     try {
       const response = await axios.put(
         `${VITE_BACKEND_URL}/users/editname`,
         user
       );
-      console.log(user);
       if (response.status >= 200 && response.status < 400) {
         console.log("el nombre se cambio");
       }
+
+      console.log("auth", auth);
+      console.log("dataUser", dataUser);
+
+      if (auth && auth.id) {
+        setAuth(response.data);
+      }
+      if (dataUser && dataUser.id) {
+        dispatch(getuserData(response.data));
+      }
+
       dispatch(setAlert("El nombre fue cambiado con exito", "success"));
       onUserUpdate();
       onClose();

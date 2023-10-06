@@ -16,9 +16,16 @@ import {
   SET_SEARCH_ON,
   SET_OPEN_MODAL_LOGIN,
   USER_DATA,
+  SHOW_DISCOUNTS_PRODUCTS,
+  SET_SHOW_DISCOUNTS_PRODUCTS,
+  ADD_TO_FAVORITES,
+  REMOVE_FROM_FAVORITES,
+  GET_FAVORITES_USER,
+  INIT_CART
 } from "./action-types";
 
 export const getAllProducts = () => {
+  console.log("dispatch");
   return async function (dispatch) {
     try {
       const all = await axios(`${VITE_BACKEND_URL}/products`);
@@ -79,7 +86,7 @@ export const setAlert = (message, type) => {
         type,
       },
     });
-
+    console.log(`${message}, ${type}`);
     // Limpia el alerta después de 3 segundos
     setTimeout(() => {
       dispatch({
@@ -92,29 +99,80 @@ export const setAlert = (message, type) => {
 //http://localhost:3004/products/filter?color=1&type=1&brand=3&minPrice=100&maxPrice=100000
 // ejemplo de ruta pata filtro combinado
 
-export const addToCart = (product) => {
-  console.log("producto añadido al carrito: ", product);
-  return {
-    type: ADD_TO_CART,
-    payload: product,
+export const initCart = (id) => {
+  return async function (dispatch) {
+    try {
+      const cartOpen = await axios.get(`${VITE_BACKEND_URL}/cart/open/${id}`);
+      const { products } = cartOpen.data;
+      console.log("este es el prod del init", products);
+      return dispatch({
+        type: INIT_CART,
+        payload: products,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 
-export const removeFromCart = (id) => {
+export const addToCart = (product, userId) => {
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.post(`${VITE_BACKEND_URL}/cart/create`, {
+        userId,
+      });
+      if (!data.status) {
+        const addItem = await axios.put(`${VITE_BACKEND_URL}/cart/addItem`, {
+          userId,
+          productId: product.id,
+        });
+        if (addItem.data === "Ya está en el carrito.")
+          return dispatch(
+            setAlert("Este producto ya se encuentra en el carrito!", "warning")
+          );
+        dispatch(
+          setAlert(`${product.name} fue añadido al carrito...`, "success")
+        );
+      }
+
+      console.log("producto añadido al carrito: ", product);
+      return dispatch({
+        type: ADD_TO_CART,
+        payload: product,
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+};
+
+export const removeFromCart = (id, userId) => {
+  axios.put(`${VITE_BACKEND_URL}/cart/delete`, {
+    userId,
+    productId: id,
+  });
   return {
     type: REMOVE_FROM_CART,
     payload: id,
   };
 };
 
-export const increaseQuantity = (id) => {
+export const increaseQuantity = (id, userId) => {
+  axios.put(`${VITE_BACKEND_URL}/cart/increaseQuantity`, {
+    userId,
+    productId: id,
+  });
   return {
     type: INCREASE_QUANTITY,
     payload: id,
   };
 };
 
-export const decreaseQuantity = (id) => {
+export const decreaseQuantity = (id, userId) => {
+  axios.put(`${VITE_BACKEND_URL}/cart/discountQuantity`, {
+    userId,
+    productId: id,
+  });
   return {
     type: DECREASE_QUANTITY,
     payload: id,
@@ -138,5 +196,64 @@ export const banUser = (payload) => {
   return {
     type: SET_OPEN_MODAL_LOGIN,
     payload: payload,
+  };
+};
+
+export const showDiscountsProducts = (payload) => {
+  return {
+    type: SHOW_DISCOUNTS_PRODUCTS,
+    payload,
+  };
+};
+
+export const setShowDiscountsProducts = (payload) => {
+  return {
+    type: SET_SHOW_DISCOUNTS_PRODUCTS,
+    payload,
+  };
+};
+
+export const addToFavorites = (product, userId) => {
+  return async function (dispatch) {
+    try {
+      const getProduct = await axios.post(`http://localhost:3004/favorites/`, {
+        product,
+        userId,
+      });
+
+      dispatch({
+        type: ADD_TO_FAVORITES,
+        payload: getProduct.data.result,
+      });
+    } catch (error) {
+      console.error("Error al agregar a favoritos:", error);
+    }
+  };
+};
+
+export const removeFromFavorites = (product, userId) => {
+
+  return async function (dispatch) {
+    try {
+      const result = await axios.post(`http://localhost:3004/favorites/delete/`, {
+        product,
+        userId
+      });
+      console.log("Esto es lo que devuelve", result.data.result);
+      dispatch({
+        type: REMOVE_FROM_FAVORITES,
+        payload: result.data.result
+      });
+    } catch (error) {
+      console.error("Error al quitar de favoritos:", error);
+    }
+  };
+};
+
+export const getFavoritesUser = (payload) => {
+  console.log("Asi me llega a la action", payload);
+  return {
+    type: GET_FAVORITES_USER,
+    payload: payload.userFavorites,
   };
 };

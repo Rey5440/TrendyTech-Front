@@ -16,8 +16,12 @@ const CardCarrusel = ({prod}) => {
 
     const truncatedName = truncateName(name, 3);
 
+    const handleNavigate = () => {
+        navigate(`/detail/${id}`);
+    }
+
     return (
-        <button onClick={() => navigate(`/detail/${id}`)} className="cardCarrousel">
+        <button onClick={handleNavigate} className="cardCarrousel">
             <div className="cardCarrousel_container">
                 <div className="cardCarrousel_img_container">
                     <img src={`${images[0]}`} alt={name} className='cardCarrousel_img' />    
@@ -30,7 +34,6 @@ const CardCarrusel = ({prod}) => {
                 </div>
             </div>    
         </button>
-        
     )
 }
 

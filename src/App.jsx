@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import PaymentStatus from "./components/paymentStatus/paymentStatus";
 import Home from "./views/home/home";
 import Detail from "./views/detail/detail";
 import Create from "./views/create/create";
@@ -12,8 +11,7 @@ import NewPassword from "./components/login/newPassword";
 import { AuthProvider } from "./context-client/context/authProvider";
 import UserForUser from "./views/userForUser/userForUser";
 import Admin from "./views/admin/admin";
-import DeleteUser from "./components/deleteUser/deleteUser";
-import DeleteProduct from "./components/deleteProduct/deleteProduct";
+import Delete from "./views/delete/delete";
 import ManageUsers from "./components/manageUsers/manageUsers";
 //----------------------//
 import { useState, useEffect } from "react";
@@ -23,36 +21,46 @@ import { getuserData, banUser } from "./redux/actions";
 import { useAuth0 } from "@auth0/auth0-react";
 import NotFound from "./views/page_not_found/not_found";
 import {getAllProducts} from "./redux/actions";
+import Cookies from "js-cookie";
+import ReviewAdmin from "./components/reviewAdmin/reviewAdmin";
+import Purchases from "./components/purchases/purchases";
+import Stars from "./components/stars/stars";
+import FrequentQuestions from "./views/questions/questions";
+import AboutUs from "./views/aboutUs/aboutUs";
 
 function App() {
-  const dispatch = useDispatch()
-  useEffect(()=>{
-    dispatch(getAllProducts())
-  }, [])
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
 
   //-------------autenticate user with cookies------------------//
   const isBanned = useSelector((state) => state.setOpen);
   const [ignacioMagic, setIgnacioMagic] = useState({});
   const { user } = useAuth0();
-
   useEffect(() => {
-    if (user && user.email) {
-      const fetchData = async () => {
-        try {
+    const fetchData = async () => {
+      try {
+        if (user && user.email) {
           const result = await autenticateAllUsers(user);
           setIgnacioMagic(result);
-          if (result.isDeleted) {
-            dispatch(banUser(true));
+          if (result && result.isDeleted) {
+            dispatch(banUser(true)); // borra las cookies automaticamente si está baneado
           } else {
-            ignacioMagic && dispatch(getuserData(result));
-            if (isBanned === true) dispatch(banUser(false));
+            if (ignacioMagic) {
+              dispatch(getuserData(result));
+            }
+            if (isBanned === true) {
+              dispatch(banUser(false));
+            }
           }
-        } catch (error) {
-          console.log(error);
         }
-      };
-      fetchData();
-    }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
   }, [user]);
   //-----------------------------------------------------------//
 
@@ -70,12 +78,14 @@ function App() {
           <Route path="/new-password/:token" element={<NewPassword />} />
           <Route path="/shopping-cart" element={<ShoppingCart />} />
           <Route path="/user" element={<UserForUser />} />
-          <Route path="/paymentStatus" element={<PaymentStatus />} />
           <Route path="/admin" element={<Admin />} />
-          <Route path="/deleteuser" element={<DeleteUser />} />
-          <Route path="/deleteproduct" element={<DeleteProduct />} />
-          <Route path="/manageUsers" element={<ManageUsers />} /> 
+          <Route path="/delete" element={<Delete />} />
+          <Route path="/manageUsers" element={<ManageUsers />} />
+          <Route path="/reviewadmin" element={<ReviewAdmin />} />
+          {/* <Route path="/stars" element={<Stars />} /> */}
           <Route path="*" element={<NotFound />} />
+          <Route path="/preguntas-frecuentes" element={<FrequentQuestions />} />
+          <Route path="/sobre-nosotros" element={<AboutUs />} />
         </Routes>
       </AuthProvider>
     </div>
