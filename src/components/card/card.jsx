@@ -5,6 +5,7 @@ import { CardMedia, Typography } from "@mui/material/";
 import { NavLink, useLocation } from "react-router-dom";
 import { Box } from "@mui/system";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
+import "./card.css"
 
 //favorito----------------------
 import { useDispatch, useSelector } from "react-redux";
@@ -70,12 +71,14 @@ export default function CardTech({
 
   return (
     <Card
+      className="divcontainer_card"
       sx={{
         height: "300px",
         padding: "4px",
         display: "flex",
         justifyContent: "center",
         boxSizing: "content-box",
+        position: "relative",
       }}
     >
       {alertState.visible && (
@@ -85,7 +88,15 @@ export default function CardTech({
       <span
         role="button"
         onClick={handleAddToFavorites}
-        style={{ cursor: "pointer" }}
+        style={{
+          position: "absolute",
+          top: "3px",
+          left: "3px",
+          backgroundColor: "white",
+          borderRadius: "50px",
+          display: "flex",
+          padding: "2px",
+        }}
       >
         {location.pathname !== "/" ? (
           isFavorite ? (
