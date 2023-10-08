@@ -1,11 +1,8 @@
-import { useState, useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 export const UserProfile = () => {
   const userData = useSelector((state) => state.userData);
-  // const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  // const [accessToken, setAccessToken] = useState(null);
   useEffect(() => {}, [userData]);
 
   return (
@@ -15,11 +12,16 @@ export const UserProfile = () => {
           style={{
             display: "flex",
             flexDirection: "column",
-            // justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <p style={{ fontSize: "25px", fontWeight: "bold" }}>
+          <p
+            style={{
+              fontSize: "25px",
+              fontWeight: "bold",
+              fontFamily: "Poppins, sans-serif",
+            }}
+          >
             {userData.name}
           </p>
           <hr className="hr_login" />
@@ -31,7 +33,7 @@ export const UserProfile = () => {
               border: "3px solid #007bff",
               marginTop: "10px",
               marginBottom: "10px",
-              maxWidth: '100px'
+              maxWidth: "100px",
             }}
           />
         </div>

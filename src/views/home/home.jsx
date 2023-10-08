@@ -155,17 +155,20 @@ const Home = () => {
   }, [ready]);
 
   return (
-    <div>
+    <div style={{display:"flex", flexDirection:"column",alignItems:"center"}}>
       <NavBar />
       {alertState.visible && (
-        <AlertTech message={alertState.message} type={alertState.type} />
+        <AlertTech mage={alertState.messageess} type={alertState.type} />
       )}
       {loading ? (
         <Loader />
       ) : (
-        <Container
-          style={{
-            width: "100%",
+          <Grid
+            container
+          sx={{
+            width: "98%",
+            maxWidth: "1378px",
+            display: "flex",
           }}
         >
           <Grid container sx={{ paddingTop: "4px" }}>
@@ -175,7 +178,7 @@ const Home = () => {
               md={3}
               lg={3}
               sx={{
-                paddingTop: "6.5%",
+                paddingTop: "30px",
               }}
             >
               <Filter />
@@ -185,7 +188,7 @@ const Home = () => {
               <Cards currentProduct={currentProduct} auth={auth} />
             </Grid>
           </Grid>
-        </Container>
+        </Grid>
       )}
 
       {currentProduct.length ? (

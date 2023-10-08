@@ -41,7 +41,7 @@ const Cards = ({ currentProduct, auth }) => {
   }, [auth, userData]);
 //-----------------------------------------------------------------------------
   return (
-    <Grid container sx={{ padding: "5px" }}>
+    <Grid container sx={{ }}>
       {currentProduct.length ? (
         currentProduct?.map((product) => {
           if (!product.isDeleted) {
@@ -53,7 +53,7 @@ const Cards = ({ currentProduct, auth }) => {
                 md={4}
                 lg={3}
                 xl={3}
-                sx={{ padding: "8px" }}
+                sx={{ paddingTop: "10px", paddingLeft:"10px" }}
                 key={product.id}
               >
                 <Card

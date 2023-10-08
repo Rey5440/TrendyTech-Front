@@ -118,7 +118,11 @@ const Nav = () => {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: "100%",
+      }}
+    >
       <Grid
         container
         sx={{

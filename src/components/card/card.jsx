@@ -5,7 +5,7 @@ import { CardMedia, Typography } from "@mui/material/";
 import { NavLink, useLocation } from "react-router-dom";
 import { Box } from "@mui/system";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
-import "./card.css"
+import "./card.css";
 
 //favorito----------------------
 import { useDispatch, useSelector } from "react-redux";
@@ -76,9 +76,10 @@ export default function CardTech({
         height: "300px",
         padding: "4px",
         display: "flex",
-        justifyContent: "center",
+        justifyContent:"center",
         boxSizing: "content-box",
         position: "relative",
+        transition: ".2s",
       }}
     >
       {alertState.visible && (
@@ -92,7 +93,7 @@ export default function CardTech({
           position: "absolute",
           top: "3px",
           left: "3px",
-          backgroundColor: "white",
+          backgroundColor: "#ffffffb8",
           borderRadius: "50px",
           display: "flex",
           padding: "2px",
@@ -130,9 +131,12 @@ export default function CardTech({
         >
           <Typography
             sx={{
+              display:"flex",
               fontWeight: "bold",
               maxHeight: "80px",
-              fontFamily: "Poppins",
+              fontFamily: "Poppins, sans-serif",
+              color: "black",
+              alignSelf:"center",
             }}
           >
             {name}
@@ -145,6 +149,7 @@ export default function CardTech({
                 backgroundColor: "white",
                 paddingTop: "4px",
                 position: "relative",
+                fontFamily: "Poppins, sans-serif",
               }}
             >
               <Typography
@@ -156,6 +161,7 @@ export default function CardTech({
                   right: "-0%",
                   fontSize: "20px",
                   fontWeight: "bold",
+                  fontFamily: "Poppins, sans-serif",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "end",
@@ -178,6 +184,7 @@ export default function CardTech({
                   right: "0%",
                   fontSize: "20px",
                   fontWeight: "bold",
+                  fontFamily: "Poppins, sans-serif",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
@@ -200,6 +207,7 @@ export default function CardTech({
                   alignItems: "center",
                   alignSelf: "center",
                   width: "120px",
+                  fontFamily: "Poppins, sans-serif",
                   height: "40px",
                   backgroundColor: "#007bff",
                   borderRadius: "4px",
@@ -216,6 +224,7 @@ export default function CardTech({
                 display: "flex",
                 justifyContent: "center",
                 backgroundColor: "white",
+                fontFamily: "Poppins, sans-serif",
                 paddingTop: "4px",
               }}
             >
@@ -227,6 +236,7 @@ export default function CardTech({
                   justifyContent: "center",
                   alignItems: "center",
                   alignSelf: "center",
+                  fontFamily: "Poppins, sans-serif",
                   width: "120px",
                   height: "40px",
                   backgroundColor: "#007bff",
