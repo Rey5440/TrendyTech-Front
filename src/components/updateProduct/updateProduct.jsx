@@ -11,9 +11,25 @@ import {
 import EditButton from "./editButton";
 import axios from "axios";
 import { toFormatPrice } from "../../helpers/toFormatPrice";
+import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
+import { Link } from "react-router-dom";
 
 const updateProduct = () => {
   const [allProducts, setAllProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8;
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = allProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const fetchData = async () => {
     try {
@@ -70,7 +86,7 @@ const updateProduct = () => {
           </TableRow>
         </TableHead>
         <TableBody fullWidth>
-          {allProducts.map((product) => {
+          {currentProducts.map((product) => {
             const price = toFormatPrice(product.price);
 
             return (
@@ -101,6 +117,29 @@ const updateProduct = () => {
           })}
         </TableBody>
       </Table>
+      <Pagination
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+        color="primary"
+        count={Math.ceil(allProducts.length / productsPerPage)}
+        page={currentPage}
+        onChange={(event, page) => {
+          paginate(page);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+        renderItem={(item) => (
+          <PaginationItem
+            component={Link}
+            to="#"
+            {...item}
+            sx={{ fontSize: "20px", backgroundColor: "lightgray" }}
+          />
+        )}
+      />
     </TableContainer>
   );
 };
