@@ -18,7 +18,10 @@ import {
   USER_DATA,
   SHOW_DISCOUNTS_PRODUCTS,
   SET_SHOW_DISCOUNTS_PRODUCTS,
-  INIT_CART,
+  ADD_TO_FAVORITES,
+  REMOVE_FROM_FAVORITES,
+  GET_FAVORITES_USER,
+  INIT_CART
 } from "./action-types";
 
 export const getAllProducts = () => {
@@ -207,5 +210,50 @@ export const setShowDiscountsProducts = (payload) => {
   return {
     type: SET_SHOW_DISCOUNTS_PRODUCTS,
     payload,
+  };
+};
+
+export const addToFavorites = (product, userId) => {
+  return async function (dispatch) {
+    try {
+      const getProduct = await axios.post(`http://localhost:3004/favorites/`, {
+        product,
+        userId,
+      });
+
+      dispatch({
+        type: ADD_TO_FAVORITES,
+        payload: getProduct.data.result,
+      });
+    } catch (error) {
+      console.error("Error al agregar a favoritos:", error);
+    }
+  };
+};
+
+export const removeFromFavorites = (product, userId) => {
+
+  return async function (dispatch) {
+    try {
+      const result = await axios.post(`http://localhost:3004/favorites/delete/`, {
+        product,
+        userId
+      });
+      console.log("Esto es lo que devuelve", result.data.result);
+      dispatch({
+        type: REMOVE_FROM_FAVORITES,
+        payload: result.data.result
+      });
+    } catch (error) {
+      console.error("Error al quitar de favoritos:", error);
+    }
+  };
+};
+
+export const getFavoritesUser = (payload) => {
+  console.log("Asi me llega a la action", payload);
+  return {
+    type: GET_FAVORITES_USER,
+    payload: payload.userFavorites,
   };
 };

@@ -15,7 +15,10 @@ import {
   SET_OPEN_MODAL_LOGIN,
   SET_SHOW_DISCOUNTS_PRODUCTS,
   SHOW_DISCOUNTS_PRODUCTS,
-  INIT_CART,
+  ADD_TO_FAVORITES,
+  REMOVE_FROM_FAVORITES,
+  GET_FAVORITES_USER,
+  INIT_CART
 } from "./action-types";
 
 const initialState = {
@@ -29,6 +32,7 @@ const initialState = {
   shoppingCart: [],
   userData: {},
   setOpen: false,
+  favoriteProducts: [],
   alert: {
     visible: false,
     message: "",
@@ -207,6 +211,26 @@ const reducer = (state = initialState, { type, payload }) => {
         ...state,
         setDiscounts: payload,
       };
+      case ADD_TO_FAVORITES:
+      return {
+        ...state,
+        favoriteProducts: payload,
+      };
+
+    case REMOVE_FROM_FAVORITES:
+    
+      return {
+        ...state,
+        favoriteProducts: payload,
+      };
+
+      case GET_FAVORITES_USER: 
+      
+      return {
+        ...state,
+        favoriteProducts: payload
+      }
+
     default:
       return { ...state };
   }
