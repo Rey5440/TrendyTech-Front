@@ -135,10 +135,10 @@ const ShoppingCart = () => {
 
   return (
     <div className="shopping-cart-container">
-      <Nav />
       {alertState.visible && (
         <AlertTech message={alertState.message} type={alertState.type} />
       )}
+      <Nav />
       {cart.length === 0 ? (
         <div className="empty-cart-container">
           <div className="empty-cart">
