@@ -216,7 +216,7 @@ export const setShowDiscountsProducts = (payload) => {
 export const addToFavorites = (product, userId) => {
   return async function (dispatch) {
     try {
-      const getProduct = await axios.post(`http://localhost:3004/favorites/`, {
+      const getProduct = await axios.post(`${VITE_BACKEND_URL}/favorites/`, {
         product,
         userId,
       });
@@ -235,7 +235,7 @@ export const removeFromFavorites = (product, userId) => {
 
   return async function (dispatch) {
     try {
-      const result = await axios.post(`http://localhost:3004/favorites/delete/`, {
+      const result = await axios.post(`${VITE_BACKEND_URL}/favorites/delete/`, {
         product,
         userId
       });
