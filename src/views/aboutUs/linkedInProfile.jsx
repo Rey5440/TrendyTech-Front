@@ -81,7 +81,7 @@ const LinkedInProfile = () => {
     <div className="linkedin-profiles">
       {linkedInProfiles.map((profile, index) => (
         <div className="profile" style={profileStyles} key={index}>
-          <a href={profile.link} target="_blank" rel="noopener noreferrer">
+          <a href={profile.link.startsWith("http") ? profile.link : `https://${profile.link}`} target="_blank" rel="noopener noreferrer">
             <div style={circleStyles}>
               <img
                 src={profile.image}
