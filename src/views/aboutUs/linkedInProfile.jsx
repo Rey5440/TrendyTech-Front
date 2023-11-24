@@ -13,7 +13,7 @@ const linkedInProfiles = [
   {
     name: "Roberto Daniel Zaracho",
     image: imageA,
-    link: "https:/www.linkedin.com/in/roberto-zaracho",
+    link: "https://www.linkedin.com/in/roberto-zaracho",
   },
   {
     name: "Tomas Callenius",
